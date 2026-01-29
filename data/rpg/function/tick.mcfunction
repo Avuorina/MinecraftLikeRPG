@@ -1,17 +1,19 @@
 # メインループ - 毎tick実行
-# TODO: ステータスシステム実装後に有効化
 
 # 新規プレイヤーのセットアップ
-execute as @a unless score @s rpg.initialized matches 1 run function rpg:player/setup
+    execute as @a unless score @s initialized matches 1 run function player:setup
 
-# ステータス適用
-# function rpg:stats/apply
+# 経験値獲得（モブ討伐）
+    function player:exp/gain
+
+# ステータス適用（プレイヤー＆MOB）
+    function status:apply
 
 # MP回復
-# function rpg:stats/regen_mp
+    function status:regen_mp
 
 # レベルアップチェック
-# function rpg:level/check
+    function player:level/check
 
 # HUD表示
-# function rpg:hud/display
+    function player:hud/display
