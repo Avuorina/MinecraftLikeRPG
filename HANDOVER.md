@@ -7,40 +7,53 @@
 Minecraftのバニラ要素を活かしたRPGデータパック。
 
 ## 現在の実装状況
-以下のシステムが実装済み、動作確認済みです。
 
 ### 1. ステータスシステム (`data/status/`)
-- 全てのステータスはスコアボードで管理。`rpg.` などのプレフィックスは**削除済み**。
-- `STATS.md` に詳細な計算式あり。
-- **実装済みステータス**:
-  - `HP`, `MP` (Max値あり)
-  - `STR` (攻撃力), `DEF` (防御力), `AGI` (移動速度)
-  - `INT` (MP回復速度), `SPD` (攻撃速度), `LUCK` (幸運)
-- **特徴**:
-  - HP表示は常にハート10個（20ポイント）固定。実際の体力は `(HP / MaxHP) * 20` で計算して表示。
+- 全てのステータスはスコアボードで管理。
+- **実装済み**: `HP` (Maxあり), `MP` (Maxあり), `STR`, `DEF`, `AGI`, `INT`, `SPD`, `LUCK`
+- HP表示はハート10個固定の仮想HPシステムを採用。
 
 ### 2. プレイヤーシステム (`data/player/`)
-- **初期化**: `/function player:setup`
-- **レベルアップ**: 経験値 (`exp`) が `exp_next` に達すると自動レベルアップ。全ステータス+1。
-- **HUD**: アクションバーに常にステータスを表示。
+- レベルアップ、ステータス成長、アクションバーHUD実装済み。
 
-### 3. 名前空間の構成
-- `rpg`: イニシャライズ (`init`)、メインループ (`tick`)
-- `player`: プレイヤー固有の処理（EXP獲得、レベルアップ、HUD）
-- `status`: ステータス計算・適用処理（`apply_player`, `regen_mp`）
+### 3. MOB生成システム (Mob Generator) ← **New!**
+- **ツール**: `datapacks/mob-generator/generate_mobs.py`
+- **データソース**: Google Spreadsheet (CSV)
+- **機能**:
+    - Spreadsheetからデータを取得し、以下のファイルを自動生成する。
+    - **Bank設定** (`data/bank/function/mob/...`): ステータスや見た目を定義。**Storageベース (`rpg_mob:`)** で管理。
+    - **Spawn関数** (`data/mob/function/spawn/...`): MOBを召喚し、Bank設定を読み込み、共通セットアップ (`mob:setup/apply_from_storage`) を適用。
+    - **Spawn Egg**: 各Bankファイルの冒頭に、そのMOBのスポーンエッグを入手する `/give` コマンドを生成。
+
+- **スポーンエッグの仕組み**:
+    - `data/mob/function/tick.mcfunction` で特定のアーマースタンドを常時監視。
+    - アーマースタンドの頭装備 (`equipment` NBT) にMOB ID (`TUSBMobId`) を格納。
+    - 検知時、マクロ (`mob:trigger_spawn`) を使用して対応するMOBを召喚し入れ替える。
+
+### 4. 名前空間構成
+- `rpg`: メインループ
+- `player`: プレイヤー関連
+- `status`: ステータス計算
+- `mob`: MOB召喚・セットアップ・AI
+- `bank`: MOB設定データ (Storage用)
 
 ## 次に取り組むべきタスク
-1. **GitHubへのアップロード** (ユーザー作業)
-2. **MOBへのステータス適用**
-   - `data/status/function/apply_mob.mcfunction` はまだ骨組みのみ。
-3. **職業（クラス）システム**
-   - ステータス成長率の変化など。
-4. **スキルシステム**
-   - MPを消費するアクティブスキル。
+1. **AI設定の実装**
+   - TUSBのように、移動速度、感知範囲、フォロワー設定などをStorageから読み込んで適用する仕組み。
+   - Generatorの対応。
+
+2. **属性耐性の実装**
+   - 物理、魔法、炎、爆発などのダメージ倍率設定。
+
+3. **ドロップアイテム（LootTable）**
+   - ボス用などのカスタムドロップ品設定。
+
+4. **職業・スキルシステム**
+   - プレイヤー側の拡張。
 
 ## 重要な注意点
-- `tick.mcfunction` 内で `execute as @a run function ...` しているので、呼び出される側の関数 (例: `regen_mp`) は `@s` として記述する前提になっているものがある。
-- `init.mcfunction` には計算用の定数 (`#10`, `#20` など) が定義されている。
+- **MOB設定の変更**: 原則として Google Spreadsheet を編集し、`generate_mobs.py` を実行して反映させること。mcfunctionを直接編集しても上書きされる。
+- **1.21.x仕様**: マクロや `spawn_egg` の `entity_data` (equipment) の仕様に追従している。
 
 ---
 **合言葉**: "MinecraftならではのRPG"

@@ -32,4 +32,9 @@
     scoreboard players set #50 temp 50
     scoreboard players set #100 temp 100
 
+# ワールド設定
+    gamerule natural_health_regeneration false
+    gamerule spawn_mobs false
+    gamerule advance_weather false
+
 tellraw @a {"text":"[RPG] データパックを初期化しました！","color":"green"}

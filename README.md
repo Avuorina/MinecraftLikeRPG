@@ -1,6 +1,7 @@
 # Minecraft RPG Datapack
 
 MinecraftならではのRPG体験を提供するデータパックです。
+このデータパックはAIに手伝ってもらいました。
 
 ## 特徴
 
