@@ -2,7 +2,7 @@
 # bank:mob/global/ground/blow/boss/dark_knight
 
 # [Spawn Egg Command]
-# give @p zombie_spawn_egg[entity_data={id:"minecraft:armor_stand",NoGravity:1b,Invisible:1b,Tags:["mob.egg_spawn"],ArmorItems:[{},{},{},{id:"minecraft:stone",count:1,components={"minecraft:custom_data":{"TUSBMobId":"dark_knight"}}}]},item_name={"text":"ダークナイト Spawn Egg","color":"gold"}] 1
+# give @p zombie_spawn_egg[entity_data={id:"minecraft:armor_stand",NoGravity:1b,Invisible:1b,Tags:["mob.egg_spawn"],equipment:{head:{id:"minecraft:stone",count:1,components:{"minecraft:custom_data":{"RPGMobId":"dark_knight"}}}}},item_name={"text":"ダークナイト Spawn Egg","color":"gold"}] 1
 
 # ベースエンティティ（即時ステータス）
 data modify storage rpg_mob: ベース set value {id:"minecraft:wither_skeleton",Tags:[MOB,mob.dark_knight,mob.new,mob.boss,Global,Ground,BOSS,DarkKnight]}
