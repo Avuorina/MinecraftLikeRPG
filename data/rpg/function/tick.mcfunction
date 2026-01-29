@@ -10,7 +10,7 @@
     function status:apply
 
 # MP回復
-    function status:regen_mp
+    execute as @a run function status:regen_mp
 
 # レベルアップチェック
     function player:level/check

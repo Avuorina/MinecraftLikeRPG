@@ -9,8 +9,8 @@ scoreboard players add @a timer 1
 
 # INTボーナス計算と加算
 # temp = INT / 10
-    execute as @a run scoreboard players operation @s temp = @s int
-    execute as @a run scoreboard players operation @s temp /= #10 temp
-    execute as @a run scoreboard players operation @s timer += @s temp
+    scoreboard players operation @s temp = @s int
+    scoreboard players operation @s temp /= #10 temp
+    scoreboard players operation @s timer += @s temp
 
-execute as @a[scores={timer=60..}] run function status:regen_mp_tick
+execute as @s[scores={timer=60..}] run function status:regen_mp_tick
