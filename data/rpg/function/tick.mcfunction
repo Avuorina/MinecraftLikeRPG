@@ -12,8 +12,5 @@
 # MP回復
     execute as @a run function status:regen_mp
 
-# レベルアップチェック
-    function player:level/check
-
 # HUD表示
     function player:hud/display
