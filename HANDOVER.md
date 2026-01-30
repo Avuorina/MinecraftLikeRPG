@@ -27,7 +27,7 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 
 - **スポーンエッグの仕組み**:
     - `data/mob/function/tick.mcfunction` で特定のアーマースタンドを常時監視。
-    - アーマースタンドの頭装備 (`equipment` NBT) にMOB ID (`TUSBMobId`) を格納。
+    - アーマースタンドの頭装備 (`equipment` NBT) にMOB ID (`rpg_mob:`) を格納。
     - 検知時、マクロ (`mob:trigger_spawn`) を使用して対応するMOBを召喚し入れ替える。
 
 ### 4. 名前空間構成
