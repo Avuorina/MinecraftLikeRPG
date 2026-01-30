@@ -11,9 +11,16 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 ### 1. ステータスシステム (`data/status/`)
 - 全てのステータスはスコアボードで管理。
 - **実装済み**: `HP` (Maxあり), `MP` (Maxあり), `STR`, `DEF`, `AGI`, `INT`, `SPD`, `LUCK`
-- HP表示はハート10個固定の仮想HPシステムを採用。
+- **定数管理**: `box.mcfunction` にて `Const` Objectiveを使用し、`$100` のように `$` プレフィックス付きの定数として定義。計算式内でマクロ定数として利用。
 
 ### 2. プレイヤーシステム (`data/player/`)
+- **HPシステム完了 (2026-01-31)**:
+  - **計算ロジック**: `data/player/function/status/hp/update.mcfunction`
+    - スコアボードの `hp` / `max_hp` から、見た目上のハート（Health属性）を計算。
+    - マクロを使用して `attribute` に即時反映。
+  - **自動回復**: `data/player/function/status/hp/regen.mcfunction`
+    - バケット方式（タイマー蓄積型）を採用。`hpRegen` ステータスが高いほど高速に自然回復する。
+  - **安全性**: 計算誤差による即死を防ぐため、HPスコアが1以上なら最低でもハート半個（Health 1）を保証。
 - レベルアップ、ステータス成長、アクションバーHUD実装済み。
 
 ### 3. MOB生成システム (MOB Generator) ← **完成！(2026-01-30)**
@@ -146,5 +153,5 @@ python generate_mobs.py
 
 ---
 **合言葉**: "MinecraftならではのRPG"
-**最終更新**: 2026-01-30
+**最終更新**: 2026-01-31
 

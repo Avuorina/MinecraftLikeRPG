@@ -8,7 +8,7 @@
 
 # 次のレベルに必要な経験値 = レベル * 50 + 50
     scoreboard players operation @s exp_next = @s level
-    scoreboard players operation @s exp_next *= #50 temp
+    scoreboard players operation @s exp_next *= $50 Const
     scoreboard players add @s exp_next 50
 
 # ステータス上昇
