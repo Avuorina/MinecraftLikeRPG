@@ -8,6 +8,7 @@
 
 scoreboard players set @s max_hp 20
 scoreboard players set @s hp 20
+scoreboard players set @s hpRegen 10
 scoreboard players set @s max_mp 10
 scoreboard players set @s mp 10
 
