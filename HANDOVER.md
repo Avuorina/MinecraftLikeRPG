@@ -3,7 +3,7 @@
 このファイルは、開発環境を別のPCに移行する際、次のAIアシスタントに現状を伝えるための資料です。
 
 ## プロジェクト概要
-**Minecraft RPG Datapack** (1.21.x)
+**Minecraft RPG Datapack** (1.21.11)
 Minecraftのバニラ要素を活かしたRPGデータパック。
 
 ## 現在の実装状況
@@ -53,7 +53,7 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 
 ## 重要な注意点
 - **MOB設定の変更**: 原則として Google Spreadsheet を編集し、`generate_mobs.py` を実行して反映させること。mcfunctionを直接編集しても上書きされる。
-- **1.21.x仕様**: マクロや `spawn_egg` の `entity_data` (equipment) の仕様に追従している。
+- **1.21.11仕様**: マクロや `spawn_egg` の `entity_data` (equipment) の仕様に追従している。
 
 ---
 **合言葉**: "MinecraftならではのRPG"
