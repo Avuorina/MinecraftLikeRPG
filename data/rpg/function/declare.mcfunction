@@ -1,3 +1,5 @@
+## なんでも定義.mcf
+
 ## スコアボード作成
     scoreboard objectives add level dummy "Level"
     scoreboard objectives add exp dummy "Experience"
