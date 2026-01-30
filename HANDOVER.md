@@ -16,19 +16,65 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 ### 2. プレイヤーシステム (`data/player/`)
 - レベルアップ、ステータス成長、アクションバーHUD実装済み。
 
-### 3. MOB生成システム (Mob Generator) ← **New!**
-- **ツール**: `datapacks/mob-generator/generate_mobs.py`
-- **データソース**: Google Spreadsheet (CSV)
-- **機能**:
-    - Spreadsheetからデータを取得し、以下のファイルを自動生成する。
-    - **Bank設定** (`data/bank/function/mob/...`): ステータスや見た目を定義。**Storageベース (`rpg_mob:`)** で管理。
-    - **Spawn関数** (`data/mob/function/spawn/...`): MOBを召喚し、Bank設定を読み込み、共通セットアップ (`mob:setup/apply_from_storage`) を適用。
-    - **Spawn Egg**: 各Bankファイルの冒頭に、そのMOBのスポーンエッグを入手する `/give` コマンドを生成。
+### 3. MOB生成システム (MOB Generator) ← **完成！(2026-01-30)**
 
-- **スポーンエッグの仕組み**:
-    - `data/mob/function/tick.mcfunction` で特定のアーマースタンドを常時監視。
-    - アーマースタンドの頭装備 (`equipment` NBT) にMOB ID (`rpg_mob:`) を格納。
-    - 検知時、マクロ (`mob:trigger_spawn`) を使用して対応するMOBを召喚し入れ替える。
+#### 3.1. 自動生成ツール
+- **ツール**: `datapacks/MOBgenerator/generate_mobs.py`
+- **GitHub**: https://github.com/Avuorina/MOBgenerator
+- **データソース**: Google Spreadsheet (CSV)
+  - スプレッドシートID: `1Muf5Hy6Zq1i8Rty1M26-5u13lalUBsuC-pVXNFXMoYM`
+  - 「リンクを知っている全員が閲覧可能」に設定する必要がある
+
+#### 3.2. スプレッドシートの列構造
+- `NameJP`: 日本語名（必須）
+- `NameUS`: 英語名（ファイル名に使用、キャメルケース → スネークケース変換）
+- `ID`: エンティティタイプ（zombie, skeleton など）
+- `ベース`: CustomName の JSON
+- `見た目`: equipment の JSON (mainhand, head など)
+- `エリア`: global（カテゴリ）
+- `グループ`: ground（カテゴリ）
+- `AI`: blow/shoot/boss（カテゴリ）
+- `サブフォルダ`: （現在未使用）
+- `スポーンタグ`: 追加タグ（MOB名など）
+- `推定lev`, `HP`, `str`, `def`, `agi`, `luck`: ステータス
+
+#### 3.3. 生成されるファイル
+1. **Bank設定** (`data/bank/function/mob/{area}/{group}/{ai}/{mob_id}.mcfunction`)
+   - ストレージベース (`rpg_mob:`) で管理
+   - `ベース`: `{id:"minecraft:zombie", Tags:[...]}`
+   - `見た目`: `{CustomName:[...], equipment:{...}}`
+   - ステータス: レベル、最大HP、物理攻撃力、物理防御力、素早さ、運
+   - Spawn Egg コマンド（コメント形式）
+
+2. **Spawn Map** (`data/mob/function/spawn_map/{mob_id}.mcfunction`)
+   - 対応する bank ファイルを呼び出し
+   - Storage から MOB を召喚
+   - ステータスを適用
+
+#### 3.4. Spawn システムの構造
+```
+mob:tick (毎tick実行)
+  └─> mob:trigger_spawn (アーマースタンドを検知)
+       └─> mob:spawn_generic (汎用的な召喚関数)
+            └─> mob:spawn_map/{mob_id} (個別の spawn マップ)
+                 ├─> bank:mob/{area}/{group}/{ai}/{mob_id} (設定ロード)
+                 ├─> mob:setup/summon_from_storage (召喚)
+                 │    └─> mob:setup/summon_from_storage_macro (マクロで summon)
+                 │         └─> mob:setup/apply_nbt (タグと見た目を適用)
+                 └─> mob:setup/apply_from_storage (ステータス適用)
+```
+
+#### 3.5. タグ構造（TUSB形式）
+- **基本タグ**: `MOB`, `mob.{id}`, `mob.new`
+- **カテゴリタグ**: `Global`, `Ground`, `Blow`/`Shoot`（大文字）
+- **ボスタグ**: `mob.boss` (ボスの場合)
+- **追加タグ**: スプレッドシートから（例: `Goblin`, `DarkKnight`）
+
+#### 3.6. 実行方法
+```powershell
+cd C:\Users\nhs50030\AppData\Roaming\.minecraft\saves\RPG開発用\datapacks\MOBgenerator
+python generate_mobs.py
+```
 
 ### 4. 名前空間構成
 - `rpg`: メインループ
@@ -37,23 +83,68 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 - `mob`: MOB召喚・セットアップ・AI
 - `bank`: MOB設定データ (Storage用)
 
+## 最近の変更履歴 (2026-01-30)
+
+### ✅ 完了した作業
+1. **MOB Generator の完成**
+   - CSV 列マッピングの修正（ID=エンティティタイプ、ベース=CustomName、見た目=equipment）
+   - キャメルケース対応（`SkeletonWarrior` → `skeleton_warrior.mcfunction`）
+   - `minecraft:` プレフィックスの自動追加
+   - タグ生成の修正（TUSB形式に対応）
+
+2. **Spawn システムの実装**
+   - `mob:spawn_generic` の作成（汎用的な召喚関数）
+   - `mob:spawn_map/{mob_id}` の導入
+   - Storage ベースの召喚システム（マクロ使用）
+   - NBT 適用システム（`mob:setup/apply_nbt`）
+
+3. **GitHub リポジトリの作成**
+   - https://github.com/Avuorina/MOBgenerator
+   - README.md, .gitignore, LICENSE, example_mobs.csv を含む
+
+4. **タスク管理**
+   - `mobTASK.md` の作成（今後の開発タスクを整理）
+
+### 🐛 修正した問題
+- Spawn Egg が動作しない問題 → マクロとStorageの実装で解決
+- CSV 列のマッピングが間違っていた → 正しい構造に修正
+- タグ構造が TUSB と異なっていた → 大文字のカテゴリタグに修正
+
 ## 次に取り組むべきタスク
-1. **AI設定の実装**
-   - TUSBのように、移動速度、感知範囲、フォロワー設定などをStorageから読み込んで適用する仕組み。
-   - Generatorの対応。
+
+### 優先度：高
+1. **MOB AI システムの実装**
+   - TUSBのように、移動速度、感知範囲、フォロワー設定などをStorageから読み込んで適用する仕組み
+   - `generate_mobs.py` でスプレッドシートから AI 設定を自動生成
+   - AI トリガーシステム（tick, attack, hurt, death）
 
 2. **属性耐性の実装**
-   - 物理、魔法、炎、爆発などのダメージ倍率設定。
+   - 物理、魔法、炎、爆発などのダメージ倍率設定
+   - スプレッドシートに列を追加
 
 3. **ドロップアイテム（LootTable）**
-   - ボス用などのカスタムドロップ品設定。
+   - ボス用などのカスタムドロップ品設定
+   - 経験値ドロップの調整
 
+### 優先度：中
 4. **職業・スキルシステム**
-   - プレイヤー側の拡張。
+   - プレイヤー側の拡張
+
+5. **クエストシステム**
+   - 討伐、収集、探索クエスト
+
+6. **ダンジョンシステム**
 
 ## 重要な注意点
 - **MOB設定の変更**: 原則として Google Spreadsheet を編集し、`generate_mobs.py` を実行して反映させること。mcfunctionを直接編集しても上書きされる。
 - **1.21.11仕様**: マクロや `spawn_egg` の `entity_data` (equipment) の仕様に追従している。
+- **スプレッドシートの公開設定**: CSV エクスポートを有効にするため、「リンクを知っている全員が閲覧可能」に設定すること。
+
+## 参考資料
+- **TUSB**: https://github.com/TUSB/TheUnusualSkyBlock (bank システム、AI システム)
+- **TSB**: https://github.com/ProjectTSB/TheSkyBlessing/wiki/create-mob (MOB作成ワークフロー)
 
 ---
 **合言葉**: "MinecraftならではのRPG"
+**最終更新**: 2026-01-30
+
