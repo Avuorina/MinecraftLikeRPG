@@ -8,7 +8,7 @@
 data modify storage rpg_mob: ベース set value {id:"minecraft:wither_skeleton",Tags:[MOB,mob.dark_knight,mob.new,mob.boss,Global,Ground,BOSS,DarkKnight]}
 
 # 見た目
-data modify storage rpg_mob: 見た目 set value {CustomName:[{"color":"dark_red","text":"☠"},{"bold":true,"color":"dark_purple","text":"ダークナイト"},{"bold":false,"color":"gray","text":"Lv.30"}],equipment:{mainhand:{id:"minecraft:netherite_sword",count:1}}}
+data modify storage rpg_mob: 見た目 set value {CustomName:[{"color":"dark_red","text":"☠"},{"bold":true,"color":"dark_purple","text":"ダークナイト"},{"bold":false,"color":"gray","text":"Lv.30"}],mainhand:{id:"minecraft:netherite_sword",count:1}}
 
 # ステータス
 data modify storage rpg_mob: レベル set value 30

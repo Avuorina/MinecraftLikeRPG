@@ -1,17 +1,11 @@
-# テストゴブリンを召喚
-# 使用方法: /function mob:spawn/goblin
+# Goblin の spawn map
+# このファイルは generate_mobs.py によって自動生成されます
 
-say [Debug] spawn/goblin called
-
-# 設定をロード（Storage: rpg_mob）
+# bank ファイルをロード
     function bank:mob/global/ground/blow/goblin
-
-say [Debug] bank loaded
 
 # Storage から MOB を召喚
     function mob:setup/summon_from_storage
-
-say [Debug] summon completed
 
 # 新規MOBにステータスを設定
     execute as @e[tag=mob.new,limit=1,sort=nearest] run function mob:setup/apply_from_storage

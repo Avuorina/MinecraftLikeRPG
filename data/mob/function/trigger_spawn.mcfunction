@@ -1,7 +1,8 @@
 # アーマースタンドの頭装備からMOB IDを読み取ってスポーン
-# マクロ引数: ArmorItems[3].components."minecraft:custom_data" (TUSBMobIdを持ってる)
+# マクロ引数: equipment.head.components."minecraft:custom_data" (RPGMobId を持っている)
 
-$function mob:spawn/$(RPGMobId) with entity @s equipment.head.components."minecraft:custom_data"
+# 汎用的な spawn 関数を呼び出し（RPGMobIdを渡す）
+    $function mob:spawn_generic {mob_id:"$(RPGMobId)"}
 
 # アーマースタンドを消す
     kill @s
