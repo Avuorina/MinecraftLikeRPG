@@ -6,10 +6,23 @@
 # 経験値を消費
     scoreboard players operation @s EXP -= @s nextEXP
 
-# 次のレベルに必要な経験値 = レベル * 50
-    scoreboard players operation @s nextEXP = @s LV
-    scoreboard players operation @s nextEXP *= 50 Const
-    scoreboard players add @s nextEXP 2
+# バニラの必要経験値を参照
+    # lv0 - lv15(2* LV +7)
+        execute if score @s LV matches 0..15 run scoreboard players operation @s nextEXP = @s LV
+        execute if score @s LV matches 0..15 run scoreboard players operation @s nextEXP *= $2 Const
+        execute if score @s LV matches 0..15 run scoreboard players add @s nextEXP 7
+    # lv16 - lv30(5* LV - 38)
+        execute if score @s LV matches 16..30 run scoreboard players operation @s nextEXP = @s LV
+        execute if score @s LV matches 16..30 run scoreboard players operation @s nextEXP *= $5 Const
+        execute if score @s LV matches 16..30 run scoreboard players remove @s nextEXP 38
+    # lv31 - lv60(10* LV - 158)
+        execute if score @s LV matches 31..60 run scoreboard players operation @s nextEXP = @s LV
+        execute if score @s LV matches 31..60 run scoreboard players operation @s nextEXP *= $10 Const
+        execute if score @s LV matches 31..60 run scoreboard players remove @s nextEXP 158
+    # lv61 - lv100(20* LV - 458)
+        execute if score @s LV matches 61..100 run scoreboard players operation @s nextEXP = @s LV
+        execute if score @s LV matches 61..100 run scoreboard players operation @s nextEXP *= $20 Const
+        execute if score @s LV matches 61..100 run scoreboard players remove @s nextEXP 458
 
 # ステータスポイント配布
     scoreboard players add @s StatusPoint 3
