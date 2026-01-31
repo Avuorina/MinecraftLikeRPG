@@ -117,13 +117,30 @@ python generate_mobs.py
 - CSV 列のマッピングが間違っていた → 正しい構造に修正
 - タグ構造が TUSB と異なっていた → 大文字のカテゴリタグに修正
 
+3. **AI設定システムの実装 (Phase 2)**
+   - `data/ai/function/apply_attributes.mcfunction` の実装
+     - 移動速度、索敵範囲、ノックバック耐性をStorageから適用
+   - `generate_mobs.py` の更新
+     - スプレッドシートの「移動速度」「索敵範囲」「ノックバック耐性」列に対応
+     - キー名を `ai_speed` などアンダースコア区切りに変更
+
+4. **進行度による動的レベル補正 (Phase 2)**
+   - `Progress` (進行度) スコアの導入
+   - レベル計算: `最終LV = 基本LV(Storage) + Global Progress`
+   - ステータス自動補正:
+     - `補正倍率(%) = 100 + (上昇LV × 5)`
+     - Lv1につきステータスが5%ずつ上昇する仕組みを実装
+
+
 ## 次に取り組むべきタスク
 
 ### 優先度：高
+### 優先度：高
 1. **MOB AI システムの実装**
-   - TUSBのように、移動速度、感知範囲、フォロワー設定などをStorageから読み込んで適用する仕組み
-   - `generate_mobs.py` でスプレッドシートから AI 設定を自動生成
-   - AI トリガーシステム（tick, attack, hurt, death）
+   - **完了**: パラメーター適用システム (`ai:apply_attributes`)
+   - **残課題**: AI トリガーシステム（tick, attack, hurt, death）の実装
+
+2. **属性耐性の実装 (Phase 3)**
 
 2. **属性耐性の実装**
    - 物理、魔法、炎、爆発などのダメージ倍率設定

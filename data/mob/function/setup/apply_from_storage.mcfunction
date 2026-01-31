@@ -1,25 +1,48 @@
-# ストレージからスコアボードへステータスを適用
-# 実行者(@s)に対して実行される
+# レベル計算
+# 基準レベル読み込み
+    execute store result score @s LV_Base run data get storage rpg_mob: レベル
 
-# レベル
-    execute store result score @s LV run data get storage rpg_mob: レベル
+# 現在レベル = 基準 + 進行度
+    scoreboard players operation @s LV = @s LV_Base
+    scoreboard players operation @s LV += Global Progress
 
-# 基本ステータス（HPは現在値と最大値の両方を設定）
+# レベル差 (Factor) = 現在 - 基準
+    scoreboard players operation @s Factor = @s LV
+    scoreboard players operation @s Factor -= @s LV_Base
+
+# 補正倍率算出 (100分率)
+# Factor = 100 + (LevelDiff * 5)
+    scoreboard players operation @s Factor *= $5 Const
+    scoreboard players add @s Factor 100
+
+# ステータス読み込み & 補正適用
+# MaxHP
     execute store result score @s MaxHP run data get storage rpg_mob: 最大HP
-    execute store result score @s HP run data get storage rpg_mob: 最大HP
+    scoreboard players operation @s MaxHP *= @s Factor
+    scoreboard players operation @s MaxHP /= 100 Const
+    scoreboard players operation @s HP = @s MaxHP
 
-# Mp (もしあれば)
-# execute store result score @s max_mp run data get storage rpg_mob: 最大MP
-# execute store result score @s mp run data get storage rpg_mob: 最大MP
-
-# 能力値
+# STR
     execute store result score @s STR run data get storage rpg_mob: 物理攻撃力
+    scoreboard players operation @s STR *= @s Factor
+    scoreboard players operation @s STR /= 100 Const
+
+# DEF
     execute store result score @s DEF run data get storage rpg_mob: 物理防御力
+    scoreboard players operation @s DEF *= @s Factor
+    scoreboard players operation @s DEF /= 100 Const
+
+# AGI (移動速度は一旦そのまま)
     execute store result score @s AGI run data get storage rpg_mob: 素早さ
+    scoreboard players operation @s AGI *= @s Factor
+    scoreboard players operation @s AGI /= 100 Const
+
+# LUCK
     execute store result score @s LUCK run data get storage rpg_mob: 運
+    # LUCKは補正なしでもいいかも？一旦ありで
 
-# AIパラメータ適用 (移動速度、索敵範囲など)
-    function ai:apply_attributes
+    # AIパラメータ適用 (移動速度、索敵範囲など)
+        function ai:apply_attributes
 
-# 初期化済みタグ付与
-    tag @s add mob.initialized
+    # 初期化済みタグ付与
+        tag @s add mob.initialized
