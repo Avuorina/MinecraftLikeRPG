@@ -12,8 +12,6 @@
         scoreboard objectives remove MP
         scoreboard objectives remove MaxMP
         scoreboard objectives remove StatusPoint
-        scoreboard objectives remove BaseATK
-        scoreboard objectives remove ATK
         scoreboard objectives remove STR
         scoreboard objectives remove DEF
         scoreboard objectives remove AGI

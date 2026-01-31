@@ -35,6 +35,9 @@
     playsound minecraft:entity.player.levelup player @s ~ ~ ~ 1 1
     particle minecraft:totem_of_undying ~ ~1 ~ 0.5 1 0.5 0.1 50
 
+# 補正
+    function player:status/atk/update
+
 # レベルアップ通知
     tellraw @s [{"text":"═══════════════════════════","color":"gold"}]
     tellraw @s [{"text":" ★ LEVEL UP! ★","color":"yellow","bold":true}]

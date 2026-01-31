@@ -18,5 +18,8 @@
     execute store result score @s AGI run data get storage rpg_mob: 素早さ
     execute store result score @s LUCK run data get storage rpg_mob: 運
 
+# AIパラメータ適用 (移動速度、索敵範囲など)
+    function ai:apply_attributes
+
 # 初期化済みタグ付与
     tag @s add mob.initialized

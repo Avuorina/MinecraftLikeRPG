@@ -19,6 +19,9 @@ scoreboard players set @s INT 1
 scoreboard players set @s SPD 1
 scoreboard players set @s LUCK 1
 
+# 初期補正
+    function player:status/atk/update
+
 # 初期化済みフラグ
     scoreboard players set @s Initialized 1
 

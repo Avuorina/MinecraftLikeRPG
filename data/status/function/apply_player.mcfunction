@@ -15,8 +15,8 @@
     execute store result entity @s Health float 1 run scoreboard players get @s _
 
 # --- 攻撃力適用 ---
-# str を攻撃力に変換（STR / 5 = 攻撃力、STR 5 = 1ダメージ）
-    execute store result entity @s attribute.minecraft:attack_damage.base double 0.2 run scoreboard players get @s STR
+# STRによる倍率計算 (atk/update)
+    function player:status/atk/update
 
 # --- 防御力適用 ---
 # def を装甲値に変換（DEF - 5 = 装甲、DEF 5 = 0装甲）
