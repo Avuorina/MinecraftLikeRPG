@@ -6,10 +6,10 @@
 # 経験値を消費
     scoreboard players operation @s EXP -= @s nextEXP
 
-# 次のレベルに必要な経験値 = レベル * 50 + 50
+# 次のレベルに必要な経験値 = レベル * 50
     scoreboard players operation @s nextEXP = @s LV
     scoreboard players operation @s nextEXP *= 50 Const
-    scoreboard players add @s nextEXP 50
+    scoreboard players add @s nextEXP 2
 
 # ステータスポイント配布
     scoreboard players add @s StatusPoint 3

@@ -4,7 +4,7 @@
 # 初期ステータス設定
     scoreboard players set @s LV 1
     scoreboard players set @s EXP 0
-    scoreboard players set @s nextEXP 100
+    scoreboard players set @s nextEXP 7
 
 scoreboard players set @s MaxHP 20
 scoreboard players set @s HP 20
