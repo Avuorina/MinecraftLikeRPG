@@ -1,15 +1,15 @@
 # レベルアップ処理
 
 # レベル+1
-    scoreboard players add @s level 1
+    scoreboard players add @s LV 1
 
 # 経験値を消費
-    scoreboard players operation @s exp -= @s exp_next
+    scoreboard players operation @s EXP -= @s nextEXP
 
 # 次のレベルに必要な経験値 = レベル * 50 + 50
-    scoreboard players operation @s exp_next = @s level
-    scoreboard players operation @s exp_next *= $50 Const
-    scoreboard players add @s exp_next 50
+    scoreboard players operation @s nextEXP = @s LV
+    scoreboard players operation @s nextEXP *= 50 Const
+    scoreboard players add @s nextEXP 50
 
 # ステータスポイント配布
     scoreboard players add @s StatusPoint 3
@@ -31,4 +31,4 @@
     tellraw @s [{"text":"═══════════════════════════","color":"gold"}]
 
 # 連続レベルアップチェック
-    execute if score @s exp >= @s exp_next run function player:level/up
+    execute if score @s EXP >= @s nextEXP run function player:level/up

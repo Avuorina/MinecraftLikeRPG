@@ -11,4 +11,4 @@
     function rpg:declare
 
 tellraw @a [{"color":"dark_gray","text":"["},{"bold":true,"text":"SYSTEM"},{"bold":false,"text":"]"},\
-{"text":"\nデータパックのロードが完了"}]
+{"text":"データパックのロードが完了"}]
