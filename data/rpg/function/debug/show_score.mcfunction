@@ -11,7 +11,7 @@
 # データ更新（即時反映）
 # ユーザー提案の形式（配列）を採用し、シンプルに記述。
 # ただしNBTとしては「文字列」である必要があるため、全体をシングルクォートで囲みます。
-    data merge entity @e[type=text_display,tag=debug_status,limit=1,sort=nearest] {text:[{"text":"=== Status ===\n"},"LEVEL:",{"score":{"name":"@p","objective":"level"}},{"text":"\nHP:"},{"score":{"name":"@p","objective":"hp"}},"/",{"score":{"name":"@p","objective":"max_hp"}}]}
+    data merge entity @e[type=text_display,tag=debug_status,limit=1,sort=nearest] {text:[{"text":"=== Status ===\n"},"LEVEL:",{"score":{"name":"@p","objective":"LV"}},{"text":"\nHP:"},{"score":{"name":"@p","objective":"HP"}},"/",{"score":{"name":"@p","objective":"MaxHP"}}]}
 
 # メッセージ
     tellraw @s ["",{"text":"目の前にステータスを表示しました。","color":"green"}]

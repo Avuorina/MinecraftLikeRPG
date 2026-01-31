@@ -1,3 +1,3 @@
 # 経験値獲得 - モブ討伐
-    scoreboard players add @a[scores={kills=1..}] exp 10
-    scoreboard players set @a[scores={kills=1..}] kills 0
+    scoreboard players add @a[scores={Kills=1..}] EXP 10
+    scoreboard players set @a[scores={Kills=1..}] Kills 0

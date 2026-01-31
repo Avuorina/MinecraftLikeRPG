@@ -10,4 +10,5 @@
 # 定義を宣言する
     function rpg:declare
 
-tellraw @a [{"color":"dark_gray","text":"["},{"bold":true,"text":"SYSTEM"},{"bold":false,"text":"]"},"データパックのロードが完了"]
+tellraw @a [{"color":"dark_gray","text":"["},{"bold":true,"text":"SYSTEM"},{"bold":false,"text":"]"},\
+{"text":"\nデータパックのロードが完了"}]

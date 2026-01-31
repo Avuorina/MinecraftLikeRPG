@@ -11,19 +11,12 @@
     scoreboard players operation @s exp_next *= $50 Const
     scoreboard players add @s exp_next 50
 
-# ステータス上昇
-    scoreboard players add @s max_hp 2
-    scoreboard players add @s max_mp 1
-    scoreboard players add @s str 1
-    scoreboard players add @s def 1
-    scoreboard players add @s agi 1
-    scoreboard players add @s int 1
-    scoreboard players add @s spd 1
-    scoreboard players add @s luck 1
+# ステータスポイント配布
+    scoreboard players add @s StatusPoint 3
 
 # HP/MP全回復
-    scoreboard players operation @s hp = @s max_hp
-    scoreboard players operation @s mp = @s max_mp
+    scoreboard players operation @s HP = @s MaxHP
+    scoreboard players operation @s MP = @s MaxMP
 
 # エフェクト
     playsound minecraft:entity.player.levelup player @s ~ ~ ~ 1 1
@@ -32,7 +25,7 @@
 # レベルアップ通知
     tellraw @s [{"text":"═══════════════════════════","color":"gold"}]
     tellraw @s [{"text":" ★ LEVEL UP! ★","color":"yellow","bold":true}]
-    tellraw @s [{"text":" Level ","color":"gray"},{"score":{"name":"@s","objective":"level"},"color":"yellow","bold":true}]
+    tellraw @s [{"text":" Level ","color":"gray"},{"score":{"name":"@s","objective":"LV"},"color":"yellow","bold":true}]
     tellraw @s [{"text":" MaxHP +2  MaxMP +1","color":"green"}]
     tellraw @s [{"text":" ALL STATS +1","color":"aqua"}]
     tellraw @s [{"text":"═══════════════════════════","color":"gold"}]
