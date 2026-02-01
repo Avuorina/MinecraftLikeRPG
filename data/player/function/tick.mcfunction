@@ -8,3 +8,6 @@
 
 ## スニーク検知
     execute as @a at @s run function player:trigger/
+
+## 入力検知 (Action/Left Click)
+    execute as @a at @s run function player:input/tick
