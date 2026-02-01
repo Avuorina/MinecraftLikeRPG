@@ -9,7 +9,13 @@
 data modify storage rpg_mob: "ベース" set value {id:"minecraft:wither_skeleton",Tags:[MOB,mob.003.dark_knight,Init,mob.boss,Global,Ground,Blow,DarkKnight]}
 
 # 見た目
-data modify storage rpg_mob: "見た目" set value {CustomName:[{"color":"dark_red","text":"☠"},{"bold":true,"color":"dark_purple","text":"ダークナイト"},{"bold":false,"color":"gray","text":"Lv.30"}]}
+# CustomName は JSON String として BaseNameJSON に保存する (動的レベル表示のため)
+# ここで "見た目" からは除外し、個別の String Tag として保存
+# ユーザー検証: シングルクォート無し (Compound Tag) で保存しても動く
+data modify storage rpg_mob: BaseNameJSON set value [{"color":"dark_red","text":"☠"},{"bold":true,"color":"dark_purple","text":"ダークナイト"}]
+
+# 見た目 (CustomName以外)
+data modify storage rpg_mob: "見た目" set value {}
 
 # 装備 (初期化)
 data modify storage rpg_mob: "見た目".ArmorItems set value [{},{},{},{}]

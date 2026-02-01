@@ -47,5 +47,11 @@
     # 見た目・装備適用 (Storage -> Entity)
         function mob:setup/apply_nbt
 
+    # 名前更新 (レベル表示追加)
+    # apply_nbt で CustomName が適用された後に実行する必要がある
+    # LVスコアをStorageに保存してマクロ呼び出し
+        execute store result storage rpg_mob: lv int 1 run scoreboard players get @s LV
+        function mob:setup/level/ with storage rpg_mob:
+
     # 初期化済みタグ付与
         tag @s add mob.initialized

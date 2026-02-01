@@ -9,7 +9,13 @@
 data modify storage rpg_mob: "ベース" set value {id:"minecraft:zombie",Tags:[MOB,mob.004.test_man,Init,Global,Debug,Blow,TestMan]}
 
 # 見た目
-data modify storage rpg_mob: "見た目" set value {CustomName:{"color":"green","text":"テストマン"}}
+# CustomName は JSON String として BaseNameJSON に保存する (動的レベル表示のため)
+# ここで "見た目" からは除外し、個別の String Tag として保存
+# ユーザー検証: シングルクォート無し (Compound Tag) で保存しても動く
+data modify storage rpg_mob: BaseNameJSON set value {"color":"red","text":"テストマン"}
+
+# 見た目 (CustomName以外)
+data modify storage rpg_mob: "見た目" set value {}
 
 # 装備 (初期化)
 data modify storage rpg_mob: "見た目".ArmorItems set value [{},{},{},{}]

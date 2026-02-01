@@ -3,12 +3,12 @@
 
 # 汎用的な spawn 関数を呼び出し（RPGMobIdを渡す）
 # Data Inspection
-    #say [Debug] ArmorItems:
-    #data get entity @s ArmorItems
+#say [Debug] ArmorItems:
+#data get entity @s ArmorItems
 
 # 汎用的な spawn 関数を呼び出し（RPGMobIdを渡す）
-    #say Debug: Trying to spawn ID: $(RPGMobId)
-    $function mob:spawn_generic {mob_id:"$(RPGMobId)"}
+#say Debug: Trying to spawn ID: $(RPGMobId)
+    $function mob:spawn/generic {mob_id:"$(RPGMobId)"}
     #execute if entity @e[type=armor_stand,tag=mob.egg_spawn] run say 1
-# アーマースタンドを消す
-    kill @s
+    # アーマースタンドを消す
+        kill @s
