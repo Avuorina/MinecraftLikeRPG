@@ -44,5 +44,8 @@
     # AIパラメータ適用 (移動速度、索敵範囲など)
         function ai:apply_attributes
 
+    # 見た目・装備適用 (Storage -> Entity)
+        function mob:setup/apply_nbt
+
     # 初期化済みタグ付与
         tag @s add mob.initialized
