@@ -6,7 +6,7 @@
 # give @p wither_skeleton_spawn_egg[entity_data={id:"minecraft:armor_stand",NoGravity:1b,Invisible:1b,Tags:["mob.egg_spawn"],equipment:{head:{id:"minecraft:stone",count:1,components:{"minecraft:custom_data":{"RPGMobId":"003.dark_knight"}}}}},item_name={"text":"ダークナイト Spawn Egg","color":"gold"}] 1
 
 # ベースエンティティ (summonに使うのでStorageへのベース保存は不要だが、参照用に残しても良い)
-data modify storage rpg_mob: "ベース" set value {id:"minecraft:wither_skeleton",Tags:[MOB,mob.003.dark_knight,Init,mob.boss,Global,Ground,Blow,DarkKnight]}
+data modify storage rpg_mob: "ベース" set value {id:"minecraft:wither_skeleton",Tags:[MOB,mob.003.dark_knight,Init,mob.boss,Global,Ground,Blow,DarkKnight,ENEMY]}
 
 # 見た目
 # CustomName は JSON String として BaseNameJSON に保存する (動的レベル表示のため)
@@ -46,7 +46,7 @@ data modify storage rpg_mob: ai_knockback_resistance set value 0
 # 召喚 & セットアップ
 # NBTは最低限 (Tags, CustomNameVisible, PersistenceRequired)
 # 見た目やステータスは apply_from_storage で適用される
-summon minecraft:wither_skeleton ~ ~ ~ {Tags:[MOB,mob.003.dark_knight,Init,mob.boss,Global,Ground,Blow,DarkKnight], CustomNameVisible:1b, PersistenceRequired:1b}
+summon minecraft:wither_skeleton ~ ~ ~ {Tags:[MOB,mob.003.dark_knight,Init,mob.boss,Global,Ground,Blow,DarkKnight,ENEMY], CustomNameVisible:1b, PersistenceRequired:1b}
 
 execute as @e[tag=mob.003.dark_knight,tag=Init,distance=..1,limit=1] run function mob:setup/apply_from_storage
 

@@ -6,7 +6,7 @@
 # give @p villager_spawn_egg[entity_data={id:"minecraft:armor_stand",NoGravity:1b,Invisible:1b,Tags:["mob.egg_spawn"],equipment:{head:{id:"minecraft:stone",count:1,components:{"minecraft:custom_data":{"RPGMobId":"005.test_woman"}}}}},item_name={"text":"テストウーマン Spawn Egg","color":"gold"}] 1
 
 # ベースエンティティ (summonに使うのでStorageへのベース保存は不要だが、参照用に残しても良い)
-data modify storage rpg_mob: "ベース" set value {id:"minecraft:villager",Tags:[MOB,mob.005.test_woman,Init,Global,Debug,Blow,TestWoman]}
+data modify storage rpg_mob: "ベース" set value {id:"minecraft:villager",Tags:[MOB,mob.005.test_woman,Init,Global,Debug,Blow,TestWoman,FRIENDLY]}
 
 # 見た目
 # CustomName は JSON String として BaseNameJSON に保存する (動的レベル表示のため)
@@ -46,6 +46,6 @@ data modify storage rpg_mob: ai_knockback_resistance set value 0
 # 召喚 & セットアップ
 # NBTは最低限 (Tags, CustomNameVisible, PersistenceRequired)
 # 見た目やステータスは apply_from_storage で適用される
-summon minecraft:villager ~ ~ ~ {Tags:[MOB,mob.005.test_woman,Init,Global,Debug,Blow,TestWoman], CustomNameVisible:1b, PersistenceRequired:1b}
+summon minecraft:villager ~ ~ ~ {Tags:[MOB,mob.005.test_woman,Init,Global,Debug,Blow,TestWoman,FRIENDLY], CustomNameVisible:1b, PersistenceRequired:1b}
 
 execute as @e[tag=mob.005.test_woman,tag=Init,distance=..1,limit=1] run function mob:setup/apply_from_storage
