@@ -131,44 +131,48 @@ python generate_mobs.py
      - `補正倍率(%) = 100 + (上昇LV × 5)`
      - Lv1につきステータスが5%ずつ上昇する仕組みを実装
 
+5. **動的レベル表示の実装 (Dynamic Name Display)**
+   - **目的**: 進行度でレベルが上がったとき、名前の表記も `Lv.30` → `Lv.35` のように変化させる。
+   - **実装**:
+     - Generator側で、CustomNameをJSON文字列（リストではなく単一のString Tag `BaseNameJSON`）として出力するように変更（Strict JSON対策）。
+     - Spwan時に `display_level.mcfunction` マクロで、`"BaseNameJSON" + " Lv.$(lv)"` を結合して `CustomName` に適用。
+     - **注意**: `CustomName` は厳密なJSON形式（キーに `"` が必須）でないと、rawテキストが表示されてしまう（SNBT問題）。
+
+6. **敵対・友好タグの自動付与**
+   - Generatorがスプレッドシートの「友好」列（TRUE/FALSE）を読み取る。
+   - TRUEなら `Tags:["FRIENDLY"]`、FALSEなら `Tags:["ENEMY"]` を付与。
+   - **Predicate活用**: `data/lib/predicate/is_enemy.json` は `looking_at` 条件で `ENEMY` タグを持つエンティティか判定する。
+   - これにより「敵を見ている時だけ」発動するアクションが可能になった。
+
+7. **間接攻撃・魔法攻撃の基盤 (Raycast)** (2026-02-01)
+   - **目的**: Interaction Entity越しに、奥にいる敵を攻撃する（視覚的な魔法攻撃など）。
+   - **実装**:
+     - `player:input/click_action`: 左クリック（Interactionへの攻撃）を検知。
+     - `player:magic/sword_raycast`: 視線方向に透明なRayを飛ばし、`ENEMY` タグを持つ敵に当たればダメージを与える。
+     - **アイテムBank (仮)**: `bank:item/001.test_sword` に攻撃力や射程を設定。
+     - 木の剣を持つとこのBankを読み込み、ダイヤ剣並みの威力で攻撃できる。
 
 ## 次に取り組むべきタスク
 
 ### 優先度：高
-### 優先度：高
-1. **MOB AI システムの実装**
-   - **完了**: パラメーター適用システム (`ai:apply_attributes`)
-   - **残課題**: AI トリガーシステム（tick, attack, hurt, death）の実装
+1. **アイテムデータベースの本格化**
+   - スプレッドシートにアイテムリスト（武器・防具）を作成。
+   - Generatorを拡張して `data/bank/item/...` を自動生成するようにする。
+   - 現状の「木の剣＝仮アイテム」のハードコードを撤廃し、NBT（CustomModelDataなど）でアイテムを識別する仕組みへ。
 
 2. **属性耐性の実装 (Phase 3)**
+   - 物理、魔法、炎、爆発などのダメージ倍率設定。
+   - ダメージ計算式の統合。
 
-2. **属性耐性の実装**
-   - 物理、魔法、炎、爆発などのダメージ倍率設定
-   - スプレッドシートに列を追加
-
-3. **ドロップアイテム（LootTable）**
-   - ボス用などのカスタムドロップ品設定
-   - 経験値ドロップの調整
-
-### 優先度：中
-4. **職業・スキルシステム**
-   - プレイヤー側の拡張
-
-5. **クエストシステム**
-   - 討伐、収集、探索クエスト
-
-6. **ダンジョンシステム**
+3. **職業・スキルシステム**
+   - Raycast基盤を使った「遠距離魔法」「範囲魔法」の実装。
 
 ## 重要な注意点
 - **MOB設定の変更**: 原則として Google Spreadsheet を編集し、`generate_mobs.py` を実行して反映させること。mcfunctionを直接編集しても上書きされる。
-- **1.21.11仕様**: マクロや `spawn_egg` の `entity_data` (equipment) の仕様に追従している。
-- **スプレッドシートの公開設定**: CSV エクスポートを有効にするため、「リンクを知っている全員が閲覧可能」に設定すること。
-
-## 参考資料
-- **TUSB**: https://github.com/TUSB/TheUnusualSkyBlock (bank システム、AI システム)
-- **TSB**: https://github.com/ProjectTSB/TheSkyBlessing/wiki/create-mob (MOB作成ワークフロー)
+- **JSON形式**: `CustomName` や `Text Display` などのJSONは、キーをダブルクォートで囲む (`"text":"..."`) ことを徹底する。マクロでSNBT (`text:"..."`) を混ぜると表示崩れの原因になる。
+- **1.21.1 仕様**: マクロや `spawn_egg` の `entity_data` (equipment) の仕様に追従している。
 
 ---
 **合言葉**: "MinecraftならではのRPG"
-**最終更新**: 2026-01-31
+**最終更新**: 2026-02-01
 
