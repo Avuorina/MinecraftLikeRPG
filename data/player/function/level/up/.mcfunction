@@ -8,9 +8,7 @@
 
 # バニラの必要経験値を参照
     # lv0 - lv15(2* LV +7)
-        execute if score @s LV matches 0..15 run scoreboard players operation @s nextEXP = @s LV
-        execute if score @s LV matches 0..15 run scoreboard players operation @s nextEXP *= $2 Const
-        execute if score @s LV matches 0..15 run scoreboard players add @s nextEXP 7
+        execute if score @s LV matches 0..15 run function player:level/up/0-15lv
     # lv16 - lv30(5* LV - 38)
         execute if score @s LV matches 16..30 run scoreboard players operation @s nextEXP = @s LV
         execute if score @s LV matches 16..30 run scoreboard players operation @s nextEXP *= $5 Const
@@ -47,4 +45,4 @@
     tellraw @s [{"text":"═══════════════════════════","color":"gold"}]
 
 # 連続レベルアップチェック
-    execute if score @s EXP >= @s nextEXP run function player:level/up
+    execute if score @s EXP >= @s nextEXP run function player:level/up/

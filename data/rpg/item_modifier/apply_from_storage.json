@@ -1,0 +1,16 @@
+[
+    {
+        "function": "minecraft:copy_nbt",
+        "source": {
+            "type": "storage",
+            "source": "rpg_item:tmp"
+        },
+        "ops": [
+            {
+                "source": "components",
+                "target": "components",
+                "op": "merge"
+            }
+        ]
+    }
+]

@@ -1,3 +1,4 @@
+# R: function player:tick
 # 左クリック検知処理 (毎tick実行) - マルチプレイ対応版
 # 実行者: プレイヤー (@s)
 
@@ -17,10 +18,10 @@ execute anchored eyes positioned ^ ^ ^3.0 unless block ~ ~ ~ air run tag @s add 
 
 # 3. 自分のUUIDとマッチするEntityをテレポート
 # 3a. 全交互作用エンティティのスコアを更新
-execute as @e[type=interaction,tag=input.click] store result score @s inputUUID run data get entity @s UUID[0]
+execute as @e[tag=input.click,type=interaction] store result score @s inputUUID run data get entity @s UUID[0]
 
 # 3b. ブロックを見ていない場合: プレイヤーの位置(頭部)にテレポート
-execute if entity @s[tag=!looking_at_block] at @s as @e[type=interaction,tag=input.click] if score @s inputUUID = @p inputUUID run tp @s ~ ~1 ~ ~ ~
+execute if entity @s[tag=!looking_at_block] at @s as @e[tag=input.click,type=interaction] if score @s inputUUID = @p inputUUID run tp @s ~ ~1 ~ ~ ~
 
 # 3c. ブロックを見ている場合: 遠くに退避してアクションを邪魔しないようにする
 execute if entity @s[tag=looking_at_block] at @s as @e[type=interaction,tag=input.click] if score @s inputUUID = @p inputUUID run tp @s ~ ~10 ~ ~ ~

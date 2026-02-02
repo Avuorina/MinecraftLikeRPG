@@ -1,7 +1,6 @@
 {
     "values": [
         "rpg:tick",
-        "mob:tick",
-        "player:tick"
+        "mob:tick"
     ]
 }
