@@ -7,8 +7,8 @@
     execute at @s anchored eyes positioned ^ ^ ^ positioned ~-0.125 ~-0.125 ~-0.125 run function lib:left_click/target
 # Hitタグがついた敵にノックバック
     tag @s add Attacker
-    execute as @s[tag=Attacker] run say I AM ATTACKER
-    execute as @e[tag=Hit,tag=ENEMY,distance=..10] at @s run say I AM HIT
+    #execute as @s[tag=Attacker] run say I AM ATTACKER
+    #execute as @e[tag=Hit,tag=ENEMY,distance=..10] at @s run say I AM HIT
     execute as @e[tag=Hit,tag=ENEMY,distance=..10] at @s run function mob:on_hurt/hit
 #tag @s remove Attacker
 ## Debug
