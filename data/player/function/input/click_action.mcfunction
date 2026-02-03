@@ -4,5 +4,3 @@
 # ここに魔法やスキルの処理を書く
 # ここに魔法やスキルの処理を書く
 
-# ソード攻撃 (Raycast)
-    function player:magic/sword_raycast/start
