@@ -9,7 +9,7 @@ scoreboard players add @a Timer 1
 
 # INTボーナス計算と加算
 # temp = INT / 10
-    scoreboard players operation @s _ = @s int
+    scoreboard players operation @s _ = @s INT
     scoreboard players operation @s _ /= 10 _
     scoreboard players operation @s Timer += @s _
 
