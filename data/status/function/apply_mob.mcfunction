@@ -1,39 +1,33 @@
+say apply_mob
 # MOB用ステータス適用（個体処理）
 # @s として実行される
 # 必要なスコア: max_hp, str, def, agi, luck, _
 
-# --- MaxHP ---
+# --- HP ---
 # max_hp スコアをそのままAttributeに適用
 # 0以下の場合は適用しない（安全策）
-    execute if score @s MaxHP matches 1.. store result entity @s Health double 1 run scoreboard players get @s MaxHP
+    attribute @s max_health base set 512
 
 # --- 攻撃力 (STR) ---
-# ATK = BASE + (STR * 0.2)
-#execute store result entity @s Attributes[{Name:"minecraft:attack_damage"}].Base double 0.2 run scoreboard players get @s STR
-    execute store result score _ _ run attribute @s minecraft:attack_damage get
-    scoreboard players operation @s STR *= $10 Const
-    scoreboard players operation @s STR *= $2 Const
-    scoreboard players operation _ _ = @s STR
-    execute store result entity @s attributes[{Name:"minecraft:attack_damage"}] double 1 run scoreboard players get _ _
+# ATK = STR
+#execute store result entity @s attributes[{id:"minecraft:attack_damage"}].base double 1 run scoreboard players get @s STR
+    execute store result entity @s attributes[{id:"minecraft:attack_damage"}].base double 1 run scoreboard players get @s STR
+
 
 # --- 防御力 (DEF) ---
 # DEF - 5
-    scoreboard players operation @s _ = @s DEF
-    scoreboard players remove @s _ 5
-    # 0以上なら適用、負なら0
-        execute if score @s _ matches 0.. store result entity @s Attributes[{Name:"minecraft:armor"}].Base double 1 run scoreboard players get @s _
-        execute if score @s _ matches ..-1 run attribute @s minecraft:armor base set 0
+#scoreboard players operation @s _ = @s DEF
+#scoreboard players remove @s _ 5
+# 0以上なら適用、負なら0
+#execute if score @s _ matches 0.. store result entity @s attributes[{id:"minecraft:armor"}].base double 1 run scoreboard players get @s _
+#execute if score @s _ matches ..-1 run attribute @s minecraft:armor base set 0
 
-    # --- 移動速度 (AGI) ---
-    # (AGI * 2 + 90) / 1000
-    # AGI 5 -> 0.1
-        scoreboard players operation @s _ = @s AGI
-        scoreboard players operation @s _ *= #2 _
-        scoreboard players add @s _ 90
-        execute store result entity @s Attributes[{Name:"minecraft:movement_speed"}].Base double 0.001 run scoreboard players get @s _
+# --- 移動速度 (AGI) ---
+# AGI / 100
+# AGI 23 -> 0.23
+    execute store result entity @s attributes[{id:"minecraft:generic.movement_speed"}].base double 0.01 run scoreboard players get @s AGI
 
-    # --- 幸運 (LUCK) ---
-    # LUCK - 5
-        scoreboard players operation @s _ = @s LUCK
-        scoreboard players remove @s _ 5
-        execute store result entity @s Attributes[{Name:"minecraft:luck"}].Base double 1 run scoreboard players get @s _
+# --- 素早さ (AGI) ---
+# AGI / 100
+# AGI 23 -> 0.23
+    execute store result entity @s attributes[{id:"minecraft:generic.movement_speed"}].base double 0.01 run scoreboard players get @s AGI

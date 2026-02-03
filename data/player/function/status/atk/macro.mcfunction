@@ -7,3 +7,6 @@
 # 新しい補正を付与 (multiply_total)
 # バニラ攻撃力(武器含む) * (1 + STR/100)
     $attribute @s minecraft:attack_damage modifier add rpg:str_bonus $(calc) add_multiplied_total
+
+# 最終的な攻撃力をスコアに保存 (ATK)
+    execute store result score @s ATK run attribute @s minecraft:attack_damage get

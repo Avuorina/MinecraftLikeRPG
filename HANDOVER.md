@@ -10,172 +10,82 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 
 ### 1. ステータスシステム (`data/status/`)
 - 全てのステータスはスコアボードで管理。
-- **実装済み**: `HP` (Maxあり), `MP` (Maxあり), `STR`, `DEF`, `AGI`, `INT`, `SPD`, `LUCK`
-- **定数管理**: `box.mcfunction` にて `Const` Objectiveを使用し、`$100` のように `$` プレフィックス付きの定数として定義。計算式内でマクロ定数として利用。
+- **実装済み**: `HP` (Maxあり), `MP` (Maxあり), `STR`, `DEF`, `AGI`, `INT`, `SPD`, `DroppedGold`
+- **定数管理**: `box.mcfunction` にて `$100 Const` のように `$` プレフィックス付きの定数として定義。
+- **計算式の刷新 (2026-02-03)**:
+    - **STR**: CSVの数値をそのまま攻撃力（Attribute）として適用。
+    - **AGI**: `AGI / 100` を移動速度（Attribute）として適用。
+    - **Gold**: `Luck` を **DroppedGold (ドロップゴールド)** に置換。討伐時に `DroppedGold` スコア分のゴールドを付与。
 
 ### 2. プレイヤーシステム (`data/player/`)
-- **HPシステム完了 (2026-01-31)**:
-  - **計算ロジック**: `data/player/function/status/hp/update.mcfunction`
-    - スコアボードの `hp` / `max_hp` から、見た目上のハート（Health属性）を計算。
-    - マクロを使用して `attribute` に即時反映。
-  - **自動回復**: `data/player/function/status/hp/regen.mcfunction`
-    - バケット方式（タイマー蓄積型）を採用。`hpRegen` ステータスが高いほど高速に自然回復する。
-  - **安全性**: 計算誤差による即死を防ぐため、HPスコアが1以上なら最低でもハート半個（Health 1）を保証。
-- レベルアップ、ステータス成長、アクションバーHUD実装済み。
+- **HPシステム完了**:
+    - バケット方式の自動回復、ハート計算、即死防止を実装済み。
+- **攻撃力計算**:
+    - `data/player/function/status/atk/macro.mcfunction` にて、武器攻撃力を含めた最終ダメージを計算し `ATK` スコアに格納。
 
-### Development Rules
-- **Documentation**: When asked to "summarize" (まとめて), place the file in the project root (`MinecraftLikeRPG/`).
-
-### 3. MOB生成システム (MOB Generator) ← **完成！(2026-01-30)**
+### 3. MOB生成システム (MOB Generator) ← **完成＆リファクタリング済 (2026-02-03)**
 
 #### 3.1. 自動生成ツール
 - **ツール**: `datapacks/MOBgenerator/generate_mobs.py`
-- **GitHub**: https://github.com/Avuorina/MOBgenerator
 - **データソース**: Google Spreadsheet (CSV)
-  - スプレッドシートID: `1Muf5Hy6Zq1i8Rty1M26-5u13lalUBsuC-pVXNFXMoYM`
-  - 「リンクを知っている全員が閲覧可能」に設定する必要がある
+  - ID: `1Muf5Hy6Zq1i8Rty1M26-5u13lalUBsuC-pVXNFXMoYM`
+- **変更点**:
+  - `Luck` 列を廃止し、`Gold` 列の読み込みに対応。
+  - 出力される `register.mcfunction` から `summon` / `init` コマンドを撤廃（定義のみに変更）。
 
 #### 3.2. スプレッドシートの列構造
-- `NameJP`: 日本語名（必須）
-- `NameUS`: 英語名（ファイル名に使用、キャメルケース → スネークケース変換）
-- `ID`: エンティティタイプ（zombie, skeleton など）
-- `ベース`: CustomName の JSON
-- `見た目`: equipment の JSON (mainhand, head など)
-- `エリア`: global（カテゴリ）
-- `グループ`: ground（カテゴリ）
-- `AI`: blow/shoot/boss（カテゴリ）
-- `サブフォルダ`: （現在未使用）
-- `スポーンタグ`: 追加タグ（MOB名など）
-- `推定lev`, `HP`, `str`, `def`, `agi`, `luck`: ステータス
+- `NameJP`, `NameUS`, `ID` (エンティティタイプ)
+- `ベース` (CustomName JSON), `見た目` (equipment JSON)
+- `エリア`, `グループ`, `AI` (カテゴリタグ)
+- `スポーンタグ`: 任意の追加タグ
+- `推定lev`, `HP`, `str`, `def`, `agi`: ステータス
+- `Gold`: ドロップゴールド基礎値 (New!)
+- `AI Speed`, `Follow Range`: AI補正倍率
 
 #### 3.3. 生成されるファイル
-1. **Bank設定** (`data/bank/function/mob/{area}/{group}/{ai}/{mob_id}.mcfunction`)
-   - ストレージベース (`rpg_mob:`) で管理
-   - `ベース`: `{id:"minecraft:zombie", Tags:[...]}`
-   - `見た目`: `{CustomName:[...], equipment:{...}}`
-   - ステータス: レベル、最大HP、物理攻撃力、物理防御力、素早さ、運
-   - Spawn Egg コマンド（コメント形式）
+1. **Bank設定 (データ定義)** (`data/bank/function/mob/.../register.mcfunction`)
+   - Storage `rpg_mob:` にデータを保存するのみ。
+   - **召喚は行わない**。
 
-2. **Spawn Map** (`data/mob/function/spawn_map/{mob_id}.mcfunction`)
-   - 対応する bank ファイルを呼び出し
-   - Storage から MOB を召喚
-   - ステータスを適用
+2. **召喚実行** (`data/mob/function/spawn/from_storage.mcfunction`)
+   - Storage情報を使って `summon` し、`init` (初期化) を呼び出す。
 
 #### 3.4. Spawn システムの構造
 ```
-mob:tick (毎tick実行)
-  └─> mob:trigger_spawn (アーマースタンドを検知)
-       └─> mob:spawn_generic (汎用的な召喚関数)
-            └─> mob:spawn_map/{mob_id} (個別の spawn マップ)
-                 ├─> bank:mob/{area}/{group}/{ai}/{mob_id} (設定ロード)
-                 ├─> mob:setup/summon_from_storage (召喚)
-                 │    └─> mob:setup/summon_from_storage_macro (マクロで summon)
-                 │         └─> mob:setup/apply_nbt (タグと見た目を適用)
-                 └─> mob:setup/apply_from_storage (ステータス適用)
+mob:tick (毎tick) -> mob:trigger_spawn -> mob:spawn_generic
+  └─> mob:spawn_map/{mob_id}
+       ├─> bank:mob/.../register (データ定義)
+       └─> mob:spawn/from_storage (召喚＆初期化)
+            └─> mob:setup/init (初期化・1回のみ)
+                 └─> status:apply_mob (ステータス適用)
 ```
 
-#### 3.5. タグ構造（TUSB形式）
-- **基本タグ**: `MOB`, `mob.{id}`, `mob.new`
-- **カテゴリタグ**: `Global`, `Ground`, `Blow`/`Shoot`（大文字）
-- **ボスタグ**: `mob.boss` (ボスの場合)
-- **追加タグ**: スプレッドシートから（例: `Goblin`, `DarkKnight`）
-
-#### 3.6. 実行方法
+### 4. 実行方法
 ```powershell
 cd C:\Users\nhs50030\AppData\Roaming\.minecraft\saves\RPG開発用\datapacks\MOBgenerator
 python generate_mobs.py
 ```
 
-### 4. 名前空間構成
-- `rpg`: メインループ
-- `player`: プレイヤー関連
-- `status`: ステータス計算
-- `mob`: MOB召喚・セットアップ・AI
-- `bank`: MOB設定データ (Storage用)
+## 最近の変更履歴 (2026-02-03)
 
-## 最近の変更履歴 (2026-01-30)
+### ✅ スポーンシステムのリファクタリング
+1. **Separation of Concerns**:
+   - `register` (データ登録) と `summon` (召喚) を完全に分離。
+   - これにより、`by_id` コマンドは「登録 → 汎用召喚関数呼び出し」というシンプルな構成になった。
+2. **Init Only Logic**:
+   - 以前は `status:apply` で毎tick実行されていた `apply_mob` ループを停止。
+   - `init` タグを持つ新規モブに対して**1回のみ**ステータス適用が行われるようになり、負荷が激減した。
 
-### ✅ 完了した作業
-1. **MOB Generator の完成**
-   - CSV 列マッピングの修正（ID=エンティティタイプ、ベース=CustomName、見た目=equipment）
-   - キャメルケース対応（`SkeletonWarrior` → `skeleton_warrior.mcfunction`）
-   - `minecraft:` プレフィックスの自動追加
-   - タグ生成の修正（TUSB形式に対応）
-
-2. **Spawn システムの実装**
-   - `mob:spawn_generic` の作成（汎用的な召喚関数）
-   - `mob:spawn_map/{mob_id}` の導入
-   - Storage ベースの召喚システム（マクロ使用）
-   - NBT 適用システム（`mob:setup/apply_nbt`）
-
-3. **GitHub リポジトリの作成**
-   - https://github.com/Avuorina/MOBgenerator
-   - README.md, .gitignore, LICENSE, example_mobs.csv を含む
-
-4. **タスク管理**
-   - `mobTASK.md` の作成（今後の開発タスクを整理）
-
-### 🐛 修正した問題
-- Spawn Egg が動作しない問題 → マクロとStorageの実装で解決
-- CSV 列のマッピングが間違っていた → 正しい構造に修正
-- タグ構造が TUSB と異なっていた → 大文字のカテゴリタグに修正
-
-3. **AI設定システムの実装 (Phase 2)**
-   - `data/ai/function/apply_attributes.mcfunction` の実装
-     - 移動速度、索敵範囲、ノックバック耐性をStorageから適用
-   - `generate_mobs.py` の更新
-     - スプレッドシートの「移動速度」「索敵範囲」「ノックバック耐性」列に対応
-     - キー名を `ai_speed` などアンダースコア区切りに変更
-
-4. **進行度による動的レベル補正 (Phase 2)**
-   - `Progress` (進行度) スコアの導入
-   - レベル計算: `最終LV = 基本LV(Storage) + Global Progress`
-   - ステータス自動補正:
-     - `補正倍率(%) = 100 + (上昇LV × 5)`
-     - Lv1につきステータスが5%ずつ上昇する仕組みを実装
-
-5. **動的レベル表示の実装 (Dynamic Name Display)**
-   - **目的**: 進行度でレベルが上がったとき、名前の表記も `Lv.30` → `Lv.35` のように変化させる。
-   - **実装**:
-     - Generator側で、CustomNameをJSON文字列（リストではなく単一のString Tag `BaseNameJSON`）として出力するように変更（Strict JSON対策）。
-     - Spwan時に `display_level.mcfunction` マクロで、`"BaseNameJSON" + " Lv.$(lv)"` を結合して `CustomName` に適用。
-     - **注意**: `CustomName` は厳密なJSON形式（キーに `"` が必須）でないと、rawテキストが表示されてしまう（SNBT問題）。
-
-6. **敵対・友好タグの自動付与**
-   - Generatorがスプレッドシートの「友好」列（TRUE/FALSE）を読み取る。
-   - TRUEなら `Tags:["FRIENDLY"]`、FALSEなら `Tags:["ENEMY"]` を付与。
-   - **Predicate活用**: `data/lib/predicate/is_enemy.json` は `looking_at` 条件で `ENEMY` タグを持つエンティティか判定する。
-   - これにより「敵を見ている時だけ」発動するアクションが可能になった。
-
-7. **間接攻撃・魔法攻撃の基盤 (Raycast)** (2026-02-01)
-   - **目的**: Interaction Entity越しに、奥にいる敵を攻撃する（視覚的な魔法攻撃など）。
-   - **実装**:
-     - `player:input/click_action`: 左クリック（Interactionへの攻撃）を検知。
-     - `player:magic/sword_raycast`: 視線方向に透明なRayを飛ばし、`ENEMY` タグを持つ敵に当たればダメージを与える。
-     - **アイテムBank (仮)**: `bank:item/001.test_sword` に攻撃力や射程を設定。
-     - 木の剣を持つとこのBankを読み込み、ダイヤ剣並みの威力で攻撃できる。
+### ✅ ステータスシステムの刷新
+1. **Gold System**:
+   - 死にステータスだった `Luck` を削除。
+   - `DroppedGold` を追加し、レベル差によるドロップ額補正 (`Factor`) を実装。
+2. **STR / AGI Simplified**:
+   - 分かりにくい倍率計算を廃止。
+   - `STR 10` = 攻撃力10, `AGI 23` = 速度0.23 (標準) と直感的な数値に対応。
 
 ## 次に取り組むべきタスク
-
-### 優先度：高
-1. **アイテムデータベースの本格化**
-   - スプレッドシートにアイテムリスト（武器・防具）を作成。
-   - Generatorを拡張して `data/bank/item/...` を自動生成するようにする。
-   - 現状の「木の剣＝仮アイテム」のハードコードを撤廃し、NBT（CustomModelDataなど）でアイテムを識別する仕組みへ。
-
-2. **属性耐性の実装 (Phase 3)**
-   - 物理、魔法、炎、爆発などのダメージ倍率設定。
-   - ダメージ計算式の統合。
-
-3. **職業・スキルシステム**
-   - Raycast基盤を使った「遠距離魔法」「範囲魔法」の実装。
-
-## 重要な注意点
-- **MOB設定の変更**: 原則として Google Spreadsheet を編集し、`generate_mobs.py` を実行して反映させること。mcfunctionを直接編集しても上書きされる。
-- **JSON形式**: `CustomName` や `Text Display` などのJSONは、キーをダブルクォートで囲む (`"text":"..."`) ことを徹底する。マクロでSNBT (`text:"..."`) を混ぜると表示崩れの原因になる。
-- **1.21.1 仕様**: マクロや `spawn_egg` の `entity_data` (equipment) の仕様に追従している。
-
----
-**合言葉**: "MinecraftならではのRPG"
-**最終更新**: 2026-02-01
-
+1. **アイテムデータベースの実装**:
+   - スプレッドシート側のアイテム表と連動させる。
+2. **ドロップの実装**:
+   - 現在 `DroppedGold` スコアは設定されているが、死亡時に実際にアイテム/スコアとして付与する処理 (`mob:on_death` 等) が必要。

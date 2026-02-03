@@ -4,3 +4,4 @@
 # mob_id から bank ファイルのパスを決定して register を呼び出す
 # register 内で summon が行われる
     $function bank:mob/$(mob_id)/register
+    function mob:spawn/from_storage

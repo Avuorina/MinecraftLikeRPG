@@ -32,70 +32,71 @@ graph TD
     end
 ```
 
-### 主要コンポーネント
-1.  **左クリック検知 (`lib:left_click`)**
-    *   **Tick処理**: 常に目の前に `interaction` エンティティを維持。
-    *   **Trigger**: `advancement/check_Lclick` (player_hurt_entity) で殴った瞬間をフック。
-2.  **ターゲット特定 (`lib:left_click/target`)**
-    *   視線方向に再帰的なレイキャストを行い、Hitタグを付与。
-3.  **ノックバック計算 (`mob:on_hurt/knockback`)**
-    *   **ベクトル生成**: `rotated as attacker` 状態で `positioned 0 0 0` にAECを召喚してベクトルを取得。
-    *   **倍率適用**: スコアボード (`&XPower`, `&YPower`, `&ZPower`) で強さをXYZ個別に制御。
-    *   **適用**: 計算結果を敵の `Motion` タグに書き込む。
-
 ---
 
 ## 🧟 MOBスポーンシステム
 
 ### 概要
 Pythonジェネレーターで生成されたデータバンクファイル (`bank:mob/...`) を利用し、ID指定でモブを召喚・初期化するフローです。
+データの**定義**と**召喚**が分離されているのが特徴です。
 
 ### フロー図
 ```mermaid
 graph TD
     User["ユーザー/コマンド"] -->|"/function mob:spawn/by_id {id:...}"| SpawnMacro["mob:spawn/by_id"]
-    SpawnMacro -->|ID展開| Register["bank:mob/{id}/register"]
+    SpawnMacro -->|1. データ登録| Register["bank:mob/{id}/register"]
+    SpawnMacro -->|2. 召喚実行| FromStorage["mob:spawn/from_storage"]
 
     subgraph "スポーンエッグ (Spawn Egg)"
         Item["Spawn Egg Item"] -->|設置| AS["Armor Stand (tag:mob.egg_spawn)"]
         AS -->|mob:tickで検知| Tick["mob:tick"]
         Tick -->|Macro起動| EggMacro["mob:spawn/ (.mcfunction)"]
         EggMacro -->|ID抽出| Generic["mob:spawn/generic"]
+        Generic -->|1. データ登録| Register
+        Generic -->|2. 召喚実行| FromStorage
         Generic -->|AS削除| Kill["Kill Armor Stand"]
-        Generic --> SpawnMacro
     end
     
     subgraph "Generator Output (bank)"
-        Register -->|Storage設定| Data["rpg_mob: Stats, Equipment..."]
-        Register -->|Summon| Entity["Entity Summoned at ~ ~ ~"]
+        Register -->|Storage保存| Data["rpg_mob: Stats, Equipment..."]
     end
     
-    Entity -->|初期化関数コール| Setup["mob:setup/apply_from_storage"]
-    
-    subgraph "Initialization"
-        Setup -->|レベル補正| LevelCalc["レベル・ステータス計算"]
-        Setup -->|属性適用| Status["status:apply_mob"]
-        Setup -->|AI設定| AI["ai:apply_attributes"]
+    subgraph "Spawn Process"
+        FromStorage -->|Macro Call| SummonMacro["mob:spawn/macro"]
+        SummonMacro -->|Summon| Entity["Entity Summoned"]
+        SummonMacro -->|Init| Setup["mob:setup/init"]
     end
     
-    Status -->|Attribute設定| Attr["Generic Attribute Macro"]
+    Entity -.-> Setup
+
+    subgraph "Initialization (Init Only)"
+        Setup -->|Load Data| Apply["mob:setup/apply_from_storage"]
+        Apply -->|Calc Factor| LevelCalc["レベル・Gold計算"]
+        Apply -->|Set Attribute| MobStat["status:apply_mob"]
+        Apply -->|Set AI| AI["ai:apply_attributes"]
+        Apply -->|Set Tag| Asset["AssetMOBタグ付与"]
+    end
 ```
 
+### 主要コンポーネントとロジック
 
+#### 1. データ登録 (`bank:mob/.../register`)
+*   Storage (`rpg_mob:`) にモブの定義情報を書き込みます。
+*   **注**: ここでは召喚を行いません。あくまでデータの定義のみです。
 
-### 主要コンポーネント
-1.  **呼び出し (`mob:spawn/by_id`)**
-    *   Macro引数 `{id:"..."}` を受け取り、対応するBankファイルを呼び出すエントリーポイント。
-2.  **スポーンエッグ検知 (`mob:tick`)**
-    *   アーマースタンドとして設置されたスポーンエッグ (`mob.egg_spawn`) を毎tick検知。
-    *   NBTから `RPGMobId` を読み取り、自動的に `mob:spawn/generic` を経由して `by_id` を呼び出します。
-3.  **データ登録 (`bank:mob/.../register`)**
-    *   **生成元**: `generate_mobs.py`
+#### 2. 召喚と初期化 (`mob:spawn/from_storage` -> `macro` -> `init`)
+*   Storageの情報を使って `summon` を行い、直後に `mob:setup/init` を実行します。
+*   `init` は `tag=Init` を持つ新規モブに対して**1回のみ**実行されます（ループ監視は行いません）。
 
-    *   モブ固有のデータ（名前、装備、基礎ステータス）をStorageに保存し、エンティティを召喚します。
-3.  **初期化 (`mob:setup/apply_from_storage`)**
-    *   全モブ共通の初期化ロジック。
-    *   Storageからデータを読み出し、レベル補正などを掛けてスコアボードに展開します。
-4.  **ステータス適用 (`status:apply_mob`)**
-    *   計算されたスコア（STR, DEFなど）を実際のマイクラのAttribute（攻撃力、防具値など）に変換・適用します。
-    *   注: Damage計算をカスタムする場合はここでAttribute設定を行わない場合もあります。
+#### 3. ステータス計算式 (apply_from_storage / apply_mob)
+
+| ステータス | 計算処理 | 最終適用先 |
+| :--- | :--- | :--- |
+| **STR** (攻撃力) | **STR =csv値** (直値) | `attribute atomic:attack_damage` |
+| **AGI** (速度) | **AGI / 100** | `attribute generic.movement_speed` |
+| **DEF** (防御) | **DEF - 5** | `attribute generic.armor` (負なら0) |
+| **Gold** | **csv値 * LevelFactor** | `score @s DroppedGold` |
+| **レベル補正** | **(Lv - BaseLv) * 5%** | 全ステータスに乗算 |
+
+*   **STR/AGI**: 管理しやすいよう、倍率計算などを廃止し、CSVの数値がそのまま反映される直感的な方式を採用しています。
+*   **Gold**: `Luck` ステータスを廃止し、ドロップゴールド (`DroppedGold`) として再実装しました。
