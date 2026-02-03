@@ -1,3 +1,4 @@
+# R: function player:input/tick
 # 攻撃判定の確認と処理 - マルチプレイ対応版
 # 実行者: Interaction Entity (@s)
 

@@ -9,6 +9,9 @@
 # ステータス適用（プレイヤー＆MOB）
     function status:apply
 
+# プレイヤーtick
+    execute as @a run function player:tick
+
 # MP回復
     execute as @a run function status:regen_mp
 

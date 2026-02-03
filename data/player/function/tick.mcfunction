@@ -1,13 +1,13 @@
 # プレイヤーtick
 
 ## レベルアップチェック
-    execute as @a if score @s EXP >= @s nextEXP run function player:level/up
+    execute if score @s EXP >= @s nextEXP run function player:level/up/
 
 ## HP
-    execute as @a at @s run function player:status/hp/
+    execute at @s run function player:status/hp/
 
 ## スニーク検知
-    execute as @a at @s run function player:trigger/
+    execute at @s run function player:trigger/
 
 ## 入力検知 (実装難易度が高いため未実装)
     #execute as @a at @s run function player:input/tick

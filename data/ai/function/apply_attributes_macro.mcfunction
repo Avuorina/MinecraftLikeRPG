@@ -1,3 +1,4 @@
+## R: function ai:apply_attributes
 # AI属性適用 (マクロ本体)
 # 引数: $(ai_speed), $(ai_follow_range), $(ai_knockback_resistance)
 
