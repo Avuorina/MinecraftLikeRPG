@@ -55,6 +55,15 @@ Pythonジェネレーターで生成されたデータバンクファイル (`ba
 graph TD
     User["ユーザー/コマンド"] -->|"/function mob:spawn/by_id {id:...}"| SpawnMacro["mob:spawn/by_id"]
     SpawnMacro -->|ID展開| Register["bank:mob/{id}/register"]
+
+    subgraph "スポーンエッグ (Spawn Egg)"
+        Item["Spawn Egg Item"] -->|設置| AS["Armor Stand (tag:mob.egg_spawn)"]
+        AS -->|mob:tickで検知| Tick["mob:tick"]
+        Tick -->|Macro起動| EggMacro["mob:spawn/ (.mcfunction)"]
+        EggMacro -->|ID抽出| Generic["mob:spawn/generic"]
+        Generic -->|AS削除| Kill["Kill Armor Stand"]
+        Generic --> SpawnMacro
+    end
     
     subgraph "Generator Output (bank)"
         Register -->|Storage設定| Data["rpg_mob: Stats, Equipment..."]
@@ -73,11 +82,16 @@ graph TD
 ```
 
 
+
 ### 主要コンポーネント
 1.  **呼び出し (`mob:spawn/by_id`)**
     *   Macro引数 `{id:"..."}` を受け取り、対応するBankファイルを呼び出すエントリーポイント。
-2.  **データ登録 (`bank:mob/.../register`)**
+2.  **スポーンエッグ検知 (`mob:tick`)**
+    *   アーマースタンドとして設置されたスポーンエッグ (`mob.egg_spawn`) を毎tick検知。
+    *   NBTから `RPGMobId` を読み取り、自動的に `mob:spawn/generic` を経由して `by_id` を呼び出します。
+3.  **データ登録 (`bank:mob/.../register`)**
     *   **生成元**: `generate_mobs.py`
+
     *   モブ固有のデータ（名前、装備、基礎ステータス）をStorageに保存し、エンティティを召喚します。
 3.  **初期化 (`mob:setup/apply_from_storage`)**
     *   全モブ共通の初期化ロジック。
