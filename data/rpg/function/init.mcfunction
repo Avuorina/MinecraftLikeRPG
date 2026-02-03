@@ -3,6 +3,7 @@
 
 
 # ワールド設定
+    forceload add 0 0
     gamerule natural_health_regeneration false
     gamerule spawn_mobs false
     gamerule advance_weather false

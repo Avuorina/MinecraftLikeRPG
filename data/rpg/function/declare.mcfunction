@@ -28,6 +28,7 @@
         scoreboard objectives add _ dummy "一時保存用"
         scoreboard objectives add Initialized dummy "初期化の有無"
         scoreboard objectives add Const dummy "定数"
+        scoreboard objectives add PortalCooldown dummy "ポータルクールダウン"
 
     # 検知用
         scoreboard objectives add Kills minecraft.custom:minecraft.mob_kills

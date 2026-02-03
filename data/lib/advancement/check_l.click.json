@@ -1,0 +1,15 @@
+{
+  "criteria": {
+    "trigger": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "nbt": "{Tags:[\"check.Lclick\"]}"
+        }
+      }
+    }
+  },
+  "rewards": {
+    "function": "lib:left_click/attacked"
+  }
+}

@@ -53,5 +53,8 @@
         execute store result storage rpg_mob: lv int 1 run scoreboard players get @s LV
         function mob:setup/level/ with storage rpg_mob:
 
-    # 初期化済みタグ付与
-        tag @s add mob.initialized
+# アトリビュートに代入
+    function status:apply_mob
+
+# 初期化済みタグ付与
+    tag @s add mob.initialized
