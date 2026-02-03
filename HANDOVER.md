@@ -23,6 +23,9 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
   - **安全性**: 計算誤差による即死を防ぐため、HPスコアが1以上なら最低でもハート半個（Health 1）を保証。
 - レベルアップ、ステータス成長、アクションバーHUD実装済み。
 
+### Development Rules
+- **Documentation**: When asked to "summarize" (まとめて), place the file in the project root (`MinecraftLikeRPG/`).
+
 ### 3. MOB生成システム (MOB Generator) ← **完成！(2026-01-30)**
 
 #### 3.1. 自動生成ツール
