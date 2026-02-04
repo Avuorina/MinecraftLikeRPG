@@ -1,7 +1,8 @@
 # R:advancement lib:check_Lclick
 
 # 与えたダメージを一時スコアに代入
-    scoreboard players operation &DmgDealt _ = @s STR
+    function player:status/atk/update
+    scoreboard players operation &DmgDealt _ = @s ATK
 
 # 敵を殴ったね！？
     execute at @s anchored eyes positioned ^ ^ ^ positioned ~-0.125 ~-0.125 ~-0.125 run function lib:left_click/target
