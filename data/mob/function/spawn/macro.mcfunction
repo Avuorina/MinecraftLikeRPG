@@ -1,3 +1,9 @@
+#> mob:spawn/macro
+#
+#
+#
+# @within function mob:spawn/from_storage
+
 # generic summon macro
 # Arguments: $(id), $(Tags)
 

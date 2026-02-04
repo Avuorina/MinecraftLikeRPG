@@ -1,4 +1,11 @@
-# TODO
+#> mob:on_hurt/knockback/
+#
+#
+#
+# @within function mob:on_hurt/hit
+
+
+#TODO
 # 攻撃したプレイヤーの設定
 # XZ方向へのふっとばし補正 e) scoreboard players set &XPower _ 100
 # Y方向へのふっとばし補正 e) scoreboard players set &YPower _ 100

@@ -1,4 +1,9 @@
-say setup byStorage
+#> mob:setup/apply_from_storage
+#
+#
+#
+# @within function mob:setup/init
+
 # レベル計算
 # 基準レベル読み込み
     execute store result score @s LV_Base run data get storage rpg_mob: レベル

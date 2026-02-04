@@ -1,4 +1,8 @@
-### 攻撃されたモブに対する処理
+#> mob:on_hurt/hit
+#
+# 攻撃されたモブに対する処理
+#
+# @within function lib:left_click/attacked
 
 # ノックバック
 # Attackerの向きに合わせて実行

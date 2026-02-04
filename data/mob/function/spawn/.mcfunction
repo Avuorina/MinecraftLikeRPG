@@ -1,3 +1,9 @@
+#> mob:spawn/
+#
+#
+#
+# @within function mob:tick
+
 # アーマースタンドの頭装備からMOB IDを読み取ってスポーン
 # マクロ引数: equipment.head.components."minecraft:custom_data" (RPGMobId を持っている)
 

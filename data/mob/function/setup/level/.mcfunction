@@ -1,3 +1,9 @@
+#> mob:setup/level/
+#
+#
+#
+# @within function mob:setup/apply_from_storage
+
 # レベル表示の更新 (マクロ)
 # 実行者: モブ (@s)
 # マクロ引数: lv (現在レベル)

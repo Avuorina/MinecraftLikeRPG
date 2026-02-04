@@ -1,4 +1,8 @@
-# R:advancement lib:check_Lclick
+#> lib:left_click/attacked
+#
+#
+#
+# @within advancement lib:check_Lclick
 
 # 与えたダメージを一時スコアに代入
     function player:status/atk/update

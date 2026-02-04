@@ -1,3 +1,9 @@
+#> mob:spawn/by_id
+#
+#
+#
+# @private
+
 # ID指定でMOBを召喚するマクロ (spawn_by_id)
 # Arguments: {id:"001.test_man"}
 

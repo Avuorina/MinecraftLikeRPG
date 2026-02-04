@@ -1,3 +1,9 @@
+#> mob:setup/level/apply
+#
+#
+#
+# @within function mob:setup/level/
+
 # レベル表示の適用 (マクロ)
 # 実行者: モブ (@s)
 # マクロ引数:

@@ -1,8 +1,11 @@
-# mob:setup/init
-# モブ召喚後の初期化エントリーポイント
+#> mob:setup/init
+#
+#
+#
+# @within function mob:setup/generator/apply
 
 tag @s add AssetMOB
-say Init
+
 # Storageからのステータス・装備適用
     function mob:setup/apply_from_storage
 
