@@ -4,7 +4,7 @@
 #
 # @within function mob:setup/generator/apply
 
-tag @s add AssetMOB
+tag @s add BankMOB
 
 # Storageからのステータス・装備適用
     function mob:setup/apply_from_storage
@@ -20,3 +20,7 @@ tag @s add AssetMOB
 
 # 初期化済みタグ付与
     tag @s add mob.initialized
+
+# 初期スキル実行（Dispatcher: bank内 .mcfunction）
+    function bank:mob/
+

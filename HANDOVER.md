@@ -103,3 +103,65 @@ python generate_mobs.py
 ### 3. アイテム・ドロップ実装
 - スプレッドシート連動のアイテムDB作成。
 - `DroppedGold` のドロップ処理実装。
+
+### 4. ユーザーTODO
+- MOBにHPバーを表示する
+## 最近の変更履歴 (2026-02-08)
+
+### ✅ Initスキルシステムの刷新
+- **Tag Control**: `init` スキルは `Init` タグで制御するように変更。
+- **Conditional Execution**: 
+    - Tick実行ファイル（末端の `.mcfunction`）で `Init` タグを検知。
+    - `tag=Init` がある場合のみ `init.mcfunction` を呼び出し、直後にタグを削除。
+    - これにより `return` を使わずに済み、後続のターン制処理などが記述可能になった。
+- **Safety Fix**: `mob:setup/apply_nbt` で `Init` タグを削除していた処理をコメントアウト（Tick側で処理するため必須）。
+
+### ✅ Spawn Systemの修正 (Initタグ欠落問題)
+- **原因**: スポーンエッグ経由の召喚で `register` 関数が呼ばれておらず、`Init` タグが付与されていなかった。
+- **対策**: `mob:spawn/.mcfunction` を修正し、`debug:summon/{ID}` を呼び出すように変更。
+    - `debug:summon` は正しく `register` (データ登録) + `spawn` を行う構造になっているため、これを再利用。
+
+### ✅ 手動ディスパッチャーへの統合
+- ユーザーが作成した階層構造 (`bank:mob/.mcfunction` -> `global` -> `ground` ...) にシステムを統合。
+- `mob:tick` から `execute as @e[tag=AssetMOB] run function bank:mob/` を呼び出すように変更。
+- 全ての `AssetMOB` が毎Tickディスパッチャーを経由してスキルチェックを行う。
+
+### ✅ Skill Execution Cleanup
+- `skill:execute` (`data/skill/function/execute.mcfunction`) の末尾に `data remove storage rpg_skill: data` を追加。
+- スキル実行後、ストレージに残ったデータをクリーンアップして誤動作を防止。
+
+## ターン制スキル実装草案 (Turn-based / Interval Skills)
+
+### 概要
+- `init` による1回切りの実行だけでなく、一定間隔（ターン/秒数）ごとのスキル発動を実装する。
+- 全ての `AssetMOB` は `mob:tick` -> ディスパッチャー経由で、毎Tick末端の `.mcfunction` を通過している。これを利用する。
+
+### 実装イメージ (末端 .mcfunction)
+現在、`generate_mobs.py` が生成する `001.goblin/.mcfunction` は以下のようになっています：
+
+```mcfunction
+# Init Check
+execute if entity @s[tag=Init] run function .../init
+execute if entity @s[tag=Init] run tag @s remove Init
+
+# ▼ ここにターン制ロジックを追記可能 ▼
+
+# 例: 100Tickごとに "SpecialAttack" を発動
+# 1. タイマー加算
+scoreboard players add @s Timer 1
+
+# 2. 判定 & 実行
+execute if score @s Timer matches 100.. run function .../special_attack
+execute if score @s Timer matches 100.. run scoreboard players set @s Timer 0
+```
+
+### 今後の手順
+1. **Generator更新**:
+    - Spreadsheetに `Interval` や `TurnSkill` の定義列を追加（要検討）。
+    - `generate_mobs.py` を更新し、`init` 以外のトリガー（例: `interval_100`）があった場合、上記のようなタイマーロジックを `.mcfunction` に自動追記するようにする。
+2. **手動実装**:
+    - 特殊なボスなど、複雑な条件が必要な場合は生成後の `.mcfunction` に直接記述する。
+
+### 注意点
+- **負荷**: 全てのMOBが毎Tickスコアボード計算を行うことになるため、MOB数が大量に増えた場合の負荷に注意。
+- **タグ制御**: 頻繁な実行を避けるため、距離判定 (`distance=..16`) や視線判定などを `execute` 条件に加えることを推奨。

@@ -27,4 +27,4 @@
         data modify entity @s equipment.head set from storage rpg_mob: "見た目".ArmorItems[3]
 
     # Init タグを削除（初期化完了）
-        tag @s remove Init
+        #tag @s remove Init
