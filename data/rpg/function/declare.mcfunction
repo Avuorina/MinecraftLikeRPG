@@ -40,6 +40,7 @@
 
     # トリガー
         scoreboard objectives add Menu trigger "メニュースコア"
+        scoreboard objectives add Reach dummy "リーチ"
 
     # 定数
         function rpg:box
@@ -47,3 +48,5 @@
     ## チーム
         team add ENEMY
         team modify ENEMY displayName "敵"
+        team add DEBUG
+        team modify DEBUG color gray
