@@ -28,6 +28,7 @@
         scoreboard objectives add Factor dummy "ステータス補正倍率"
         scoreboard objectives add Interval dummy "インターバル"
         scoreboard objectives add Turn dummy "ターン"
+        scoreboard objectives add Random dummy "乱数"
 
     # 内部用スコアボード
         scoreboard objectives add Timer dummy "タイマー"

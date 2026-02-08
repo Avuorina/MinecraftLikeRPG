@@ -5,3 +5,4 @@ function skill:execute
 # 次のターンのセットアップ
 scoreboard players set @s Interval 60
 scoreboard players set @s Turn 1
+say turn 3
