@@ -26,6 +26,8 @@
         scoreboard objectives add SneakFrequency dummy "スニーク頻度"
         scoreboard objectives add Progress dummy "進行度"
         scoreboard objectives add Factor dummy "ステータス補正倍率"
+        scoreboard objectives add Interval dummy "インターバル"
+        scoreboard objectives add Turn dummy "ターン"
 
     # 内部用スコアボード
         scoreboard objectives add Timer dummy "タイマー"

@@ -100,3 +100,58 @@ graph TD
 
 *   **STR/AGI**: 管理しやすいよう、倍率計算などを廃止し、CSVの数値がそのまま反映される直感的な方式を採用しています。
 *   **Gold**: `Luck` ステータスを廃止し、ドロップゴールド (`DroppedGold`) として再実装しました。
+
+---
+
+## 🧙‍♂️ スキルシステム (Skill execution & Turn management)
+
+### 概要
+Google Spreadsheetで定義されたデータに基づき、MOBが定期的にスキルを発動するシステムです。「ターン制」と「インターバル制」を組み合わせ、複雑な行動パターンを実現します。
+
+### フロー図
+```mermaid
+graph TD
+    subgraph "初期化 (Spawn & Setup)"
+        Spawn[MOBスポーン] --> InitCheck{Initタグ確認}
+        InitCheck -->|あり| InitFunc[init.mcfunction]
+        InitFunc -->|Turn=1, Interval=60設定| ScoreSetup[スコアボード初期化]
+        ScoreSetup -->|タグ削除| InitCheck
+    end
+
+    subgraph "Tick処理 (Timer Management)"
+        Tick[Tick関数 (.mcfunction)] --> IntervalDec[Interval -1]
+        IntervalDec --> Check{Interval <= 0?}
+        Check -->|Yes| Distributor[turn_distributor]
+        Check -->|No| Wait[待機]
+    end
+
+    subgraph "ターン分岐 (Turn Distribution)"
+        Distributor -->|Turn=1| Turn1[turn_1.mcfunction]
+        Distributor -->|Turn=2| Turn2[turn_2.mcfunction]
+        Distributor -->|Turn=3| Turn3[turn_3.mcfunction]
+        Distributor -->|その他| Reset[Turn=1にリセット]
+    end
+
+    subgraph "スキル実行 (Action & Transition)"
+        Turn1 -->|JSON保存| Storage[data modify storage rpg_skill]
+        Storage -->|関数呼出| Exec[skill:execute]
+        Exec -->|マクロ展開| Macro[各スキル関数 (Motion/ChangeNBT/Attack)]
+        
+        Turn1 -->|MP消費| MPCost[MP減算]
+        Turn1 -->|次ターン設定| NextSetup[Turn++, Next Interval設定]
+    end
+```
+
+### 主要コンポーネント
+1.  **Tickルート (`.mcfunction`)**
+    *   **役割**: 毎Tick実行されるメインループ。
+    *   **処理**: `Interval` スコアを減算し、0になったら `turn_distributor` を呼び出します。
+2.  **ターン振り分け (`turn_distributor.mcfunction`)**
+    *   **役割**: 現在の `Turn` スコアを見て、実行すべきターンファイル (`turn/turn_X.mcfunction`) に分岐させます。
+3.  **ターンアクション (`turn/turn_X.mcfunction`)**
+    *   **スキル準備**: 発動するスキルのJSONデータを `rpg_skill` ストレージに格納します。
+    *   **スキル実行**: `function skill:execute` を呼び出し、ストレージ内のデータに基づいて実際のスキル（移動、NBT変更、攻撃など）を発動させます。
+    *   **次ターン移行**: 次のターンの番号 (`Turn`) と待機時間 (`Interval`) をセットします。
+4.  **スキル実行 (`skill:execute`)**
+    *   **役割**: 汎用的なスキル実行関数。
+    *   **仕組み**: ストレージ内の `Skill` フィールド（例: "Motion"）を読み取り、対応するスキル関数群 (`skill/motion/declare`, `check`, `run`) へとマクロを使って動的にディスパッチします。

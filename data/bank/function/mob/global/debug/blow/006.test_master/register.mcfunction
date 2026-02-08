@@ -46,4 +46,3 @@ data modify storage rpg_mob: ai_knockback_resistance set value 0
 # 召喚 & セットアップ
 # 召喚は mob:spawn/from_storage 側で実行されるため、ここではデータ定義のみ行う
 # (registerからは summon しない)
-#say register
