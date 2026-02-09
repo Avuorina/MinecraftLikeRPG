@@ -9,8 +9,8 @@
     execute rotated as @p[tag=Attacker] run function mob:on_hurt/knockback/
 
 # ダメージ演出/回復
-    execute if entity @s[type=#mob:undead] run effect give @s instant_health 1 1 true
-    execute if entity @s[type=#mob:undead] run effect give @s instant_damage 1 10 true
+    execute if entity @s[type=#lib:undead] run effect give @s instant_health 1 1 true
+    execute if entity @s[type=#lib:every_mob] run effect give @s instant_damage 1 10 true
 
 # ダメージ処理
 

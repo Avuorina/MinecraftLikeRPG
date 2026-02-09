@@ -18,6 +18,9 @@ tag @s add BankMOB
 # アトリビュートに代入
     function status:apply_mob
 
+# IDを設定
+    function mob:setup/id
+
 # 初期化済みタグ付与
     tag @s add mob.initialized
 

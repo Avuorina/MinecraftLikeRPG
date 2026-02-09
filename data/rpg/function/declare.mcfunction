@@ -22,13 +22,15 @@
         scoreboard objectives add LUCK dummy "幸運"
         scoreboard objectives add GOLD dummy "ゴールド"
         scoreboard objectives add DroppedGold dummy "ドロップゴールド"
-        scoreboard objectives add DmgReceived dummy "受けるダメージ"
+        scoreboard objectives add DmgReceived dummy "受ダメージ"
         scoreboard objectives add SneakFrequency dummy "スニーク頻度"
         scoreboard objectives add Progress dummy "進行度"
         scoreboard objectives add Factor dummy "ステータス補正倍率"
         scoreboard objectives add Interval dummy "インターバル"
         scoreboard objectives add Turn dummy "ターン"
         scoreboard objectives add Random dummy "乱数"
+        scoreboard objectives add MobID dummy "MobID"
+        scoreboard objectives add DmgDealt dummy "与ダメージ"
 
     # 内部用スコアボード
         scoreboard objectives add Timer dummy "タイマー"
