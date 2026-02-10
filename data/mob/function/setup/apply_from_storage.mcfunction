@@ -8,18 +8,19 @@
 # 基準レベル読み込み
     execute store result score @s LV_Base run data get storage rpg_mob: レベル
 
-# 現在レベル = 基準 + 進行度
+# レベル差 (Factor) = 基準レベル + 進行度
+    scoreboard players operation @s Factor = @s LV_Base
     scoreboard players operation @s LV = @s LV_Base
-    scoreboard players operation @s LV += Global Progress
-
-# レベル差 (Factor) = 現在 - 基準
-    scoreboard players operation @s Factor = @s LV
-    scoreboard players operation @s Factor -= @s LV_Base
+    scoreboard players operation @s Factor += $Global Progress
 
 # 補正倍率算出 (100分率)
 # Factor = 100 + (LevelDiff * 5)
     scoreboard players operation @s Factor *= $5 Const
     scoreboard players add @s Factor 100
+
+# レベル
+    scoreboard players operation @s LV *= @s Factor
+    scoreboard players operation @s LV /= $100 Const
 
 # ステータス読み込み & 補正適用
 # MaxHP

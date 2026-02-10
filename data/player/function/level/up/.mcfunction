@@ -55,6 +55,8 @@
     tellraw @a [{"bold":true,"color":"yellow","text":">"},{"color":"gold","text":"> "},{"bold":false,"color":"white","selector":"@s"},{"bold":false,"text":"がレベルアップしました！"},{"bold":false,"color":"gray","text":"("},{"bold":false,"color":"gray","score":{"name":"$Before","objective":"LV"}},{"bold":false,"color":"gray","text":"→"},{"bold":false,"color":"gray","score":{"name":"@s","objective":"LV"}},{"bold":false,"color":"gray","text":")"}]
     execute at @s run playsound entity.player.levelup master @s ~ ~ ~ 1 1
     execute at @s run particle minecraft:totem_of_undying ~ ~1 ~ 0.5 1 0.5 0.1 50
+
+    function player:status/hp/update
 # Reset
     scoreboard players reset $lv _
     scoreboard players reset $Tortal Progress

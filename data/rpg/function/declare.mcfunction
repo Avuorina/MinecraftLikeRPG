@@ -15,6 +15,7 @@
         scoreboard objectives add StatusPoint dummy "ステータスポイント"
         scoreboard objectives add STR dummy "筋力"
         scoreboard objectives add ATK dummy "攻撃力"
+        scoreboard objectives add WeaponATK dummy "武器攻撃力"
         scoreboard objectives add DEF dummy "防御力"
         scoreboard objectives add AGI dummy "瞬発力"
         scoreboard objectives add INT dummy "知力"

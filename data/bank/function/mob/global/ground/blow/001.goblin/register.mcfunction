@@ -31,7 +31,7 @@ data modify storage rpg_mob: "見た目".HandItems[0] merge value {}
 data modify storage rpg_mob: "見た目".HandItems[1] merge value {}
 
 # ステータス
-data modify storage rpg_mob: "レベル" set value 1
+data modify storage rpg_mob: "レベル" set value 2
 data modify storage rpg_mob: "最大HP" set value 20
 data modify storage rpg_mob: "物理攻撃力" set value 10
 data modify storage rpg_mob: "物理防御力" set value 5

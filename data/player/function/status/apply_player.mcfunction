@@ -1,22 +1,18 @@
-# ステータス適用（プレイヤー用）
-# スコアボードの値をMinecraftのAttributeに反映
-# @sとして実行される
+#> player:status/apply_player
+#
+# ステータス自動更新用？
+#
+# @within function player:tick
 
-# --- HP表示 ---
-# max_health は常に20（ハート10個）に固定
-    attribute @s minecraft:max_health base set 20
+## お腹いっぱい！
+    effect give @s saturation infinite 0 true
 
-# HP割合計算: Heart = (hp/max_hp)*20
-#scoreboard players operation @s _ = @s HP
-#scoreboard players operation @s _ *= 10000000 _
-#scoreboard players operation @s _ /= @s MaxHP
-#scoreboard players operation @s _ *= 20 _
-#execute if score @s HP matches 1.. if score @s _ matches ..0 run scoreboard players set @s _ 1
-#execute store result entity @s Health float 1 run scoreboard players get @s _
+## HP
+    function player:status/hp/
+
 
 # --- 攻撃力適用 ---
 # STRによる倍率計算 (atk/update)
-    function player:status/atk/update
 
 # --- 防御力適用 ---
 # def を装甲値に変換

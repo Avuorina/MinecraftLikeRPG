@@ -33,10 +33,11 @@
 
     ## ステータス上昇成功
         execute if score @s Menu matches 101..108 if score @s StatusPoint matches 1.. run playsound entity.player.levelup master @s ~ ~ ~ 1 2
-        execute if score @s Menu matches 101..108 if score @s StatusPoint matches 1.. run scoreboard players remove @s StatusPoint 1
-
         # もう一度表示させる
             execute if score @s Menu matches 101..199 if score @s StatusPoint matches 1.. run function player:status/allocation_screen
+        execute if score @s Menu matches 101..108 if score @s StatusPoint matches 1.. run scoreboard players remove @s StatusPoint 1
+
+        
 
 #リセット
     scoreboard players set @s Menu 0

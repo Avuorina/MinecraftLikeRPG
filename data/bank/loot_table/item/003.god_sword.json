@@ -5,16 +5,17 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:netherite_sword",
+          "name": "minecraft:carrot_on_a_stick",
           "functions": [
             {
               "function": "minecraft:set_components",
               "components": {
                 "minecraft:custom_data": {
-                  "BankItem": {
-                    "ID": "003.god_sword",
-                    "Stats": {
+                  "BankItem": [
+                    {
+                      "ID": "003.god_sword",
                       "ATK": 100.0,
+                      "ATKSpeed": 10.0,
                       "HP": 100.0,
                       "MP": 100.0,
                       "STR": 100.0,
@@ -22,27 +23,23 @@
                       "INT": 100.0,
                       "AGI": 100.0,
                       "LUCK": 100.0
-                    },
-                    "WeaponType": "sword"
-                  }
+                    }
+                  ]
                 }
               }
             },
             {
               "function": "minecraft:set_name",
               "entity": "this",
-              "name": [
-                "",
-                {
-                  "text": "さいきょー剣",
-                  "color": "gold",
-                  "bold": false,
-                  "italic": false,
-                  "underlined": false,
-                  "strikethrough": false,
-                  "obfuscated": false
-                }
-              ]
+              "name": {
+                "text": "さいきょー剣",
+                "color": "gold",
+                "bold": false,
+                "italic": false,
+                "underlined": false,
+                "strikethrough": false,
+                "obfuscated": false
+              }
             },
             {
               "function": "minecraft:set_lore",
@@ -67,29 +64,10 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  3.0
+                  3
                 ],
                 "mode": "replace_all"
               }
-            },
-            {
-              "function": "minecraft:set_attributes",
-              "modifiers": [
-                {
-                  "attribute": "minecraft:attack_damage",
-                  "id": "minecraft:base_attack_damage",
-                  "amount": 99.0,
-                  "operation": "add_value",
-                  "slot": "mainhand"
-                },
-                {
-                  "attribute": "minecraft:attack_speed",
-                  "id": "minecraft:base_attack_speed",
-                  "amount": 6.0,
-                  "operation": "add_value",
-                  "slot": "mainhand"
-                }
-              ]
             }
           ]
         }

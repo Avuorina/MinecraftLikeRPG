@@ -5,37 +5,35 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:wooden_axe",
+          "name": "minecraft:carrot_on_a_stick",
           "functions": [
             {
               "function": "minecraft:set_components",
               "components": {
                 "minecraft:custom_data": {
-                  "BankItem": {
-                    "ID": "002.test_axe",
-                    "Stats": {
+                  "BankItem": [
+                    {
+                      "ID": "002.test_axe",
+                      "ATK": 7.0,
+                      "ATKSpeed": 0.8,
                       "LUCK": -1.0
-                    },
-                    "WeaponType": "axe"
-                  }
+                    }
+                  ]
                 }
               }
             },
             {
               "function": "minecraft:set_name",
               "entity": "this",
-              "name": [
-                "",
-                {
-                  "text": "木の斧",
-                  "color": "green",
-                  "bold": false,
-                  "italic": false,
-                  "underlined": false,
-                  "strikethrough": false,
-                  "obfuscated": false
-                }
-              ]
+              "name": {
+                "text": "木の斧",
+                "color": "green",
+                "bold": false,
+                "italic": false,
+                "underlined": false,
+                "strikethrough": false,
+                "obfuscated": false
+              }
             },
             {
               "function": "minecraft:set_lore",
@@ -78,29 +76,10 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  2.0
+                  2
                 ],
                 "mode": "replace_all"
               }
-            },
-            {
-              "function": "minecraft:set_attributes",
-              "modifiers": [
-                {
-                  "attribute": "minecraft:attack_damage",
-                  "id": "minecraft:base_attack_damage",
-                  "amount": 4.0,
-                  "operation": "add_value",
-                  "slot": "mainhand"
-                },
-                {
-                  "attribute": "minecraft:attack_speed",
-                  "id": "minecraft:base_attack_speed",
-                  "amount": -3.3,
-                  "operation": "add_value",
-                  "slot": "mainhand"
-                }
-              ]
             }
           ]
         }

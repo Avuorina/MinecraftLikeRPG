@@ -8,6 +8,7 @@
     execute if data storage rpg_skill: data{Skill:"Motion"} run function skill:motion/execute
     execute if data storage rpg_skill: data{Skill:"ChangeNBT"} run function skill:change_nbt/execute
     execute if data storage rpg_skill: data{Skill:"Attack"} run function skill:attack/execute
+    execute if data storage rpg_skill: data{Skill:"ChangeStatus"} run function skill:change_status/execute
 
 # 適宜RESET
     data remove storage rpg_skill: data

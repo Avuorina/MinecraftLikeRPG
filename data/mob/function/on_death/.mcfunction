@@ -18,7 +18,7 @@
 
 ## display
     execute at @s positioned ~ ~2 ~ run summon text_display ~ ~ ~ {billboard:"center",Tags:["Loot","TimerKill"],text:[{"bold":false,"color":"dark_aqua","text":"獲得EXP："},{"bold":true,"color":"white","score":{"name":"$EXP","objective":"EXP"}},{"bold":false,"color":"gold","text":"\n獲得GOLD："},{"bold":true,"color":"white","score":{"name":"$DropGold","objective":"DropGold"}}]}
-    execute at @s run scoreboard players set @e[type=text_display,tag=Loot,limit=1,sort=nearest] Timer 40
+    execute at @s run scoreboard players set @e[type=text_display,tag=Loot,limit=1,sort=nearest] Timer 100
 ## tellraw
     tellraw @p[tag=Attacker] [{"text":"獲得EXP：","color":"dark_aqua"},{"score":{"name":"$EXP","objective":"EXP"},"color":"white"},{"text":"\n獲得GOLD：","color":"gold"},{"score":{"name":"$DropGold","objective":"DropGold"},"color":"white"}]
 

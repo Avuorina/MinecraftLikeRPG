@@ -1,3 +1,9 @@
+#> player:status/hp/update
+#
+#
+#
+# @within function player:status/apply_player
+
 # --- HP表示 ---
 # max_health は常に20（ハート10個）に固定
     #attribute @s minecraft:max_health base set 20
