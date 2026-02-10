@@ -31,12 +31,12 @@ data modify storage rpg_mob: "見た目".HandItems[0] merge value {id:"minecraft
 data modify storage rpg_mob: "見た目".HandItems[1] merge value {}
 
 # ステータス
-data modify storage rpg_mob: "レベル" set value 24
+data modify storage rpg_mob: "レベル" set value 10
 data modify storage rpg_mob: "最大HP" set value 40
 data modify storage rpg_mob: "物理攻撃力" set value 10
 data modify storage rpg_mob: "物理防御力" set value 5
 data modify storage rpg_mob: "素早さ" set value 7
-data modify storage rpg_mob: "ドロップゴールド" set value 3
+data modify storage rpg_mob: "ドロップゴールド" set value 10
 
 # AIパラメータ
 data modify storage rpg_mob: ai_speed set value 0.0000

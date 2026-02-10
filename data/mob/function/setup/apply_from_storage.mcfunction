@@ -45,9 +45,9 @@
 
 
 # Gold
-    execute store result score @s DroppedGold run data get storage rpg_mob: ドロップゴールド
-    scoreboard players operation @s DroppedGold *= @s Factor
-    scoreboard players operation @s DroppedGold /= $100 Const
+    execute store result score @s DropGold run data get storage rpg_mob: ドロップゴールド
+    scoreboard players operation @s DropGold *= @s Factor
+    scoreboard players operation @s DropGold /= $100 Const
 
 # 名前更新 (レベル表示追加)
 # apply_nbt で CustomName が適用された後に実行する必要がある

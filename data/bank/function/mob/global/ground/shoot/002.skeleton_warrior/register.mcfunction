@@ -36,7 +36,7 @@ data modify storage rpg_mob: "最大HP" set value 80
 data modify storage rpg_mob: "物理攻撃力" set value 15
 data modify storage rpg_mob: "物理防御力" set value 10
 data modify storage rpg_mob: "素早さ" set value 5
-data modify storage rpg_mob: "ドロップゴールド" set value 5
+data modify storage rpg_mob: "ドロップゴールド" set value 10
 
 # AIパラメータ
 data modify storage rpg_mob: ai_speed set value 0.5000

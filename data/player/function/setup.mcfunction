@@ -19,6 +19,8 @@ scoreboard players set @s INT 1
 scoreboard players set @s SPD 1
 scoreboard players set @s LUCK 1
 scoreboard players set @s Progress 1
+scoreboard players set @s StatusPoint 0
+scoreboard players set @s GOLD 20
 
 # 進行度も計算し直し
     scoreboard players operation $lv _ = @s LV

@@ -21,7 +21,7 @@
         scoreboard objectives add SPD dummy "速さ"
         scoreboard objectives add LUCK dummy "幸運"
         scoreboard objectives add GOLD dummy "ゴールド"
-        scoreboard objectives add DroppedGold dummy "ドロップゴールド"
+        scoreboard objectives add DropGold dummy "ドロップゴールド"
         scoreboard objectives add DmgReceived dummy "受ダメージ"
         scoreboard objectives add SneakFrequency dummy "スニーク頻度"
         scoreboard objectives add Progress dummy "進行度"
