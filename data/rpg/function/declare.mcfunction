@@ -30,7 +30,7 @@
         scoreboard objectives add Turn dummy "ターン"
         scoreboard objectives add Random dummy "乱数"
         scoreboard objectives add MobID dummy "MobID"
-        scoreboard objectives add DmgDealt dummy "与ダメージ"
+        scoreboard objectives add Reach dummy "リーチ"
 
     # 内部用スコアボード
         scoreboard objectives add Timer dummy "タイマー"
@@ -42,10 +42,10 @@
     # 検知用
         scoreboard objectives add Kills minecraft.custom:minecraft.mob_kills
         scoreboard objectives add SneakTimer minecraft.custom:minecraft.sneak_time "スニークタイマー"
+        scoreboard objectives add DmgDealt minecraft.custom:minecraft.damage_dealt "被ダメージ"
 
     # トリガー
         scoreboard objectives add Menu trigger "メニュースコア"
-        scoreboard objectives add Reach dummy "リーチ"
 
     # 定数
         function rpg:box

@@ -5,5 +5,8 @@
     execute if score @s HP < @s MaxHP run scoreboard players operation @s HPRegenTimer += @s HPRegen
     execute if score @s HPRegenTimer matches 2000.. run function player:status/hp/regen
 
+# バニラのダメージを受けないように
+    effect give @s resistance infinite 5 true
+
 # HPの計算処理
     function player:status/hp/update

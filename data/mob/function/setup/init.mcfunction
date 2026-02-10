@@ -6,7 +6,7 @@
 
 tag @s add BankMOB
 
-# Storageからのステータス・装備適用
+# Storageからのステータス・装備適用 ここでレベルも適用
     function mob:setup/apply_from_storage
 
 # AIパラメータ適用 (移動速度、索敵範囲など)

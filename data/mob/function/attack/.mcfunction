@@ -10,6 +10,10 @@
 # 加害者はおまえ
     execute as @e[type=#lib:every_mob,distance=..100] run function mob:attack/filter/8
 
+# 死亡処理
+    execute if entity @s[scores={HP=..0}] run function player:death
+
 # RESET
     advancement revoke @s only lib:entity_hurt_player
     tag @s remove Victim
+    say REVOKED

@@ -9,6 +9,7 @@
 
 # 敵を殴ったね！？
     function player:attack/update_reach
+        # ここでHitタグをつける
     execute at @s anchored eyes positioned ^ ^ ^ positioned ~-0.125 ~-0.125 ~-0.125 run function player:attack/target
     # Hitタグがついた敵にノックバック
         tag @s add Attacker

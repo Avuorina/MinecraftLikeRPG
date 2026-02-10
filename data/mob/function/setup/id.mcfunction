@@ -11,19 +11,25 @@
     scoreboard players operation $IDtoTag MobID = World MobID
 
 # MobID ➡ Tag
+    # もし MobID= 3なら...?
     execute if score $IDtoTag MobID matches 256.. run tag @s add MobID8.1
+    # 8が付与
     execute unless score $IDtoTag MobID matches 256.. run tag @s add MobID8.0
     execute if score $IDtoTag MobID matches 256.. run scoreboard players remove $IDtoTag MobID 256
     execute if score $IDtoTag MobID matches 128.. run tag @s add MobID7.1
+    # 7が付与
     execute unless score $IDtoTag MobID matches 128.. run tag @s add MobID7.0
     execute if score $IDtoTag MobID matches 128.. run scoreboard players remove $IDtoTag MobID 128
     execute if score $IDtoTag MobID matches 64.. run tag @s add MobID6.1
+    # 6が付与
     execute unless score $IDtoTag MobID matches 64.. run tag @s add MobID6.0
     execute if score $IDtoTag MobID matches 64.. run scoreboard players remove $IDtoTag MobID 64
     execute if score $IDtoTag MobID matches 32.. run tag @s add MobID5.1
+    # 5が付与
     execute unless score $IDtoTag MobID matches 32.. run tag @s add MobID5.0
     execute if score $IDtoTag MobID matches 32.. run scoreboard players remove $IDtoTag MobID 32
     execute if score $IDtoTag MobID matches 16.. run tag @s add MobID4.1
+    # 4が付与
     execute unless score $IDtoTag MobID matches 16.. run tag @s add MobID4.0
     execute if score $IDtoTag MobID matches 16.. run scoreboard players remove $IDtoTag MobID 16
     execute if score $IDtoTag MobID matches 8.. run tag @s add MobID3.1
@@ -38,3 +44,6 @@
     execute if score $IDtoTag MobID matches 1.. run tag @s add MobID0.1
     execute unless score $IDtoTag MobID matches 1.. run tag @s add MobID0.0
     execute if score $IDtoTag MobID matches 1.. run scoreboard players remove $IDtoTag MobID 1
+
+# RESET
+    scoreboard players reset $IDtoTag MobID

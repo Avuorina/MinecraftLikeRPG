@@ -4,5 +4,23 @@
 #
 # @within function mob:attack/filter/0
 
-# 被ダメージ
-    scoreboard players operation @p[tag=Victim] DmgReceived -= @s DmgDealt
+## 被ダメージ
+    # @sの攻撃力を取得
+        scoreboard players operation $DmgDealt _ = @s STR
+        # @p[tag=Victim]の防御力を取得
+            scoreboard players operation $TempDef _ = @p[tag=Victim] DEF
+            # 被ダメージ= 受ダメージ *200/(200+ def*2)
+                scoreboard players operation $DmgDealt _ *= $200 Const
+                scoreboard players operation $TempDef _ *= $2 Const
+                scoreboard players operation $TempDef _ += $200 Const
+                scoreboard players operation $DmgDealt _ /= $TempDef _
+
+            # ダメージ適用
+                scoreboard players operation @p[tag=Victim] DmgReceived = $DmgDealt _
+                scoreboard players operation @p[tag=Victim] HP -= @p[tag=Victim] DmgReceived 
+                #　↑完全に無駄やね。
+
+            # RESET
+                scoreboard players reset @s DmgReceived
+                scoreboard players reset $DmgDealt _
+                scoreboard players reset $TempDef _
