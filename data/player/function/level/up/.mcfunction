@@ -1,6 +1,7 @@
 # レベルアップ処理
 
 # レベル+1
+    scoreboard players operation $Before LV = @s LV
     scoreboard players add @s LV 1
 
 # 経験値を消費
@@ -49,17 +50,16 @@
     scoreboard players operation $Global Progress = $Tortal Progress
 
 # レベルアップ通知
-    tellraw @s [{"text":"═══════════════════════════","color":"gold"}]
-    tellraw @s [{"text":" ★ LEVEL UP! ★","color":"yellow","bold":true}]
-    tellraw @s [{"text":" Level ","color":"gray"},{"score":{"name":"@s","objective":"LV"},"color":"yellow","bold":true}]
-    tellraw @s [{"text":" MaxHP +2  MaxMP +1","color":"green"}]
-    tellraw @s [{"text":" ALL STATS +1","color":"aqua"}]
-    tellraw @s [{"text":"═══════════════════════════","color":"gold"}]
-
+    title @s title {"bold":true,"italic":true,"text":"LEVEL UP!"}
+    title @s subtitle [{"color":"white","text":"lv."},{"bold":true,"color":"gold","score":{"name":"$Before","objective":"LV"}},{"bold":false,"color":"white","text":"→"},{"bold":true,"color":"gold","score":{"name":"@s","objective":"LV"}}]
+    tellraw @a [{"bold":true,"color":"yellow","text":">"},{"color":"gold","text":"> "},{"bold":false,"color":"white","selector":"@s"},{"bold":false,"text":"がレベルアップしました！"},{"bold":false,"color":"gray","text":"("},{"bold":false,"color":"gray","score":{"name":"$Before","objective":"LV"}},{"bold":false,"color":"gray","text":"→"},{"bold":false,"color":"gray","score":{"name":"@s","objective":"LV"}},{"bold":false,"color":"gray","text":")"}]
+    execute at @s run playsound entity.player.levelup master @s ~ ~ ~ 1 1
+    execute at @s run particle minecraft:totem_of_undying ~ ~1 ~ 0.5 1 0.5 0.1 50
 # Reset
     scoreboard players reset $lv _
     scoreboard players reset $Tortal Progress
     scoreboard players reset $PlayerCount _
+    scoreboard players reset $Before LV
 
 # 連続レベルアップチェック
     execute if score @s EXP >= @s nextEXP run function player:level/up/
