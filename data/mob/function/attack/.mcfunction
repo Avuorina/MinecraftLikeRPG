@@ -16,4 +16,4 @@
 # RESET
     advancement revoke @s only lib:entity_hurt_player
     tag @s remove Victim
-    say REVOKED
+    #say REVOKED

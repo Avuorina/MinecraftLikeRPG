@@ -13,8 +13,8 @@
     execute at @s anchored eyes positioned ^ ^ ^ positioned ~-0.125 ~-0.125 ~-0.125 run function player:attack/target
     # Hitタグがついた敵にノックバック
         tag @s add Attacker
-        execute as @s[tag=Attacker] run say I AM ATTACKER
-        execute as @e[tag=Hit,tag=ENEMY,distance=..10] at @s run say I AM HIT
+        #execute as @s[tag=Attacker] run say I AM ATTACKER
+        #execute as @e[tag=Hit,tag=ENEMY,distance=..10] at @s run say I AM HIT
         execute as @e[tag=Hit,tag=ENEMY,distance=..10] at @s run function mob:on_hurt/hit
         execute as @e[tag=ENEMY,type=#lib:every_mob,distance=..100] run function player:attack/filter/8
         tag @s remove Attacker
