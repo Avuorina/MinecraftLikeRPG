@@ -20,8 +20,13 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 ### 2. プレイヤーシステム (`data/player/`)
 - **HPシステム完了**:
     - バケット方式の自動回復、ハート計算、即死防止を実装済み。
+    - `HPRegen` タイマー（2000で+1回復）
+- **MPシステム完了** (2026-02-11):
+    - **MPバー表示**: Vanilla経験値バーを活用
+    - **MP自然回復**: `MPRegen` タイマー方式（HPと同様）
 - **攻撃力計算**:
-    - `data/player/function/status/atk/macro.mcfunction` にて、武器攻撃力を含めた最終ダメージを計算し `ATK` スコアに格納。
+    - `data/player/function/status/atk/update.mcfunction` にて、メインハンド装備の武器攻撃力を含めた最終ダメージを計算し `ATK` スコアに格納。
+    - `BankItem[0]` NBT から ATK, STR, SPD 等を読み取り。
 
 ### 3. MOB生成システム (MOB Generator) ← **完成＆リファクタリング済 (2026-02-03)**
 
@@ -39,7 +44,7 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 - `エリア`, `グループ`, `AI` (カテゴリタグ)
 - `スポーンタグ`: 任意の追加タグ
 - `推定lev`, `HP`, `str`, `def`, `agi`: ステータス
-- `Gold`: ドロップゴールド基礎値 (New!)
+- `Gold`: ドロップゴールド基礎値
 - `AI Speed`, `Follow Range`: AI補正倍率
 
 #### 3.3. 生成されるファイル
@@ -60,21 +65,183 @@ mob:tick (毎tick) -> mob:trigger_spawn -> mob:spawn_generic
                  └─> status:apply_mob (ステータス適用)
 ```
 
-### 4. 実行方法
+### 4. アイテムシステム (Item Generator) ← **完成 (2026-02-11)**
+
+#### 4.1. 自動生成ツール
+- **ツール**: `datapacks/MOBgenerator/generate_items.py`
+- **データソース**: Google Spreadsheet (CSV)
+  - 同じスプレッドシート、別シート「Item」
+- **機能**:
+  - `BankItem` NBT データ生成
+  - `WeaponType` 対応（spear, sword, axe）
+  - 自動Lore生成（ステータス＋アイコン表示）
+
+#### 4.2. Lore自動生成
+- **Speed**: 青色 (`\uE00B` アイコン + 数値)
+- **Bonus Stats**: アイコン + 数値
+  - `\uE005` (ATK), `\uE006` (DEF), `\uE007` (STR), `\uE008` (INT)
+  - `\uE009` (AGI), `\uE00A` (LUCK), `\uE00B` (Speed)
+
+#### 4.3. 武器リーチシステム
+- **実装**: `data/player/function/attack/update_reach.mcfunction`
+- **リーチ値** (1スコア = 0.25ブロック):
+  - 素手: 8 (2.0ブロック)
+  - 剣: 12 (3.0ブロック)
+  - 斧: 10 (2.5ブロック)
+  - 槍: 30 (7.5ブロック)
+
+### 5. MPバー表示システム ← **完成 (2026-02-11)**
+
+#### 5.1. 参考元
+このシステムは以下のプロジェクトを参考に実装:
+- **TUSB (The Unusual SkyBlock)**: https://github.com/TUSB/TheUnusualSkyBlock
+- **RPG-Datapack (HamaSSH)**: https://github.com/HamaSSH/RPG-Datapack
+
+#### 5.2. 実装概要
+Vanilla Experience Barを活用し、以下を実現:
+- **経験値レベル**: 現在のMP値を表示
+- **経験値バー**: `MP / MaxMP` の割合を視覚的に表示
+
+#### 5.3. 技術的特徴
+**動的XP容量計算**:
+- レベル（MP値）に応じた必要経験値をVanilla公式で計算
+- `calc_xp.mcfunction` で実装:
+  - Lv 0-15: `2 × Lv + 7`
+  - Lv 16-30: `5 × Lv - 38`
+  - Lv 31+: `9 × Lv - 158`
+
+**効率的な更新**:
+- `MPRatio` (MP × 1002 / MaxMP) を計算
+- 前回の `PreviousMPRatio` と比較
+- 変化がある場合のみバー更新を実行
+
+#### 5.4. ファイル構成
+```
+player/function/status/mp/
+├── regen/
+│   ├── tick.mcfunction       # MP自然回復 + 割合計算
+│   └── .mcfunction            # 回復実行
+├── bar/
+│   ├── set.mcfunction         # メインロジック
+│   ├── set_level.mcfunction   # Macro: xp set levels
+│   └── set_point.mcfunction   # Macro: xp set points
+└── calc_xp.mcfunction         # XP容量計算
+```
+
+#### 5.5. 処理フロー
+1. `player:tick` → `mp/regen/tick`
+2. `MPRegenTimer` 加算、2000以上で MP+1
+3. `MPRatio` 計算
+4. 変化検出時に `mp/bar/set` 実行
+5. Level設定 → XP容量計算 → Points算出 → 適用
+
+### 6. ドキュメント整備 ← **2026-02-11更新**
+
+以下のドキュメントを最新化:
+- **README.md**: ライセンス変更（WTFPL）、クレジット追加、新機能反映
+- **STATS.md**: MPバー、自然回復、武器リーチの仕様記載
+- **Flow.md**: アイテムステータス適用とMPバーのフロー図追加
+- **mobTASK.md**: 完了タスクに装備システム、MPバー追加
+- **spyglass.json**: シンプルな設定（`gameVersion` のみ）
+
+## 実行方法
+
+### MOB生成
 ```powershell
-cd C:\Users\nhs50030\AppData\Roaming\.minecraft\saves\RPG開発用\datapacks\MOBgenerator
+cd e:\Minecraft\mod\Instances\RPG\saves\RPG開発\datapacks\MOBgenerator
 python generate_mobs.py
 ```
 
-## 最近の変更履歴 (2026-02-04)
+### アイテム生成
+```powershell
+cd e:\Minecraft\mod\Instances\RPG\saves\RPG開発\datapacks\MOBgenerator
+python generate_items.py
+```
 
-### ✅ スポーンシステムのリファクタリング
+## 最近の変更履歴
+
+### 2026-02-11: MPバー＆ドキュメント整備
+
+#### ✅ MPバー表示システム実装
+1. **TUSB/HamaSSH参考の実装**:
+   - 当初、Level 129の固定容量を使用する方式を検討
+   - しかし「レベル=MP」表示との互換性問題により断念
+
+2. **動的XP容量計算への移行**:
+   - 現在のレベル（MP値）における必要経験値を動的計算
+   - `calc_xp.mcfunction` を実装
+   - Vanilla公式に準拠した正確なバー表示を実現
+
+3. **定数追加**:
+   - `$1002 Const` を `box.mcfunction` に追加
+   - MPRatio計算で使用（Level 129の容量に対応）
+
+4. **効率化**:
+   - MP変化時のみバー更新
+   - `PreviousMPRatio` による変化検出
+
+#### ✅ MP自然回復システム
+- `MPRegen`, `MPRegenTimer` スコアボード追加
+- `player:setup` で `MPRegen = 1` 初期化
+- `mp/regen/tick` と `mp/regen/.mcfunction` 実装
+- HP回復と同様のタイマー方式（2000で+1）
+
+#### ✅ ドキュメント更新
+1. **README.md**:
+   - ライセンス: MIT → WTFPL
+   - クレジット: TUSB, HamaSSH, TheSkyBlessing 追加
+   - 新機能（MPバー、カスタムアイテム）反映
+
+2. **STATS.md**:
+   - MPバー表示の仕組み説明
+   - HP/MP自然回復の詳細
+   - 武器リーチ一覧表
+
+3. **Flow.md**:
+   - アイテムステータス適用のMermaid図
+   - MPバー表示システムのMermaid図
+
+4. **mobTASK.md**:
+   - 完了タスクに装備システム（基礎）追加
+   - MPバー、MP自然回復を完了に移動
+
+5. **spyglass.json**:
+   - 無効なプロパティを削除
+   - 最小構成（`gameVersion: "1.21.11"`）
+
+### 2026-02-08: Initスキルシステムの刷新
+
+#### ✅ Initスキルシステムの刷新
+- **Tag Control**: `init` スキルは `Init` タグで制御するように変更。
+- **Conditional Execution**: 
+    - Tick実行ファイル（末端の `.mcfunction`）で `Init` タグを検知。
+    - `tag=Init` がある場合のみ `init.mcfunction` を呼び出し、直後にタグを削除。
+    - これにより `return` を使わずに済み、後続のターン制処理などが記述可能になった。
+- **Safety Fix**: `mob:setup/apply_nbt` で `Init` タグを削除していた処理をコメントアウト（Tick側で処理するため必須）。
+
+#### ✅ Spawn Systemの修正 (Initタグ欠落問題)
+- **原因**: スポーンエッグ経由の召喚で `register` 関数が呼ばれておらず、`Init` タグが付与されていなかった。
+- **対策**: `mob:spawn/.mcfunction` を修正し、`debug:summon/{ID}` を呼び出すように変更。
+    - `debug:summon` は正しく `register` (データ登録) + `spawn` を行う構造になっているため、これを再利用。
+
+#### ✅ 手動ディスパッチャーへの統合
+- ユーザーが作成した階層構造 (`bank:mob/.mcfunction` -> `global` -> `ground` ...) にシステムを統合。
+- `mob:tick` から `execute as @e[tag=AssetMOB] run function bank:mob/` を呼び出すように変更。
+- 全ての `AssetMOB` が毎Tickディスパッチャーを経由してスキルチェックを行う。
+
+#### ✅ Skill Execution Cleanup
+- `skill:execute` (`data/skill/function/execute.mcfunction`) の末尾に `data remove storage rpg_skill: data` を追加。
+- スキル実行後、ストレージに残ったデータをクリーンアップして誤動作を防止。
+
+### 2026-02-04: スポーンシステムのリファクタリング
+
+#### ✅ スポーンシステムのリファクタリング
 1. **Separation of Concerns**:
    - `register` (データ登録) と `summon` (召喚) を完全に分離。
 2. **不要ファイルの削除**:
    - `mob:setup/summon_from_storage.mcfunction` および `..._macro.mcfunction` を削除（現在は使用されていないため）。
 
-### ✅ ユーザーによる修正・改善 (Combat & Visuals)
+#### ✅ ユーザーによる修正・改善 (Combat & Visuals)
 1. **Interactionの調整**:
    - `summon.mcfunction`: 召喚位置を `~ ~-0.2 ~` に調整し、プレイヤーの目線と判定を適合させた。
 2. **戦闘エフェクトの追加**:
@@ -85,50 +252,23 @@ python generate_mobs.py
 
 ## 次に取り組むべきタスク
 
-### 1. 武器ごとのリーチ調整 (Variable Reach)
-**現状の問題**:
-- レイキャスト (`lib:left_click/target`) の距離が `..5` (5ブロック) に固定されている。
-- 素手や剣はこれで良いが、**槍などの長い武器**を作った時に判定が届かない。
-- 一律で `..10` に伸ばすと、剣や素手まで遠くを殴れてしまうため却下された。
+### 1. MOB HPバーを表示する ← **次のタスク**
+- ボスバーまたはtext_displayを使用したHP表示
+- MOBごとに `HP / MaxHP` を視覚化
 
-**提案する解決策 (Scoreboard Recursion)**:
-- `Reach` というスコアを用意し、武器ごとに値を設定する（例: 素手=20, 槍=30）。
-- `target` 関数では `distance` ではなく、このスコアを減算しながら再帰を行う。
-- これにより、**武器種ごとに個別のリーチを設定可能**にする。
+### 2. MOB AI システムの実装
+- AI 設定の Storage 対応
+- 基本 AI パターン（blow, shoot, boss, fly）
+- AI トリガーシステム（tick, attack, hurt, death）
 
-### 2. MPバーのUI変更
-- バニラの経験値バー (Exp Bar) を MP バーとして再利用する。
-- **実装方針**: レベルごとの必要経験値を計算し、`MP / MaxMP` の割合で XP ポイントを付与することで、どのレベルでもバーが正しく機能するようにする。
+### 3. 装備システムの拡張
+- エンチャント効果の実装
+- 防具によるステータス変化
 
-### 3. アイテム・ドロップ実装
-- スプレッドシート連動のアイテムDB作成。
-- `DroppedGold` のドロップ処理実装。
-
-### 4. ユーザーTODO
-- MOBにHPバーを表示する
-## 最近の変更履歴 (2026-02-08)
-
-### ✅ Initスキルシステムの刷新
-- **Tag Control**: `init` スキルは `Init` タグで制御するように変更。
-- **Conditional Execution**: 
-    - Tick実行ファイル（末端の `.mcfunction`）で `Init` タグを検知。
-    - `tag=Init` がある場合のみ `init.mcfunction` を呼び出し、直後にタグを削除。
-    - これにより `return` を使わずに済み、後続のターン制処理などが記述可能になった。
-- **Safety Fix**: `mob:setup/apply_nbt` で `Init` タグを削除していた処理をコメントアウト（Tick側で処理するため必須）。
-
-### ✅ Spawn Systemの修正 (Initタグ欠落問題)
-- **原因**: スポーンエッグ経由の召喚で `register` 関数が呼ばれておらず、`Init` タグが付与されていなかった。
-- **対策**: `mob:spawn/.mcfunction` を修正し、`debug:summon/{ID}` を呼び出すように変更。
-    - `debug:summon` は正しく `register` (データ登録) + `spawn` を行う構造になっているため、これを再利用。
-
-### ✅ 手動ディスパッチャーへの統合
-- ユーザーが作成した階層構造 (`bank:mob/.mcfunction` -> `global` -> `ground` ...) にシステムを統合。
-- `mob:tick` から `execute as @e[tag=AssetMOB] run function bank:mob/` を呼び出すように変更。
-- 全ての `AssetMOB` が毎Tickディスパッチャーを経由してスキルチェックを行う。
-
-### ✅ Skill Execution Cleanup
-- `skill:execute` (`data/skill/function/execute.mcfunction`) の末尾に `data remove storage rpg_skill: data` を追加。
-- スキル実行後、ストレージに残ったデータをクリーンアップして誤動作を防止。
+### 4. スキルシステム
+- アクティブスキル（MP消費）
+- パッシブスキル
+- スキルツリー
 
 ## ターン制スキル実装草案 (Turn-based / Interval Skills)
 
@@ -165,3 +305,21 @@ execute if score @s Timer matches 100.. run scoreboard players set @s Timer 0
 ### 注意点
 - **負荷**: 全てのMOBが毎Tickスコアボード計算を行うことになるため、MOB数が大量に増えた場合の負荷に注意。
 - **タグ制御**: 頻繁な実行を避けるため、距離判定 (`distance=..16`) や視線判定などを `execute` 条件に加えることを推奨。
+
+## 重要な参考資料
+
+### コーディング規約
+- **定数**: `$数値 Const` 形式（例: `$100 Const`, `$1002 Const`）
+- **一時スコア**: `$変数名 _` 形式（例: `$XPLevel _`, `$TargetPoints _`）
+- **スコアボード命名**: 
+  - Objective: `snake_case` 推奨
+  - ScoreHolder: `$.*` パターン（一時変数）
+- **NBT命名**: `PascalCase` 推奨
+
+### 参考プロジェクト
+- **TUSB**: https://github.com/TUSB/TheUnusualSkyBlock
+- **RPG-Datapack (HamaSSH)**: https://github.com/HamaSSH/RPG-Datapack
+- **TheSkyBlessing**: https://github.com/ProjectTSB/TheSkyBlessing
+
+### ライセンス
+**WTFPL** (DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE)
