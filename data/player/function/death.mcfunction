@@ -10,3 +10,5 @@
 # 全快
     scoreboard players operation @s HP = @s MaxHP
     scoreboard players operation @s MP = @s MaxMP
+
+    function player:status/hp/update
