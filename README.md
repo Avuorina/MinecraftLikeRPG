@@ -24,7 +24,7 @@ MinecraftならではのRPG体験を提供するデータパックです。
 
 ## 対応バージョン
 
-- Minecraft Java Edition 1.21.1
+- Minecraft Java Edition 1.21.11
 
 ## インストール
 
