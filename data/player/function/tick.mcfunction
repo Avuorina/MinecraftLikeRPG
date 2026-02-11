@@ -11,3 +11,6 @@
 
 ## 左クリック検知
     execute as @a at @s run function player:attack/tick
+
+## HUD更新 (MP Bar)
+    execute at @s run function player:status/mp/regen/tick

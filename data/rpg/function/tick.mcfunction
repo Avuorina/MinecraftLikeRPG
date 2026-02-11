@@ -3,17 +3,8 @@
 # 新規プレイヤーのセットアップ
     execute as @a unless score @s Initialized matches 1 run function player:setup
 
-# 経験値獲得（モブ討伐）
-    function player:exp/gain
-
-# ステータス適用（プレイヤー＆MOB）
-    function status:apply
-
 # プレイヤーtick
     execute as @a run function player:tick
-
-# MP回復
-    execute as @a run function status:regen_mp
 
 # Timerを減らす
     # TimerKill
@@ -22,4 +13,4 @@
 
 # HUD表示
     function player:hud/display
-    data merge entity @e[type=text_display,tag=debug_status,limit=1,sort=nearest] {text:[{"text":"=== Status ===\n"},"LEVEL:",{"score":{"name":"@p","objective":"LV"}},{"text":"\nHP:"},{"score":{"name":"@p","objective":"HP"}},"/",{"score":{"name":"@p","objective":"MaxHP"}},{"text":"\n一時スコア"},{"score":{"name":"@p","objective":"_"}}]}
+    data merge entity @e[type=text_display,tag=debug_status,limit=1,sort=nearest] {text:[{"text":"=== Status ===\n"},"LEVEL:",{"score":{"name":"@p","objective":"LV"}},{"text":"\nHP:"},{"score":{"name":"@p","objective":"HP"}},"/",{"score":{"name":"@p","objective":"MaxHP"}},{"text":"\nMP:"},{"score":{"name":"@p","objective":"MP"}},"/",{"score":{"name":"@p","objective":"MaxMP"}},{"text":"\n一時スコア"},{"score":{"name":"@p","objective":"_"}}]}

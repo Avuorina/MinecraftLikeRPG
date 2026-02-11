@@ -10,6 +10,9 @@
 ## HP
     function player:status/hp/
 
+## MP
+    function player:status/mp/regen/tick
+
 
 # --- 攻撃力適用 ---
 # STRによる倍率計算 (atk/update)
