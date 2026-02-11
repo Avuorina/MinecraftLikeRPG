@@ -34,6 +34,96 @@ graph TD
 
 ---
 
+## 💎 アイテムステータス適用システム
+
+### 概要
+カスタムアイテムのステータス（ATK, STR, DEF等）をメインハンド保持時に動的に適用するシステムです。
+
+### フロー図
+```mermaid
+graph TD
+    Tick["player:tick"] -->|毎tick実行| StatusApply["player:status/apply_player"]
+    StatusApply -->|攻撃力更新| AtkUpdate["player:status/atk/update"]
+    
+    subgraph "アイテムステータス取得"
+        AtkUpdate -->|MainHand確認| Check{SelectedItem存在?}
+        Check -->|Yes| ReadNBT["BankItem[0] から読み取り"]
+        Check -->|No| Default["デフォルト値"]
+        ReadNBT -->|ATK, STR, SPD等| Scores["一時スコアに保存"]
+    end
+    
+    subgraph "攻撃力計算"
+        Scores -->|BaseDmg取得| CalcBase["BaseDmg = ATK + STR倍率"]
+        CalcBase -->|属性乗算| Attribute["generic.attack_damage 設定"]
+    end
+    
+    subgraph "武器リーチ判定"
+        AtkUpdate -->|武器種チェック| ReachUpdate["player:attack/update_reach"]
+        ReachUpdate -->|is_spear?| Spear["Reach = 30 (7.5ブロック)"]
+        ReachUpdate -->|is_sword?| Sword["Reach = 12 (3.0ブロック)"]
+        ReachUpdate -->|is_axe?| Axe["Reach = 10 (2.5ブロック)"]
+        ReachUpdate -->|default| DefaultReach["Reach = 8 (2.0ブロック)"]
+    end
+```
+
+---
+
+## 💙 MPバー表示システム (Vanilla XP Bar)
+
+### 概要
+VanillaのExperience Barを活用し、MPの現在値と割合を視覚的に表示するシステムです。
+
+### フロー図
+```mermaid
+graph TD
+    Tick["player:tick"] -->|毎tick実行| RegenTick["player:status/mp/regen/tick"]
+    
+    subgraph "MP自然回復"
+        RegenTick -->|MPRegenTimer加算| Timer["MPRegenTimer += MPRegen"]
+        Timer -->|2000以上| Recover["player:status/mp/regen/"]
+        Recover -->|MP+1| UpdateMP["MP加算"]
+        Recover -->|再帰チェック| Timer
+    end
+    
+    subgraph "MP割合計算"
+        RegenTick -->|比率算出| Ratio["MPRatio = MP × 1002 / MaxMP"]
+    end
+    
+    subgraph "バー更新判定"
+        Ratio -->|前回と比較| Changed{変化あり?}
+        Changed -->|Yes| BarSet["player:status/mp/bar/set"]
+        Changed -->|No| Skip["スキップ"]
+    end
+    
+    subgraph "XPバー適用 (set.mcfunction)"
+        BarSet -->|Level設定| SetLevel["xp set MP levels (macro)"]
+        SetLevel -->|容量計算| CalcXP["player:status/mp/calc_xp"]
+        CalcXP -->|Vanilla公式| XPReq["$XP_Req算出 (Level依存)"]
+        XPReq -->|ポイント計算| CalcPoints["Points = $XP_Req × MP / MaxMP"]
+        CalcPoints -->|Point適用| SetPoints["xp set Points points (macro)"]
+    end
+```
+
+### 主要コンポーネント
+
+#### 1. MP自然回復 (`mp/regen/tick`, `mp/regen/`)
+- `MPRegenTimer` にタイマー値を加算
+- 2000以上で MP+1、タイマーから2000減算
+- 超高速回復にも対応（再帰処理）
+
+#### 2. バー更新判定
+- `MPRatio` を計算（`MP × 1002 / MaxMP`）
+- 前回の `PreviousMPRatio` と比較
+- 変化がある場合のみ `bar/set` を実行（効率化）
+
+#### 3. XP容量の動的計算 (`calc_xp.mcfunction`)
+Vanillaの経験値公式を使用して、現在のレベル（MP値）における必要経験値を計算：
+- Lv 0-15: `2 × Lv + 7`
+- Lv 16-30: `5 × Lv - 38`
+- Lv 31+: `9 × Lv - 158`
+
+---
+
 ## 🧟 MOBスポーンシステム
 
 ### 概要
