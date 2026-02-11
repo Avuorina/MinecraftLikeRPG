@@ -13,11 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "002.test_axe",
-                      "ATK": 7.0,
-                      "ATKSpeed": 0.8,
-                      "WeaponType": "axe",
-                      "LUCK": -1.0
+                      "ID": "005.test_spear",
+                      "ATK": 1.0,
+                      "ATKSpeed": 1.54,
+                      "WeaponType": "spear"
                     }
                   ]
                 }
@@ -27,8 +26,8 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "木の斧",
-                "color": "green",
+                "text": "木の槍",
+                "color": "white",
                 "bold": false,
                 "italic": false,
                 "underlined": false,
@@ -52,8 +51,8 @@
                     "obfuscated": false
                   },
                   {
-                    "text": "阻害",
-                    "color": "red",
+                    "text": "突出",
+                    "color": "yellow",
                     "bold": false,
                     "italic": false,
                     "underlined": false,
@@ -61,7 +60,7 @@
                     "obfuscated": false
                   },
                   {
-                    "text": "する。",
+                    "text": "させる。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -81,7 +80,7 @@
                     "italic": false
                   },
                   {
-                    "text": "7.0",
+                    "text": "1.0",
                     "color": "red",
                     "italic": false
                   }
@@ -94,21 +93,8 @@
                     "italic": false
                   },
                   {
-                    "text": "0.8",
+                    "text": "1.5",
                     "color": "blue",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "\uE00A ",
-                    "color": "white",
-                    "italic": false
-                  },
-                  {
-                    "text": "-1.0",
-                    "color": "yellow",
                     "italic": false
                   }
                 ]
@@ -119,7 +105,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  2
+                  5
                 ],
                 "mode": "replace_all"
               }

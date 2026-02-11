@@ -16,6 +16,7 @@
                       "ID": "003.god_sword",
                       "ATK": 100.0,
                       "ATKSpeed": 10.0,
+                      "WeaponType": "100",
                       "HP": 100.0,
                       "MP": 100.0,
                       "STR": 100.0,
@@ -55,6 +56,126 @@
                     "underlined": false,
                     "strikethrough": false,
                     "obfuscated": false
+                  }
+                ],
+                [
+                  ""
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE005 ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "100.0",
+                    "color": "red",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE00B ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "10.0",
+                    "color": "blue",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE001 ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "+100.0",
+                    "color": "red",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE003 ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "+100.0",
+                    "color": "aqua",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE007 ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "+100.0",
+                    "color": "dark_red",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE006 ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "+100.0",
+                    "color": "blue",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE008 ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "+100.0",
+                    "color": "light_purple",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE009 ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "+100.0",
+                    "color": "green",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE00A ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "+100.0",
+                    "color": "yellow",
+                    "italic": false
                   }
                 ]
               ],

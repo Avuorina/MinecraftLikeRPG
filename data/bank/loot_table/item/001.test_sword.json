@@ -16,6 +16,7 @@
                       "ID": "001.test_sword",
                       "ATK": 4.0,
                       "ATKSpeed": 1.6,
+                      "WeaponType": "sword",
                       "HP": 2.0
                     }
                   ]
@@ -49,6 +50,48 @@
                     "underlined": false,
                     "strikethrough": false,
                     "obfuscated": false
+                  }
+                ],
+                [
+                  ""
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE005 ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "4.0",
+                    "color": "red",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE00B ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "1.6",
+                    "color": "blue",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE001 ",
+                    "color": "white",
+                    "italic": false
+                  },
+                  {
+                    "text": "+2.0",
+                    "color": "red",
+                    "italic": false
                   }
                 ]
               ],
