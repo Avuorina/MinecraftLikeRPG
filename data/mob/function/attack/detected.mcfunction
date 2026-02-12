@@ -19,7 +19,7 @@
 # ダメージ適用
     scoreboard players operation @p[tag=Victim] DmgReceived = $DmgDealt _
     scoreboard players operation @p[tag=Victim] HP -= @p[tag=Victim] DmgReceived 
-    #　↑完全に無駄やね。
+    # ↑完全に無駄やね。
 
 # HP適用
     execute as @p[tag=Victim] run function player:status/hp/update
