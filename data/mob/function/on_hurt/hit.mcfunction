@@ -21,8 +21,8 @@ scoreboard players operation @s HP -= &DmgDealt _
     # tag=ShowDmgLogにダメージと残りHPを表示
         tellraw @p[tag=Attacker,tag=ShowDmgLog] [{"text":">","color":"white",bold:false},{"text":"> ","color":"gray",bold:false},{"score":{"name":"&DmgDealt","objective":"_"},"color":"red",bold:true},{"text":" (","color":"gray",bold:false},{"score":{"name":"@s","objective":"HP"},"color":"gray",bold:false},{text:")","color":"gray",bold:false}]
 
-    ## RESET
-    # Hitタグリセット
-        tag @s remove Hit
-        # ダメージリセット
-            scoreboard players reset &DmgDealt _
+## RESET
+# Hitタグリセット
+    tag @s remove Hit
+# ダメージリセット
+    scoreboard players reset &DmgDealt _
