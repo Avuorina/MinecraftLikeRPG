@@ -1,0 +1,2 @@
+execute if entity @s[tag=mob.main] run function bank:mob/global/debug/shoot/007.test_summoner/main/
+execute if entity @s[tag=mob.008.henchman] run function bank:mob/global/debug/shoot/007.test_summoner/008.henchman/

@@ -1,7 +1,7 @@
 {
     "values": [
         "rpg:tick",
-        "mob:tick",
-        "lib:tick"
+        "lib:tick",
+        "bank_manager:tick"
     ]
 }

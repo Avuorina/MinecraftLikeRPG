@@ -1,0 +1,1 @@
+execute as @e[tag=!Initialized] at @s run function entity:initialize

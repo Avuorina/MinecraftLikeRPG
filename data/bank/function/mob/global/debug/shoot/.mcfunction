@@ -1,0 +1,1 @@
+execute if entity @s[tag=007.test_summoner] run function bank:mob/global/debug/shoot/007.test_summoner/
