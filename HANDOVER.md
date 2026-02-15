@@ -280,6 +280,27 @@ python generate_items.py
     - `bank_manager/function/mob/spawn/by_id.mcfunction` 等のコマンド用ファイルは未復旧（不要のため）。
     - スポナー（`SpawnEntities` NBT）経由のスポーンは正常に機能する。
 
+### 2026-02-16: MOBスポーン機能復旧 & レベル表示改善
+
+#### ✅ MOBスポーン機能の復旧 (TUSB Architecture)
+1.  **TUSB方式の踏襲**:
+    - `by_id` や `match_id` などのID指定スポーン機構は廃止。
+    - `oh_my_dat` の深いネスト (`[-4]...`) を維持し、TUSB本来のデータ構造と互換性を保つ。
+    - スポナー (`SpawnEntities` Tag) 経由でのみスポーンを行う仕様で確定。
+
+2.  **ネストの維持**:
+    - リファクタリング案（`rpg_mob` への移行）は却下され、`oh_my_dat` への依存を継続。
+
+#### ✅ レベル表示システムの刷新
+1.  **JSON Text Component の活用**:
+    - 従来の `loot` テーブルやディメンション（`control_area`）を用いた複雑な実装を廃止。
+    - `CustomName` に直接 `{"score":...}` や `{"nbt":...}` を埋め込む方式に変更。
+    - `ArmorItems[0].tag.RpgData.OriginalName` に元の名前を退避し、動的に `[Lv.XX] OriginalName` を表示。
+
+2.  **ステータス計算の改善**:
+    - `Factor` (レベル差補正) を導入し、レベルに応じたステータス上昇を実装 (`apply_status/from_storage`)。
+
+
 ## 次に取り組むべきタスク
 
 ### 1. MOB HPバーを表示する ← **次のタスク**
