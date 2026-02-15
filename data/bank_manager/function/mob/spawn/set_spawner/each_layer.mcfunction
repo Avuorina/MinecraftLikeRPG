@@ -4,10 +4,10 @@
 #
 # @within function bank_manager:mob/spawn/set_spawner/
 
-# tusb_mob: MobTags から、モブを召喚させるためのタグを１セット取り出す
+# rpg_mob: MobTags から、モブを召喚させるためのタグを１セット取り出す
 data modify storage rpg_mob: MobTags set from storage rpg_mob: MobLayers[-1]
 
-# tusb_mob: Passengersがすでにあったら、上に乗るモブ達なので、保存しておく
+# rpg_mob: Passengersがすでにあったら、上に乗るモブ達なので、保存しておく
 data remove storage rpg_mob: PrevPassengers
 execute if data storage rpg_mob: Passengers run data modify storage rpg_mob: PrevPassengers set from storage rpg_mob: Passengers
 # リストをリセット

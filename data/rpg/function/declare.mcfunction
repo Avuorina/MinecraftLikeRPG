@@ -36,6 +36,7 @@
         scoreboard objectives add Random dummy "乱数"
         scoreboard objectives add MobID dummy "MobID"
         scoreboard objectives add Reach dummy "リーチ"
+        scoreboard objectives add ParentID dummy "親ID"
 
     # 内部用スコアボード
         scoreboard objectives add Timer dummy "タイマー"

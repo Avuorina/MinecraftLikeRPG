@@ -16,7 +16,7 @@ execute if data storage rpg_mob: MobLayers[-1] run function bank_manager:mob/spa
 ### SpawnDataに保存
 data modify entity @s SpawnData.entity.Passengers[0] set from storage rpg_mob: SpawnData
 ### Pos設定
-data modify entity @s SpawnData.entity.Pos set from storage tusb_mob: Pos
+data modify entity @s SpawnData.entity.Pos set from storage rpg_mob: Pos
 ### 召喚したら消えるようにタグを付与
 data modify entity @s Tags set value [OneTimeSpawner,TickingRequired]
 

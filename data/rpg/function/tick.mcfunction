@@ -1,8 +1,5 @@
 # メインループ - 毎tick実行
 
-# 新規プレイヤーのセットアップ
-    execute as @a unless score @s Initialized matches 1 run function player:setup
-
 # プレイヤーtick
     execute as @a run function player:tick
 

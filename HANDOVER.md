@@ -34,9 +34,10 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 - **ツール**: `datapacks/MOBgenerator/generate_mobs.py`
 - **データソース**: Google Spreadsheet (CSV)
   - ID: `1Muf5Hy6Zq1i8Rty1M26-5u13lalUBsuC-pVXNFXMoYM`
-- **変更点**:
-  - `Luck` 列を廃止し、`Gold` 列の読み込みに対応。
-  - 出力される `register.mcfunction` から `summon` / `init` コマンドを撤廃（定義のみに変更）。
+- **変更点 (2026-02-14 Refactor)**:
+  - **Register Pattern**: Loot Table 生成を廃止し、`register.mcfunction` 生成に特化。
+  - **Direct Dispatch**: ディスパッチャーファイルを `bank/function/mob/.mcfunction` 等に復元し、`function bank:mob/` での呼び出しに対応。
+  - **Data Structure**: `rpg_mob:Instant` (Base, Costume, Stats) と `rpg_mob:Delay` (AI, Status) を採用。
 
 #### 3.2. スプレッドシートの列構造
 - `NameJP`, `NameUS`, `ID` (エンティティタイプ)
@@ -55,14 +56,25 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
 2. **召喚実行** (`data/mob/function/spawn/from_storage.mcfunction`)
    - Storage情報を使って `summon` し、`init` (初期化) を呼び出す。
 
-#### 3.4. Spawn システムの構造
+#### 3.4. Spawn システムの構造 (Revised)
 ```
-mob:tick (毎tick) -> mob:trigger_spawn -> mob:spawn_generic
-  └─> mob:spawn_map/{mob_id}
-       ├─> bank:mob/.../register (データ定義)
-       └─> mob:spawn/from_storage (召喚＆初期化)
-            └─> mob:setup/init (初期化・1回のみ)
-                 └─> status:apply_mob (ステータス適用)
+[Spawn Trigger] (Command / Spawner Minecart)
+  │
+  ▼
+bank_manager:mob/spawn/ (Spawn Logic)
+  │
+  ├─> each_mob.mcfunction
+  │     │
+  │     ▼
+  │   bank:mob/ (Dispatcher)
+  │     │
+  │     ▼
+  │   bank:mob/.../register (Data Load)
+  │     │ write to storage `rpg_mob:Instant`
+  │     └─> [Set NBT]
+  │
+  ▼
+[Entity Summon] with SpawnData from `rpg_mob:Instant`
 ```
 
 ### 4. アイテムシステム (Item Generator) ← **完成 (2026-02-11)**
@@ -249,6 +261,24 @@ python generate_items.py
    - `mob:on_hurt/hit`: デバッグメッセージ (`say`) を `tellraw` に変更し、ダメージログを見やすくした (`ShowDmgLog` タグが必要)。
 3. **バグ修正**:
    - `regen_mp.mcfunction`: スコア名の誤字 (`int` → `INT`) を修正。
+
+### 2026-02-14: MOB Generator Refactoring & Recovery
+
+#### ✅ MOB生成システムの刷新 (Register Pattern)
+- **目的**: 複雑化したLoot Table依存を排除し、直接的なデータ注入 (`Register`) に移行。
+- **実装**:
+    - `generate_mobs.py` を大幅改修。
+    - 出力先を `data/bank/function/mob` に戻し、`rpg_mob:Instant` 構造を採用。
+    - `AI` カラムからのJSONデータ注入に対応 (`rpg_mob:Delay.AI`)。
+
+#### ✅ Bank Manager の復旧と分離
+- **経緯**: 作業中の誤削除により `bank_manager` ディレクトリが消失。
+- **復旧**: ユーザーによる手動復旧を実施。
+    - 生成ロジック (`bank`) と 召喚ロジック (`bank_manager`) を明確に分離。
+    - Generatorは `bank_manager` を上書きせず、`bank` のみを出力する。
+- **現状の制限**:
+    - `bank_manager/function/mob/spawn/by_id.mcfunction` 等のコマンド用ファイルは未復旧（不要のため）。
+    - スポナー（`SpawnEntities` NBT）経由のスポーンは正常に機能する。
 
 ## 次に取り組むべきタスク
 

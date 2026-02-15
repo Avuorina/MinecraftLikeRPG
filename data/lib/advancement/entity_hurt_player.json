@@ -254,6 +254,6 @@
         ]
     ],
     "rewards": {
-        "function": "mob:attack/"
+        "function": "bank_manager:mob/attack/"
     }
 }

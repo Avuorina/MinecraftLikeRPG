@@ -2,7 +2,7 @@
 #
 # プレイヤー死亡処理
 #
-# @within function mob:attack/
+# @within function bank_manager:mob/attack/
 
 # 葬送
     kill @s
