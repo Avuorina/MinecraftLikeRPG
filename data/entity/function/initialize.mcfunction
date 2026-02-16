@@ -2,7 +2,7 @@
 #
 # Entityはみな、ここを通る
 #
-#
+# @within function entity:tick
 
 ## 「召喚ッ...！」
     execute if entity @s[tag=Spawn] run function bank_manager:mob/spawn/
