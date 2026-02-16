@@ -37,4 +37,4 @@
     team remove ENEMY
 
 ## もっかい作る
-    function rpg:declare
+    function core:declare

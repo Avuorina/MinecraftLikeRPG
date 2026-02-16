@@ -301,6 +301,12 @@ python generate_items.py
     - `Factor` (レベル差補正) を導入し、レベルに応じたステータス上昇を実装 (`apply_status/from_storage`)。
 
 
+#### ✅ データ登録フォーマットの簡素化
+    - **Storage Target**: `rpg_mob:Instant` / `Delay` を廃止し、`bank:mob` に統一。
+    - **Flat Structure**: `Base`, `Costume`, `Status` などをフラットに配置。
+    - **Direct Item Set**: 装備データを直接 `Costume.Mainhand` 等にセットする方式に変更。
+
+
 ## 次に取り組むべきタスク
 
 ### 1. MOB HPバーを表示する ← **次のタスク**

@@ -9,7 +9,7 @@
     gamerule advance_weather false
 
 # 定義を宣言する
-    function rpg:declare
+    function core:declare
 
 tellraw @a [{"color":"dark_gray","text":"["},{"bold":true,"text":"SYSTEM"},{"bold":false,"text":"]"},\
 {"text":"データパックのロードが完了"}]

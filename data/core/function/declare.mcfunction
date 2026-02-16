@@ -53,11 +53,18 @@
     # トリガー
         scoreboard objectives add Menu trigger "メニュースコア"
 
-    # 定数
-        function rpg:box
+## 定数
+    function core:box
 
-    ## チーム
-        team add ENEMY
-        team modify ENEMY displayName "敵"
-        team add DEBUG
-        team modify DEBUG color gray
+## チーム
+    team add ENEMY
+    team modify ENEMY displayName "敵"
+    team add DEBUG
+    team modify DEBUG color gray
+
+## 汎用メッセージ用
+    data modify storage global Prefix.DEBUG set value "§d[D]>§5>&r "
+    data modify storage global Prefix.SUCCESS set value "§a[S]>§2>&r "
+    data modify storage global Prefix.INFO set value "§b[I]>§9>&r "
+    data modify storage global Prefix.WARN set value "§e[W]>§6>&r "
+    data modify storage global Prefix.ERROR set value "§c[E]>§4>§c "

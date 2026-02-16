@@ -3,31 +3,38 @@
 # bank:mob/global/debug/blow/004.test_man/register
 
 # 初期化
-data modify storage rpg_mob: Instant set value {}
+data modify storage bank:mob Base set value {}
 
 # Summon用データ
-data modify storage rpg_mob: Instant.Base set value {id:"minecraft:zombie",Tags:["mob.004.test_man","Init","Global","Debug","Blow","004.test_man","ENEMY"]}
-data modify storage rpg_mob: Instant.Costume set value {equipment:{feet:{id:"minecraft:leather_boots",Count:1b},legs:{id:"minecraft:leather_leggings",Count:1b},chest:{id:"minecraft:leather_chestplate",Count:1b},head:{id:"minecraft:netherite_helmet",Count:1b},mainhand:{id:"minecraft:command_block",Count:1b},offhand:{id:"minecraft:book",Count:1b}}}
+data modify storage bank:mob Base.Entity set value {id:"minecraft:zombie"}
+data modify storage bank:mob Base.Tags set value {Tags:["test"]}
+data modify storage bank:mob Costume.Mainhand set value {id:"minecraft:command_block",Count:1b}
+data modify storage bank:mob Costume.Offhand set value {id:"minecraft:book",Count:1b}
+data modify storage bank:mob Costume.Head set value {id:"minecraft:netherite_helmet",Count:1b}
+data modify storage bank:mob Costume.Chest set value {id:"minecraft:leather_chestplate",Count:1b}
+data modify storage bank:mob Costume.Legs set value {id:"minecraft:leather_leggings",Count:1b}
+data modify storage bank:mob Costume.Feet set value {id:"minecraft:leather_boots",Count:1b}
 
-# 見た目 (CustomName)
-# CustomName は JSON String として BaseNameJSON に保存する (動的レベル表示のため) -> Baseに含まれるTagsやCustomNameは上記のInstant.Baseで設定済み
-# ユーザーの例では CustomName:'...' となっていた。
-data modify storage rpg_mob: Instant.Base.CustomName set value '{"color":"red","text":"テストマン"}'
+# CustomName
+data modify storage bank:mob Base.CustomName set value '{"color":"red","text":"テストマン"}'
+
+# Type
+data modify storage bank:mob Type set value "Enemy"
 
 # 即時ステータス
-data modify storage rpg_mob: Instant.EyePower set value 0.0000d
-data modify storage rpg_mob: Instant.MovementPower set value -0.9000d
-data modify storage rpg_mob: Instant.KBResistance set value 0d
-data modify storage rpg_mob: Instant.KBPower set value 0d
+data modify storage bank:mob Status.EyePower set value {}
+data modify storage bank:mob Status.MovementPower set value -0.9000d
+data modify storage bank:mob Status.KBResistance set value {}
+data modify storage bank:mob Status.KBPower set value {}
 
-# カスタムステータス (Delay)
-data modify storage rpg_mob: Delay.Status.Level set value 1
-data modify storage rpg_mob: Delay.Status.HPMax set value 20f
-data modify storage rpg_mob: Delay.Status.MPMax set value 0
-data modify storage rpg_mob: Delay.Status.ATK set value 2
-data modify storage rpg_mob: Delay.Status.DEF set value 3
-data modify storage rpg_mob: Delay.Status.SPD set value 4
-data modify storage rpg_mob: Delay.Status.GOLD set value 1
+# カスタムステータス
+data modify storage bank:mob Status.Level set value 1
+data modify storage bank:mob Status.HPMax set value 20f
+data modify storage bank:mob Status.MPMax set value 0
+data modify storage bank:mob Status.ATK set value 2
+data modify storage bank:mob Status.DEF set value 3
+data modify storage bank:mob Status.SPD set value 4
+data modify storage bank:mob Status.GOLD set value 1
 
 # Skill ai
-data modify storage rpg_mob: Delay.AI set value {}
+data modify storage bank:mob AI set value {}
