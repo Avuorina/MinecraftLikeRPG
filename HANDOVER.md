@@ -6,155 +6,245 @@
 **Minecraft RPG Datapack** (1.21.11)
 Minecraftのバニラ要素を活かしたRPGデータパック。
 
+---
+
 ## 現在の実装状況
 
-### 1. ステータスシステム (`data/status/`)
+### 1. ステータスシステム (`data/status/`, `core:declare`)
 - 全てのステータスはスコアボードで管理。
-- **実装済み**: `HP` (Maxあり), `MP` (Maxあり), `STR`, `DEF`, `AGI`, `INT`, `SPD`, `DroppedGold`
-- **定数管理**: `box.mcfunction` にて `$100 Const` のように `$` プレフィックス付きの定数として定義。
-- **計算式の刷新 (2026-02-03)**:
-    - **STR**: CSVの数値をそのまま攻撃力（Attribute）として適用。
-    - **AGI**: `AGI / 100` を移動速度（Attribute）として適用。
-    - **Gold**: `Luck` を **DroppedGold (ドロップゴールド)** に置換。討伐時に `DroppedGold` スコア分のゴールドを付与。
+- **実装済み**: `HP`, `MaxHP`, `HPRatio`, `MP`, `MaxMP`, `STR`, `DEF`, `AGI`, `INT`, `SPD`, `EXP`, `GOLD`, `DropGold`
+- **定数管理**: `core:declare` の `box.mcfunction` にて `$100 Const` のように `$` プレフィックス付きの定数として定義。
+- **スコアボード一覧**:
+  - **HP系**: `HP`, `MaxHP`, `HPRatio`, `HPRegen`, `HPRegenTimer`
+  - **MP系**: `MP`, `MaxMP`, `MPRegen`, `MPRegenTimer`
+  - **ステータス**: `LV`, `STR`, `DEF`, `AGI`, `INT`, `SPD`
+  - **経済**: `EXP`, `GOLD`, `DropGold`
+  - **戦闘**: `Reach`, `MobID`, `PortalCooldown`
+
+---
 
 ### 2. プレイヤーシステム (`data/player/`)
-- **HPシステム完了**:
-    - バケット方式の自動回復、ハート計算、即死防止を実装済み。
-    - `HPRegen` タイマー（2000で+1回復）
-- **MPシステム完了** (2026-02-11):
-    - **MPバー表示**: Vanilla経験値バーを活用
-    - **MP自然回復**: `MPRegen` タイマー方式（HPと同様）
-- **攻撃力計算**:
-    - `data/player/function/status/atk/update.mcfunction` にて、メインハンド装備の武器攻撃力を含めた最終ダメージを計算し `ATK` スコアに格納。
-    - `BankItem[0]` NBT から ATK, STR, SPD 等を読み取り。
 
-### 3. MOB生成システム (MOB Generator) ← **完成＆リファクタリング済 (2026-02-03)**
+#### 2.1. HPシステム
+- **バケット方式の自動回復**: `HPRegenTimer` が2000に達すると HP+1
+- **ハート表示**: `HPRatio` 専用スコアで効率的に計算
+  ```mcfunction
+  HPRatio = HP × 10000 / MaxHP × 20 / 10000
+  ```
+- **即死防止**: HP > 0 なのに HPRatio = 0 になる場合は 1 に補正
+- **instant_health エフェクト**: 実際のハート数を反映
 
-#### 3.1. 自動生成ツール
-- **ツール**: `datapacks/MOBgenerator/generate_mobs.py`
-- **データソース**: Google Spreadsheet (CSV)
-  - ID: `1Muf5Hy6Zq1i8Rty1M26-5u13lalUBsuC-pVXNFXMoYM`
-- **変更点 (2026-02-14 Refactor)**:
-  - **Register Pattern**: Loot Table 生成を廃止し、`register.mcfunction` 生成に特化。
-  - **Direct Dispatch**: ディスパッチャーファイルを `bank/function/mob/.mcfunction` 等に復元し、`function bank:mob/` での呼び出しに対応。
-  - **Data Structure**: `rpg_mob:Instant` (Base, Costume, Stats) と `rpg_mob:Delay` (AI, Status) を採用。
+#### 2.2. MPシステム
+- **MPバー表示**: Vanilla経験値バーを活用
+  - Level = 現在のMP値
+  - XPバー = MP / MaxMP の割合
+- **MP自然回復**: `MPRegen` タイマー方式（HPと同様）
+- **動的XP容量計算**: 
+  - Lv 0-15: `2 × Lv + 7`
+  - Lv 16-30: `5 × Lv - 38`
+  - Lv 31+: `9 × Lv - 158`
+- **効率化**: `MPRatio` による変化検出（変化時のみ更新）
 
-#### 3.2. スプレッドシートの列構造
-- `NameJP`, `NameUS`, `ID` (エンティティタイプ)
-- `ベース` (CustomName JSON), `見た目` (equipment JSON)
-- `エリア`, `グループ`, `AI` (カテゴリタグ)
-- `スポーンタグ`: 任意の追加タグ
-- `推定lev`, `HP`, `str`, `def`, `agi`: ステータス
-- `Gold`: ドロップゴールド基礎値
-- `AI Speed`, `Follow Range`: AI補正倍率
-
-#### 3.3. 生成されるファイル
-1. **Bank設定 (データ定義)** (`data/bank/function/mob/.../register.mcfunction`)
-   - Storage `rpg_mob:` にデータを保存するのみ。
-   - **召喚は行わない**。
-
-2. **召喚実行** (`data/mob/function/spawn/from_storage.mcfunction`)
-   - Storage情報を使って `summon` し、`init` (初期化) を呼び出す。
-
-#### 3.4. Spawn システムの構造 (Revised)
-```
-[Spawn Trigger] (Command / Spawner Minecart)
-  │
-  ▼
-bank_manager:mob/spawn/ (Spawn Logic)
-  │
-  ├─> each_mob.mcfunction
-  │     │
-  │     ▼
-  │   bank:mob/ (Dispatcher)
-  │     │
-  │     ▼
-  │   bank:mob/.../register (Data Load)
-  │     │ write to storage `rpg_mob:Instant`
-  │     └─> [Set NBT]
-  │
-  ▼
-[Entity Summon] with SpawnData from `rpg_mob:Instant`
-```
-
-### 4. アイテムシステム (Item Generator) ← **完成 (2026-02-11)**
-
-#### 4.1. 自動生成ツール
-- **ツール**: `datapacks/MOBgenerator/generate_items.py`
-- **データソース**: Google Spreadsheet (CSV)
-  - 同じスプレッドシート、別シート「Item」
-- **機能**:
-  - `BankItem` NBT データ生成
-  - `WeaponType` 対応（spear, sword, axe）
-  - 自動Lore生成（ステータス＋アイコン表示）
-
-#### 4.2. Lore自動生成
-- **Speed**: 青色 (`\uE00B` アイコン + 数値)
-- **Bonus Stats**: アイコン + 数値
-  - `\uE005` (ATK), `\uE006` (DEF), `\uE007` (STR), `\uE008` (INT)
-  - `\uE009` (AGI), `\uE00A` (LUCK), `\uE00B` (Speed)
-
-#### 4.3. 武器リーチシステム
-- **実装**: `data/player/function/attack/update_reach.mcfunction`
-- **リーチ値** (1スコア = 0.25ブロック):
+#### 2.3. 攻撃システム
+- **二重検知**:
+  - **近距離** (10ブロック以内): Interactionエンティティによる物理判定
+  - **遠距離** (100ブロック以内): advancementによるイベント検知
+- **フィルター階層**: `filter/8` → `7` → ... → `0` で段階的にMobID特定
+- **ダメージ計算**:
+  ```mcfunction
+  BaseDmg = アイテムのATK
+  Dmg = BaseDmg × STR / 100
+  ```
+- **武器リーチ**:
   - 素手: 8 (2.0ブロック)
   - 剣: 12 (3.0ブロック)
   - 斧: 10 (2.5ブロック)
   - 槍: 30 (7.5ブロック)
 
-### 5. MPバー表示システム ← **完成 (2026-02-11)**
+---
 
-#### 5.1. 参考元
-このシステムは以下のプロジェクトを参考に実装:
-- **TUSB (The Unusual SkyBlock)**: https://github.com/TUSB/TheUnusualSkyBlock
-- **RPG-Datapack (HamaSSH)**: https://github.com/HamaSSH/RPG-Datapack
+### 3. MOB召喚システム (最新版: 2026-02-17)
 
-#### 5.2. 実装概要
-Vanilla Experience Barを活用し、以下を実現:
-- **経験値レベル**: 現在のMP値を表示
-- **経験値バー**: `MP / MaxMP` の割合を視覚的に表示
+#### 3.1. 概要
+**データの定義**（register）と**召喚**（summon）が完全分離されたシステムです。
+マクロを活用した動的ファイル呼び出しにより、ID指定でMOBを召喚できます。
 
-#### 5.3. 技術的特徴
-**動的XP容量計算**:
-- レベル（MP値）に応じた必要経験値をVanilla公式で計算
-- `calc_xp.mcfunction` で実装:
-  - Lv 0-15: `2 × Lv + 7`
-  - Lv 16-30: `5 × Lv - 38`
-  - Lv 31+: `9 × Lv - 158`
+#### 3.2. Storage構造
+**統一Storage**: `bank:mob` （旧 `rpg_mob:` は廃止）
 
-**効率的な更新**:
-- `MPRatio` (MP × 1002 / MaxMP) を計算
-- 前回の `PreviousMPRatio` と比較
-- 変化がある場合のみバー更新を実行
+**データ構造**:
+- **Base**: Entity, Tags, CustomName
+- **Costume**: Mainhand, Offhand, Head, Chest, Legs, Feet
+- **Status**: Level, HPMax, ATK, DEF, SPD, GOLD
+- **Type**: ENEMY / FRIENDLY
+- **AI**: MovementSpeed, FollowRange, KBResistance
 
-#### 5.4. ファイル構成
+#### 3.3. フォルダ構造（平坦化）
 ```
-player/function/status/mp/
-├── regen/
-│   ├── tick.mcfunction       # MP自然回復 + 割合計算
-│   └── .mcfunction            # 回復実行
-├── bar/
-│   ├── set.mcfunction         # メインロジック
-│   ├── set_level.mcfunction   # Macro: xp set levels
-│   └── set_point.mcfunction   # Macro: xp set points
-└── calc_xp.mcfunction         # XP容量計算
+data/bank/function/mob/
+├── 001.goblin/
+│   ├── register.mcfunction    # データ定義
+│   └── summon/.mcfunction      # 実際の召喚コマンド
+├── 002.skeleton_warrior/
+│   ├── register.mcfunction
+│   └── summon/.mcfunction
+├── alias/
+│   ├── 001/
+│   │   ├── register.mcfunction  # → 001.goblin/register
+│   │   └── summon.mcfunction    # → 001.goblin/summon/
+│   └── 002/
+│       ├── register.mcfunction
+│       └── summon.mcfunction
 ```
 
-#### 5.5. 処理フロー
-1. `player:tick` → `mp/regen/tick`
-2. `MPRegenTimer` 加算、2000以上で MP+1
-3. `MPRatio` 計算
-4. 変化検出時に `mp/bar/set` 実行
-5. Level設定 → XP容量計算 → Points算出 → 適用
+**重要**: `global/ground/blow/` のような深い階層は廃止され、フラットな構造になりました。
 
-### 6. ドキュメント整備 ← **2026-02-11更新**
+#### 3.4. 召喚フロー
+```
+1. /function debug:summon/001.goblin
+   ↓
+2. storage api: Argument.ID = "001"
+   ↓
+3. api:mob/summon (検証)
+   ↓
+4. api:mob/core/summon
+   ├─ storage bank:mob ID = "001"
+   ├─ bank_manager:mob/summon/register with storage bank:mob
+   │   └─ $function bank:mob/alias/$(ID)/register
+   │       └─ function bank:mob/001.goblin/register
+   │           └─ storage bank:mob にデータ書き込み
+   ├─ bank_manager:mob/trigger/summon/
+   │   └─ bank_manager:mob/trigger/summon/macro with storage bank:mob
+   │       └─ $function bank:mob/alias/$(ID)/summon
+   │           └─ function bank:mob/001.goblin/summon/
+   │               └─ summon zombie ~ ~ ~ {Tags:[Init]}
+   └─ bank_manager:mob/summon/init (as @e[tag=Init])
+       ├─ tag=Init 削除
+       ├─ MobID スコア付与
+       ├─ tag=BankMob 付与
+       ├─ bank_manager:mob/summon/apply_status/set
+       │   ├─ レベル補正計算（Factor）
+       │   ├─ 各ステータスに補正適用
+       │   └─ CustomName設定（[Lv.XX] Name）
+       └─ チーム割り当て（ENEMY等）
+```
 
-以下のドキュメントを最新化:
-- **README.md**: ライセンス変更（WTFPL）、クレジット追加、新機能反映
-- **STATS.md**: MPバー、自然回復、武器リーチの仕様記載
-- **Flow.md**: アイテムステータス適用とMPバーのフロー図追加
-- **mobTASK.md**: 完了タスクに装備システム、MPバー追加
-- **spyglass.json**: シンプルな設定（`gameVersion` のみ）
+#### 3.5. 重要なポイント
+1. **マクロ変数は大文字**: `$(ID)` （小文字の `$(id)` ではない）
+2. **Storage名**: `bank:mob` （`bank_mob:` や `rpg_mob:` ではない）
+3. **フィールド名**: `Status.HPMax` （`Status.MaxHP` ではない）
+4. **Alias構造**: 数字ID（001）から実際のMOBファイル（001.goblin）への橋渡し
+
+#### 3.6. 自動生成ツール
+**ツール**: `datapacks/MOBgenerator/generate_mobs.py`
+**データソース**: Google Spreadsheet (CSV)
+- ID: `1Muf5Hy6Zq1i8Rty1M26-5u13lalUBsuC-pVXNFXMoYM`
+
+**生成されるファイル**:
+1. `bank/mob/001.goblin/register.mcfunction` - データ定義
+2. `bank/mob/001.goblin/summon/.mcfunction` - summonコマンド
+3. `bank/mob/alias/001/register.mcfunction` - Alias（register）
+4. `bank/mob/alias/001/summon.mcfunction` - Alias（summon）
+5. `debug/summon/001.goblin.mcfunction` - デバッグ召喚
+
+---
+
+### 4. MOB被ダメージ/死亡システム (2026-02-17実装)
+
+#### 4.1. 被ダメージ処理 (`bank_manager:mob/hurt/hit`)
+1. **ノックバック**:
+   - AEC召喚（0,0,0 → 攻撃者の向き ^,^,^0.4）
+   - Position取得してY軸を0.32に固定
+   - XZPower倍率適用（デフォルト100）
+   - Motionに適用
+
+2. **ダメージ演出**:
+   - Undead: `instant_health`
+   - その他: `instant_damage`
+
+3. **HP減算**:
+   ```mcfunction
+   scoreboard players operation @s HP -= &DmgDealt _
+   ```
+
+4. **死亡判定**:
+   ```mcfunction
+   execute if score @s HP matches ..0 run function bank_manager:mob/death/
+   ```
+
+#### 4.2. 死亡処理 (`bank_manager:mob/death/`)
+1. **EXP計算** (`death/adj_exp`):
+   - 自身のレベルを加算
+   - プレイヤーとのレベル差で補正:
+     - +5~: EXP × 150%
+     - 0~+4: EXP × 100%
+     - -5~-1: EXP × 50%
+     - ~-6: EXP × 10%
+
+2. **GOLD計算** (`death/adj_gold`):
+   ```mcfunction
+   DropGold × 5 × random(80~120%) / 10
+   ```
+
+3. **報酬表示**:
+   - `text_display` で頭上に表示
+   - `tag=PC`, `PortalCooldown` で自動削除
+
+4. **MOB削除**:
+   ```mcfunction
+   attribute @s max_health base set 1
+   kill @s
+   ```
+
+---
+
+### 5. アイテムシステム (Item Generator)
+
+#### 5.1. 自動生成ツール
+**ツール**: `datapacks/MOBgenerator/generate_items.py`
+**データソース**: Google Spreadsheet（同じスプレッドシート、別シート「Item」）
+
+#### 5.2. 機能
+- `BankItem` NBT データ生成
+- `WeaponType` 対応（spear, sword, axe）
+- 自動Lore生成（ステータス＋アイコン表示）
+
+#### 5.3. Lore自動生成
+- **Speed**: 青色 (`\uE00B` アイコン + 数値)
+- **Bonus Stats**: アイコン + 数値
+  - `\uE005` (ATK), `\uE006` (DEF), `\uE007` (STR), `\uE008` (INT)
+  - `\uE009` (AGI), `\uE00A` (LUCK), `\uE00B` (Speed)
+
+---
+
+### 6. タイマー統一システム (2026-02-17実装)
+
+#### 6.1. PortalCooldown + PCタグ
+- **全てのタイマー**: `PortalCooldown` スコアに統一
+- **自動削除**: `tag=PC` を付与したエンティティを一括管理
+- **処理**: `core:tick` で毎tick-1、0以下でkill
+
+#### 6.2. 対象エンティティ
+- `check.Lclick` (Interaction)
+- `Loot` (text_display)
+- その他プレイヤー関連の一時エンティティ
+
+---
+
+### 7. ドキュメント整備
+
+#### 7.1. 更新済みドキュメント
+- ✅ **Flow.md** (2026-02-17更新): 全システムのMermaid図、最新実装反映
+- ✅ **README.md**: ライセンス変更（WTFPL）、クレジット追加
+- ✅ **STATS.md**: MPバー、武器リーチの仕様記載
+- ✅ **mobTASK.md**: 完了タスク更新
+- ✅ **spyglass.json**: シンプルな設定
+
+#### 7.2. Artifactドキュメント
+- `complete_system_flow.md`: 完全なシステムフローガイド
+- `task.md`: 実装タスクリスト
+
+---
 
 ## 実行方法
 
@@ -170,213 +260,198 @@ cd e:\Minecraft\mod\Instances\RPG\saves\RPG開発\datapacks\MOBgenerator
 python generate_items.py
 ```
 
+### デバッグ召喚
+```
+/function debug:summon/001.goblin
+/function debug:summon/002.skeleton_warrior
+/function debug:summon/003.dark_knight
+```
+
+### デバッグ
+```
+/scoreboard objectives setdisplay sidebar HP
+/tag @s add ShowDmgLog
+/data get storage bank:mob
+```
+
+---
+
 ## 最近の変更履歴
+
+### 2026-02-17: MOB召喚システム完全刷新 + 戦闘システム実装
+
+#### ✅ MOB召喚システムの完全刷新
+1. **フォルダ構造の平坦化**:
+   - `bank/mob/global/ground/blow/001.goblin/` → `bank/mob/001.goblin/`
+   - 深い階層を廃止し、シンプルなフラット構造に
+
+2. **Storage統一**:
+   - `rpg_mob:` → `bank:mob` に完全統一
+   - `Instant` / `Delay` 構造を廃止
+
+3. **Alias構造の確立**:
+   - `bank/mob/alias/001/` で数字IDから実際のファイルへの橋渡し
+   - `register.mcfunction` と `summon.mcfunction` の2ファイル構成
+
+4. **マクロ変数の修正**:
+   - `$(id)` → `$(ID)` に統一（大文字）
+   - `with storage bank_mob:` → `with storage bank:mob` に修正
+
+5. **フィールド名の統一**:
+   - `Status.MaxHP` → `Status.HPMax` に変更
+
+#### ✅ プレイヤー攻撃システムの実装
+1. **二重検知システム**:
+   - Interaction方式（近距離10ブロック）
+   - advancement方式（遠距離100ブロック）
+
+2. **フィルター階層**:
+   - `filter/8` → `7` → ... → `0` でMobID特定
+   - advancement条件とMobIDタグの組み合わせ
+
+3. **ターゲット検知**:
+   - Interactionエンティティ召喚
+   - リーチ分だけ前進して当たり判定
+   - `tag=Hit` 付与
+
+#### ✅ MOB被ダメージ/死亡システムの実装
+1. **ノックバック計算**:
+   - AEC召喚による方向ベクトル取得
+   - Y軸固定 (0.32)
+   - XZPower倍率適用
+
+2. **EXP/GOLD計算**:
+   - レベル差による補正（150%/100%/50%/10%）
+   - ランダム補正（80~120%）
+
+3. **報酬表示**:
+   - text_displayで頭上表示
+   - 自動削除（PortalCooldown）
+
+#### ✅ タイマー統一
+1. **PortalCooldown + PCタグ**:
+   - 全てのタイマーを統一
+   - 自動削除機構
+
+2. **HP表示改善**:
+   - `HPRatio` 専用スコア追加
+   - 一時スコア `_` の使用を削減
+
+#### ✅ タグ名の統一
+- `ENEMY` → `Enemy` に変更
+- advancement参照を全て修正
+- フィルター再帰ロジック修正
+
+#### ✅ デバッグメッセージの削除
+- 全ての主要ファイルからデバッグメッセージを削除
+- クリーンなコードベースに
+
+---
+
+### 2026-02-16: MOBスポーン機能復旧 & レベル表示改善
+
+#### ✅ レベル表示システムの刷新
+1. **JSON Text Component の活用**:
+   - `CustomName` に直接 `{"score":...}` や `{"nbt":...}` を埋め込む方式
+   - Loot Tableやディメンション依存を廃止
+
+2. **ステータス計算の改善**:
+   - `Factor` (レベル差補正) を導入
+   - Factor = 100 + (LevelDiff × 5)
+   - 各ステータスに補正適用
+
+#### ✅ データ登録フォーマットの簡素化
+- **Storage Target**: `bank:mob` に統一
+- **Flat Structure**: `Base`, `Costume`, `Status` などをフラットに配置
+- **Direct Item Set**: 装備データを直接セット
+
+---
 
 ### 2026-02-11: MPバー＆ドキュメント整備
 
 #### ✅ MPバー表示システム実装
 1. **TUSB/HamaSSH参考の実装**:
-   - 当初、Level 129の固定容量を使用する方式を検討
-   - しかし「レベル=MP」表示との互換性問題により断念
+   - 動的XP容量計算への移行
+   - Vanilla公式に準拠した正確なバー表示
 
-2. **動的XP容量計算への移行**:
-   - 現在のレベル（MP値）における必要経験値を動的計算
-   - `calc_xp.mcfunction` を実装
-   - Vanilla公式に準拠した正確なバー表示を実現
-
-3. **定数追加**:
-   - `$1002 Const` を `box.mcfunction` に追加
-   - MPRatio計算で使用（Level 129の容量に対応）
-
-4. **効率化**:
+2. **効率化**:
    - MP変化時のみバー更新
    - `PreviousMPRatio` による変化検出
 
-#### ✅ MP自然回復システム
-- `MPRegen`, `MPRegenTimer` スコアボード追加
-- `player:setup` で `MPRegen = 1` 初期化
-- `mp/regen/tick` と `mp/regen/.mcfunction` 実装
-- HP回復と同様のタイマー方式（2000で+1）
-
-#### ✅ ドキュメント更新
-1. **README.md**:
-   - ライセンス: MIT → WTFPL
-   - クレジット: TUSB, HamaSSH, TheSkyBlessing 追加
-   - 新機能（MPバー、カスタムアイテム）反映
-
-2. **STATS.md**:
-   - MPバー表示の仕組み説明
-   - HP/MP自然回復の詳細
-   - 武器リーチ一覧表
-
-3. **Flow.md**:
-   - アイテムステータス適用のMermaid図
-   - MPバー表示システムのMermaid図
-
-4. **mobTASK.md**:
-   - 完了タスクに装備システム（基礎）追加
-   - MPバー、MP自然回復を完了に移動
-
-5. **spyglass.json**:
-   - 無効なプロパティを削除
-   - 最小構成（`gameVersion: "1.21.11"`）
+---
 
 ### 2026-02-08: Initスキルシステムの刷新
 
 #### ✅ Initスキルシステムの刷新
-- **Tag Control**: `init` スキルは `Init` タグで制御するように変更。
-- **Conditional Execution**: 
-    - Tick実行ファイル（末端の `.mcfunction`）で `Init` タグを検知。
-    - `tag=Init` がある場合のみ `init.mcfunction` を呼び出し、直後にタグを削除。
-    - これにより `return` を使わずに済み、後続のターン制処理などが記述可能になった。
-- **Safety Fix**: `mob:setup/apply_nbt` で `Init` タグを削除していた処理をコメントアウト（Tick側で処理するため必須）。
+- **Tag Control**: `Init` タグで制御
+- **Conditional Execution**: `tag=Init` 検知時のみ実行
 
-#### ✅ Spawn Systemの修正 (Initタグ欠落問題)
-- **原因**: スポーンエッグ経由の召喚で `register` 関数が呼ばれておらず、`Init` タグが付与されていなかった。
-- **対策**: `mob:spawn/.mcfunction` を修正し、`debug:summon/{ID}` を呼び出すように変更。
-    - `debug:summon` は正しく `register` (データ登録) + `spawn` を行う構造になっているため、これを再利用。
-
-#### ✅ 手動ディスパッチャーへの統合
-- ユーザーが作成した階層構造 (`bank:mob/.mcfunction` -> `global` -> `ground` ...) にシステムを統合。
-- `mob:tick` から `execute as @e[tag=AssetMOB] run function bank:mob/` を呼び出すように変更。
-- 全ての `AssetMOB` が毎Tickディスパッチャーを経由してスキルチェックを行う。
-
-#### ✅ Skill Execution Cleanup
-- `skill:execute` (`data/skill/function/execute.mcfunction`) の末尾に `data remove storage rpg_skill: data` を追加。
-- スキル実行後、ストレージに残ったデータをクリーンアップして誤動作を防止。
-
-### 2026-02-04: スポーンシステムのリファクタリング
-
-#### ✅ スポーンシステムのリファクタリング
-1. **Separation of Concerns**:
-   - `register` (データ登録) と `summon` (召喚) を完全に分離。
-2. **不要ファイルの削除**:
-   - `mob:setup/summon_from_storage.mcfunction` および `..._macro.mcfunction` を削除（現在は使用されていないため）。
-
-#### ✅ ユーザーによる修正・改善 (Combat & Visuals)
-1. **Interactionの調整**:
-   - `summon.mcfunction`: 召喚位置を `~ ~-0.2 ~` に調整し、プレイヤーの目線と判定を適合させた。
-2. **戦闘エフェクトの追加**:
-   - `attacked.mcfunction`: 攻撃ヒット時に `crit` パーティクルと `entity.player.attack.nodamage` 音を追加。
-   - `mob:on_hurt/hit`: デバッグメッセージ (`say`) を `tellraw` に変更し、ダメージログを見やすくした (`ShowDmgLog` タグが必要)。
-3. **バグ修正**:
-   - `regen_mp.mcfunction`: スコア名の誤字 (`int` → `INT`) を修正。
-
-### 2026-02-14: MOB Generator Refactoring & Recovery
-
-#### ✅ MOB生成システムの刷新 (Register Pattern)
-- **目的**: 複雑化したLoot Table依存を排除し、直接的なデータ注入 (`Register`) に移行。
-- **実装**:
-    - `generate_mobs.py` を大幅改修。
-    - 出力先を `data/bank/function/mob` に戻し、`rpg_mob:Instant` 構造を採用。
-    - `AI` カラムからのJSONデータ注入に対応 (`rpg_mob:Delay.AI`)。
-
-#### ✅ Bank Manager の復旧と分離
-- **経緯**: 作業中の誤削除により `bank_manager` ディレクトリが消失。
-- **復旧**: ユーザーによる手動復旧を実施。
-    - 生成ロジック (`bank`) と 召喚ロジック (`bank_manager`) を明確に分離。
-    - Generatorは `bank_manager` を上書きせず、`bank` のみを出力する。
-- **現状の制限**:
-    - `bank_manager/function/mob/spawn/by_id.mcfunction` 等のコマンド用ファイルは未復旧（不要のため）。
-    - スポナー（`SpawnEntities` NBT）経由のスポーンは正常に機能する。
-
-### 2026-02-16: MOBスポーン機能復旧 & レベル表示改善
-
-#### ✅ MOBスポーン機能の復旧 (TUSB Architecture)
-1.  **TUSB方式の踏襲**:
-    - `by_id` や `match_id` などのID指定スポーン機構は廃止。
-    - `oh_my_dat` の深いネスト (`[-4]...`) を維持し、TUSB本来のデータ構造と互換性を保つ。
-    - スポナー (`SpawnEntities` Tag) 経由でのみスポーンを行う仕様で確定。
-
-2.  **ネストの維持**:
-    - リファクタリング案（`rpg_mob` への移行）は却下され、`oh_my_dat` への依存を継続。
-
-#### ✅ レベル表示システムの刷新
-1.  **JSON Text Component の活用**:
-    - 従来の `loot` テーブルやディメンション（`control_area`）を用いた複雑な実装を廃止。
-    - `CustomName` に直接 `{"score":...}` や `{"nbt":...}` を埋め込む方式に変更。
-    - `ArmorItems[0].tag.RpgData.OriginalName` に元の名前を退避し、動的に `[Lv.XX] OriginalName` を表示。
-
-2.  **ステータス計算の改善**:
-    - `Factor` (レベル差補正) を導入し、レベルに応じたステータス上昇を実装 (`apply_status/from_storage`)。
-
-
-#### ✅ データ登録フォーマットの簡素化
-    - **Storage Target**: `rpg_mob:Instant` / `Delay` を廃止し、`bank:mob` に統一。
-    - **Flat Structure**: `Base`, `Costume`, `Status` などをフラットに配置。
-    - **Direct Item Set**: 装備データを直接 `Costume.Mainhand` 等にセットする方式に変更。
-
+---
 
 ## 次に取り組むべきタスク
 
-### 1. MOB HPバーを表示する ← **次のタスク**
+### 1. MOB HPバーを表示する
 - ボスバーまたはtext_displayを使用したHP表示
 - MOBごとに `HP / MaxHP` を視覚化
 
-### 2. MOB AI システムの実装
+### 2. レベルアップシステム
+- EXP蓄積による自動レベルアップ
+- ステータス上昇
+- スキル習得
+
+### 3. MOB AI システムの実装
 - AI 設定の Storage 対応
 - 基本 AI パターン（blow, shoot, boss, fly）
 - AI トリガーシステム（tick, attack, hurt, death）
 
-### 3. 装備システムの拡張
+### 4. 装備システムの拡張
 - エンチャント効果の実装
 - 防具によるステータス変化
 
-### 4. スキルシステム
+### 5. スキルシステム
 - アクティブスキル（MP消費）
 - パッシブスキル
 - スキルツリー
 
-## ターン制スキル実装草案 (Turn-based / Interval Skills)
+---
 
-### 概要
-- `init` による1回切りの実行だけでなく、一定間隔（ターン/秒数）ごとのスキル発動を実装する。
-- 全ての `AssetMOB` は `mob:tick` -> ディスパッチャー経由で、毎Tick末端の `.mcfunction` を通過している。これを利用する。
-
-### 実装イメージ (末端 .mcfunction)
-現在、`generate_mobs.py` が生成する `001.goblin/.mcfunction` は以下のようになっています：
-
-```mcfunction
-# Init Check
-execute if entity @s[tag=Init] run function .../init
-execute if entity @s[tag=Init] run tag @s remove Init
-
-# ▼ ここにターン制ロジックを追記可能 ▼
-
-# 例: 100Tickごとに "SpecialAttack" を発動
-# 1. タイマー加算
-scoreboard players add @s Timer 1
-
-# 2. 判定 & 実行
-execute if score @s Timer matches 100.. run function .../special_attack
-execute if score @s Timer matches 100.. run scoreboard players set @s Timer 0
-```
-
-### 今後の手順
-1. **Generator更新**:
-    - Spreadsheetに `Interval` や `TurnSkill` の定義列を追加（要検討）。
-    - `generate_mobs.py` を更新し、`init` 以外のトリガー（例: `interval_100`）があった場合、上記のようなタイマーロジックを `.mcfunction` に自動追記するようにする。
-2. **手動実装**:
-    - 特殊なボスなど、複雑な条件が必要な場合は生成後の `.mcfunction` に直接記述する。
-
-### 注意点
-- **負荷**: 全てのMOBが毎Tickスコアボード計算を行うことになるため、MOB数が大量に増えた場合の負荷に注意。
-- **タグ制御**: 頻繁な実行を避けるため、距離判定 (`distance=..16`) や視線判定などを `execute` 条件に加えることを推奨。
-
-## 重要な参考資料
+## 重要な技術情報
 
 ### コーディング規約
 - **定数**: `$数値 Const` 形式（例: `$100 Const`, `$1002 Const`）
-- **一時スコア**: `$変数名 _` 形式（例: `$XPLevel _`, `$TargetPoints _`）
-- **スコアボード命名**: 
-  - Objective: `snake_case` 推奨
-  - ScoreHolder: `$.*` パターン（一時変数）
-- **NBT命名**: `PascalCase` 推奨
+- **一時スコア**: `$変数名 _` または `&変数名 _` 形式
+- **スコアボード命名**: snake_case 推奨
+- **NBT命名**: PascalCase 推奨
+- **マクロ変数**: 大文字推奨（`$(ID)` 等）
 
-### 参考プロジェクト
+### Storage命名
+- `bank:mob` - MOBデータ
+- `api:` - API引数
+- `player:` - プレイヤーデータ
+- `global` - グローバル設定
+
+### 重要なタグ
+- `Init` - 召喚直後のMOB（初期化待ち）
+- `BankMob` - bank:mob由来のMOB
+- `Enemy` - 敵MOB
+- `Attacker` - 攻撃者
+- `Victim` - 被害者
+- `Hit` - 攻撃が当たったMOB
+- `PC` - プレイヤー関連エンティティ（自動削除対象）
+
+---
+
+## 参考プロジェクト
 - **TUSB**: https://github.com/TUSB/TheUnusualSkyBlock
 - **RPG-Datapack (HamaSSH)**: https://github.com/HamaSSH/RPG-Datapack
 - **TheSkyBlessing**: https://github.com/ProjectTSB/TheSkyBlessing
 
-### ライセンス
+---
+
+## ライセンス
 **WTFPL** (DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE)
+
+---
+
+**最終更新**: 2026-02-17  
+**システムバージョン**: v2.0 (bank:mob統一版)
