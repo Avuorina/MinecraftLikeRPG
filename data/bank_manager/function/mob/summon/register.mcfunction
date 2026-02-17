@@ -14,7 +14,6 @@
         # [bank_manager:mob/summon/apply_status/set]
             # [bank_manager:mob/summon/apply_status/level/]
             # [bank_manager:mob/summon/apply_status/tag]
-    
 
 ## 登録MOBを呼び出す
-    $function bank:mob/alias/$(id)/register
+    $function bank:mob/alias/$(ID)/register

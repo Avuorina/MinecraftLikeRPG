@@ -1,1 +1,0 @@
-execute if entity @s[tag=mob.002.skeleton_warrior] run function bank:mob/global/ground/shoot/002.skeleton_warrior/

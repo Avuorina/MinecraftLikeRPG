@@ -15,7 +15,7 @@
     execute unless data storage bank:mob ID run tellraw @a [{"storage":global,"nbt":"Prefix.ERROR"},{"text":"データを適用するEntityが存在しません\nasを利用して対象のEntityを実行者にしてください"}]
 
 ## ~SUMMON~
-    function bank_manager:mob/trigger/summon/core
+    function bank_manager:mob/trigger/summon/
 
 ## 初期化
     execute as @e[tag=Init,distance=..0.01] run function bank_manager:mob/summon/init
