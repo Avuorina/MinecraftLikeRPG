@@ -2,7 +2,7 @@
 #
 # MOBによる攻撃
 #
-# @within advancement:entity_hurt_player
+# @within advancement lib:entity_hurt_player
 
 # 被害者はこいつ
     tag @s add Victim

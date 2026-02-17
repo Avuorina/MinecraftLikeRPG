@@ -1,7 +1,6 @@
 {
     "values": [
         "core:tick",
-        "lib:tick",
-        "entity:tick"
+        "lib:tick"
     ]
 }

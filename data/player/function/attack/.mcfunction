@@ -2,7 +2,7 @@
 #
 #
 #
-# @within advancement lib:check_Lclick
+# @within advancement lib:player_hurt_entity
 
 # 与えたダメージを一時スコアに代入
     function player:attack/dmg_dealt
@@ -14,9 +14,9 @@
     # Hitタグがついた敵にノックバック
         tag @s add Attacker
         #execute as @s[tag=Attacker] run say I AM ATTACKER
-        #execute as @e[tag=Hit,tag=ENEMY,distance=..10] at @s run say I AM HIT
-        execute as @e[tag=Hit,tag=ENEMY,distance=..10] at @s run function mob:on_hurt/hit
-        execute as @e[tag=ENEMY,type=#lib:every_mob,distance=..100] run function player:attack/filter/8
+        #execute as @e[tag=Hit,tag=Enemy,distance=..10] at @s run say I AM HIT
+        execute as @e[tag=Hit,tag=Enemy,distance=..10] at @s run function bank_manager:mob/hurt/hit
+        execute as @e[tag=Enemy,type=#lib:every_mob,distance=..100] run function player:attack/filter/8
         tag @s remove Attacker
         ## Debug
         #title @s title {text:"attacked"}

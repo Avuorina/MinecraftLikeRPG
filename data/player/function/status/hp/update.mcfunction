@@ -9,13 +9,13 @@
     #attribute @s minecraft:max_health base set 20
 
 # HP割合計算: Heart = (hp/max_hp)*20
-    scoreboard players operation @s _ = @s HP
-    scoreboard players operation @s _ *= $10000 Const
-    scoreboard players operation @s _ /= @s MaxHP
-    scoreboard players operation @s _ *= $20 Const
-    scoreboard players operation @s _ /= $10000 Const
-    execute if score @s HP matches 1.. if score @s _ matches ..0 run scoreboard players set @s _ 1
-    execute store result storage player: Health int 1 run scoreboard players get @s _
+    scoreboard players operation @s HPRatio = @s HP
+    scoreboard players operation @s HPRatio *= $10000 Const
+    scoreboard players operation @s HPRatio /= @s MaxHP
+    scoreboard players operation @s HPRatio *= $20 Const
+    scoreboard players operation @s HPRatio /= $10000 Const
+    execute if score @s HP matches 1.. if score @s HPRatio matches ..0 run scoreboard players set @s HPRatio 1
+    execute store result storage player: Health int 1 run scoreboard players get @s HPRatio
 
 # 呼び出し
     function player:status/hp/bar with storage player:
@@ -26,5 +26,5 @@
     effect give @s instant_health 1 1 true
 
 # リセット
-    scoreboard players reset @s _
     data remove storage player: Health
+    say 1

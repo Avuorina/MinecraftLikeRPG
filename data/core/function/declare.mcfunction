@@ -10,6 +10,7 @@
         scoreboard objectives add MaxHP dummy "最大HP"
         scoreboard objectives add HPRegen dummy "HP回復量"
         scoreboard objectives add HPRegenTimer dummy "HP回復タイマー"
+        scoreboard objectives add HPRatio dummy "HP比率"
         scoreboard objectives add MP dummy "MP"
         scoreboard objectives add MaxMP dummy "最大MP"
         scoreboard objectives add MPRegen dummy "MP回復量"
