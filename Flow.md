@@ -12,22 +12,22 @@ ID指定でMOBを召喚・初期化するシステムです。データの**定�
 ### フロー図
 ```mermaid
 graph TD
-    A[/function debug:summon/001.goblin] --> B[Storage api: Argument.ID = "001"]
-    B --> C[api:mob/summon]
+    A["/function debug:summon/001.goblin"] --> B["Storage api: Argument.ID = '001'"]
+    B --> C["api:mob/summon"]
     C --> D{ID存在チェック}
     D -->|なし| E[エラーメッセージ]
-    D -->|あり| F[api:mob/core/summon]
-    F --> G[bank:mob ID設定]
-    G --> H[bank_manager:mob/summon/register]
-    H --> I[$function bank:mob/alias/001/register]
-    I --> J[bank:mob/001.goblin/register]
-    J --> K[Storage bank:mob データ登録]
-    K --> L[bank_manager:mob/trigger/summon/]
-    L --> M[bank_manager:mob/trigger/summon/macro]
-    M --> N[$function bank:mob/alias/001/summon]
-    N --> O[bank:mob/001.goblin/summon/]
-    O --> P[summon zombie ~ ~ ~ Tags:Init]
-    P --> Q[bank_manager:mob/summon/init]
+    D -->|あり| F["api:mob/core/summon"]
+    F --> G["bank:mob ID設定"]
+    G --> H["bank_manager:mob/summon/register"]
+    H --> I["$function bank:mob/alias/001/register"]
+    I --> J["bank:mob/001.goblin/register"]
+    J --> K["Storage bank:mob データ登録"]
+    K --> L["bank_manager:mob/trigger/summon/"]
+    L --> M["bank_manager:mob/trigger/summon/macro"]
+    M --> N["$function bank:mob/alias/001/summon"]
+    N --> O["bank:mob/001.goblin/summon/"]
+    O --> P["summon zombie ~ ~ ~ {Tags:[Init]}"]
+    P --> Q["bank_manager:mob/summon/init"]
     Q --> R[ステータス適用/CustomName設定]
     R --> S[✅ 召喚完了]
 ```
@@ -100,20 +100,20 @@ InteractionエンティティとAdvancementを組み合わせた二重検知シ�
 ### フロー図
 ```mermaid
 graph TD
-    A[advancement lib:player_hurt_entity] --> B[player:attack/]
+    A["advancement lib:player_hurt_entity"] --> B["player:attack/"]
     B --> C[ダメージ計算]
-    C --> D[tag=Attacker 付与]
+    C --> D["tag=Attacker 付与"]
     D --> E{攻撃方法判定}
-    E -->|Interaction検知| F[player:attack/target]
-    E -->|advancement検知| G[filter/8 → filter/0]
-    F --> H[tag=Hit 付与]
+    E -->|Interaction検知| F["player:attack/target"]
+    E -->|advancement検知| G["filter/8 → filter/0"]
+    F --> H["tag=Hit 付与"]
     G --> H
-    H --> I[bank_manager:mob/hurt/hit]
+    H --> I["bank_manager:mob/hurt/hit"]
     I --> J[ノックバック]
     J --> K[ダメージ演出]
     K --> L[HP減算]
     L --> M{HP <= 0?}
-    M -->|Yes| N[bank_manager:mob/death/]
+    M -->|Yes| N["bank_manager:mob/death/"]
     M -->|No| O[ダメージログ表示]
 ```
 
@@ -174,10 +174,10 @@ MOBがダメージを受けた際のノックバック演出、HP管理、死亡
 ### 被ダメージフロー
 ```mermaid
 graph TD
-    A[bank_manager:mob/hurt/hit] --> B[ノックバック計算]
-    B --> C[AEC召喚 0,0,0 → ^,^,^0.4]
+    A["bank_manager:mob/hurt/hit"] --> B[ノックバック計算]
+    B --> C["AEC召喚 0,0,0 → ^,^,^0.4"]
     C --> D[Position取得]
-    D --> E[Y軸を0.32に固定]
+    D --> E["Y軸を0.32に固定"]
     E --> F[XZPower倍率適用]
     F --> G[Motionに適用]
     G --> H[ダメージ演出]
@@ -187,7 +187,7 @@ graph TD
     J --> L[HP減算]
     K --> L
     L --> M{HP <= 0?}
-    M -->|Yes| N[death/]
+    M -->|Yes| N["death/"]
     M -->|No| O[ダメージログ表示]
 ```
 
@@ -227,18 +227,18 @@ data modify entity @s Motion set from storage bank:mob temp.Pos
 ### 死亡処理フロー
 ```mermaid
 graph TD
-    A[bank_manager:mob/death/] --> B[EXP計算]
+    A["bank_manager:mob/death/"] --> B[EXP計算]
     B --> C{レベル差判定}
-    C -->|+5~| D[EXP × 150%]
-    C -->|0~+4| E[EXP × 100%]
-    C -->|-5~-1| F[EXP × 50%]
-    C -->|~-6| G[EXP × 10%]
+    C -->|+5~| D["EXP × 150%"]
+    C -->|0~+4| E["EXP × 100%"]
+    C -->|-5~-1| F["EXP × 50%"]
+    C -->|~-6| G["EXP × 10%"]
     D --> H[プレイヤーにEXP付与]
     E --> H
     F --> H
     G --> H
     H --> I[GOLD計算]
-    I --> J[DropGold × 5 × random 80~120%]
+    I --> J["DropGold × 5 × random 80~120%"]
     J --> K[プレイヤーにGOLD付与]
     K --> L[text_display 報酬表示]
     L --> M[MOB削除]
@@ -331,11 +331,11 @@ graph TD
         Changed -->|No| Skip["スキップ"]
     end
     
-    subgraph "XPバー適用 (set.mcfunction)"
+    subgraph "XPバー適用"
         BarSet -->|Level設定| SetLevel["xp set MP levels (macro)"]
         SetLevel -->|容量計算| CalcXP["player:status/mp/calc_xp"]
-        CalcXP -->|Vanilla公式| XPReq["$XP_Req算出 (Level依存)"]
-        XPReq -->|ポイント計算| CalcPoints["Points = $XP_Req × MP / MaxMP"]
+        CalcXP -->|Vanilla公式| XPReq["XP_Req算出 (Level依存)"]
+        XPReq -->|ポイント計算| CalcPoints["Points = XP_Req × MP / MaxMP"]
         CalcPoints -->|Point適用| SetPoints["xp set Points points (macro)"]
     end
 ```
@@ -370,13 +370,12 @@ Vanillaの経験値公式を使用して、現在のレベル（MP値）にお�
 graph TD
     Update["player:status/hp/update"] --> Calc["HPRatio計算"]
     Calc --> Store["HPRatio = HP × 10000 / MaxHP × 20 / 10000"]
-    Store --> Check{HPRatio = 0 かつ HP > 0?}
+    Store --> Check{"HPRatio = 0 かつ HP > 0?"}
     Check -->|Yes| SetMin["HPRatio = 1"]
     Check -->|No| Continue
     SetMin --> Apply
     Continue --> Apply["storage player: Health = HPRatio"]
     Apply --> Bar["player:status/hp/bar (macro)"]
-    Bar --> Effect["instant_health エフェクト"]
 ```
 
 ### 主要コンポーネント
@@ -406,34 +405,34 @@ $attribute @s generic.max_health base set $(Health)
 ```mermaid
 graph TB
     subgraph "MOB召喚"
-        S1[debug:summon] --> S2[api:mob/summon]
-        S2 --> S3[register + summon]
+        S1["debug:summon"] --> S2["api:mob/summon"]
+        S2 --> S3["register + summon"]
         S3 --> S4[init]
     end
     
     subgraph "プレイヤー攻撃"
-        A1[advancement] --> A2[player:attack/]
-        A2 --> A3[target/filter]
-        A3 --> A4[mob/hurt/hit]
+        A1[advancement] --> A2["player:attack/"]
+        A2 --> A3["target/filter"]
+        A3 --> A4["mob/hurt/hit"]
     end
     
     subgraph "MOB処理"
-        M1[hurt/hit] --> M2[knockback]
+        M1["hurt/hit"] --> M2[knockback]
         M2 --> M3[HP減算]
         M3 --> M4{死亡?}
-        M4 -->|Yes| M5[death/]
+        M4 -->|Yes| M5["death/"]
         M4 -->|No| M6[ログ表示]
     end
     
     subgraph "MOB攻撃"
-        E1[advancement] --> E2[mob/attack/]
+        E1[advancement] --> E2["mob/attack/"]
         E2 --> E3[プレイヤーHP減算]
     end
     
     S4 -.-> M1
     A4 --> M1
     M5 --> R[報酬付与]
-    E3 --> P[player:status/hp/update]
+    E3 --> P["player:status/hp/update"]
 ```
 
 ---
