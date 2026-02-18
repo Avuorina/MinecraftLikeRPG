@@ -15,6 +15,9 @@
 # ダメージ処理
     scoreboard players operation @s HP -= &DmgDealt _
 
+# HPバー更新
+    execute at @s run function mob_manager:hp_bar/update
+
 # 死のチェック
     execute if score @s HP matches ..0 run function bank_manager:mob/death/
     # tag=ShowDmgLogにダメージと残りHPを表示

@@ -4,10 +4,12 @@
     # HP
         execute if score @s Menu matches 101 if score @s StatusPoint matches 1.. run scoreboard players add @s MaxHP 1
         execute if score @s Menu matches 101 if score @s StatusPoint matches 1.. run scoreboard players add @s HP 1
+        execute if score @s Menu matches 101 if score @s StatusPoint matches 1.. run function player:status/hp/update
 
     # MP
         execute if score @s Menu matches 102 if score @s StatusPoint matches 1.. run scoreboard players add @s MaxMP 1
         execute if score @s Menu matches 102 if score @s StatusPoint matches 1.. run scoreboard players add @s MP 1
+        execute if score @s Menu matches 102 if score @s StatusPoint matches 1.. run function player:status/mp/bar/set
 
     # STR
         execute if score @s Menu matches 103 if score @s StatusPoint matches 1.. run scoreboard players add @s STR 1
