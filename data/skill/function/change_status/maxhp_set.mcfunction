@@ -1,9 +1,11 @@
+#> skill:change_status/maxhp_set
+
 # MaxHP更新（Set、割合維持）
 # 旧MaxHP保存
     scoreboard players operation $Old MaxHP = @s MaxHP
 
 # 新MaxHP適用
-    execute store result score @s MaxHP run data get storage rpg_skill: data.set.MaxHP
+    execute store result score @s MaxHP run data get storage skill: data.set.MaxHP
 
 # 計算: HP = HP * NewMax / OldMax
 # 0除算回避

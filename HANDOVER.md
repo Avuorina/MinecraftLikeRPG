@@ -278,6 +278,14 @@ python generate_items.py
 
 ## 最近の変更履歴
 
+### 2026-02-19: Storage Namespaceのリファクタリング
+- **変更**: `rpg_skill: data` → `skill: data`
+- **対象**: 全てのスキル関連ファンクションとドキュメント (`Flow.md`)
+
+### 2026-02-19: SpeedRange実装
+- **Motionスキル**: SpeedRangeパラメータによる速度の揺らぎ（±）を実装
+- **ロジック**: `lib:calc/random100` を使用して ` -Range ～ +Range` を加算
+
 ### 2026-02-19: レベルアップシステム確認
 - **自動レベルアップ**: EXPによるレベル上昇、nextEXP計算（バニラ準拠）
 - **ステータス割り振り**: GUI (`tellraw`) によるポイント割り振りシステム (HP, MP, STR, DEF, AGI, INT, SPD, LUCK)

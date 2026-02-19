@@ -2,7 +2,25 @@
 
 このドキュメントでは、データパック内の主要なシステムの処理フローをまとめています。
 
+
+## 目次
+1. [🧟 MOB召喚システム](#-mob召喚システム)
+2. [⚔️ プレイヤー攻撃システム](#-プレイヤー攻撃システム)
+3. [💥 MOB被ダメージ/死亡システム](#-mob被ダメージ死亡システム)
+4. [💎 アイテムステータス適用システム](#-アイテムステータス適用システム)
+5. [💙 MPバー表示システム (Vanilla XP Bar)](#-mpバー表示システム-vanilla-xp-bar)
+6. [❤️ HPバー表示システム](#-hpバー表示システム)
+7. [🎯 システム統合図](#-システム統合図)
+8. [📊 重要なScoreboard目標](#-重要なscoreboard目標)
+9. [🏷️ 重要なタグ](#-重要なタグ)
+10. [🔧 システムの特徴](#-システムの特徴)
+11. [🚀 使用方法](#-使用方法)
+12. [💚 MOB HPバー表示システム (text_display)](#-mob-hpバー表示システム-text_display)
+13. [🆙 レベルアップ & ステータスシステム](#-レベルアップ--ステータスシステム)
+14. [🏃 MOB AI Motionシステム](#-mob-ai-motionシステム)
+
 ---
+
 
 ## 🧟 MOB召喚システム
 
@@ -603,6 +621,60 @@ graph TD
         ConsPt --> Sound["LevelUp音"]
         Sound --> ReOpen["UI再表示"]
         
+
         CheckPt -->|No| Error["エラー音＆メッセージ"]
     end
 ```
+
+---
+
+## 🏃 MOB AI Motionシステム
+
+### 概要
+MOBに特定の方向への物理的な力を与えて移動させるシステムです。計算用のマーカーを使用してベクトルを算出し、`Motion` NBTに適用します。
+
+### 使用方法
+`skill: data` StorageにJSONデータをセットし、`skill:execute` を実行します。
+
+```mcfunction
+data modify storage skill: data set value {
+    Skill: "Motion",
+    Direction: [180f, -15f],  // [Yaw, Pitch]
+    Speed: 1.0d,              // 速度倍率
+    SpeedRange: 0.2d,         // (Optional) 速度のランダム幅 (0.8 ～ 1.2)
+    Absolute: 1b              // (Optional) 1b=絶対角, 無し=相対角
+}
+function skill:execute
+```
+
+### パラメータ詳細
+| キー | 型 | 説明 |
+|---|---|---|
+| `Skill` | String | `"Motion"` 固定 |
+| `Direction` | List | `[Yaw, Pitch]`。回転角度。通常は**相対角度**（現在の向きに加算）。<br>例: `[180f, 0f]` (真後ろ), `[0f, -90f]` (真上) |
+| `Speed` | Double | ベクトルの長さ（強さ）。 |
+| `Absolute` | Byte | `1b` の場合、`Direction` を**絶対角度**（南=0）として扱う。 |
+| `SpeedRange` | Double | 速度のランダム幅。`Speed` に対して `±Range` の範囲で速度が変動する。<br>計算式: `FinalSpeed = Speed + (Random(0..99) - 50) * SpeedRange / 50` |
+
+### 🧙‍♂️ Skill:Summon
+指定したMOBを召喚します。
+
+```mcfunction
+data modify storage skill: data set value {
+    Skill: "Summon",
+    MobID: "001.goblin",
+    Count: 3,               // (Optional) 召喚数。デフォルト1
+    Offset: [0.0, 0.0, 2.0], // (Optional) 実行者の視線方向への相対座標 [^x, ^y, ^z]。デフォルト[0,0,0]
+    Spread: 1.0             // (Optional) 召喚位置からのランダム拡散範囲。デフォルト0
+}
+function skill:execute
+```
+
+### 処理フロー
+1. **マーカー召喚**: `tag=motion_calc` のマーカーを (0,0,0) に配置。
+2. **回転適用**:
+   - `Absolute` なし: マーカーを実行者と同じ向きにし、`Direction` を加算。
+   - `Absolute:1b`: マーカーの向きを (0,0) にリセットし、`Direction` を加算。
+3. **ベクトル生成**: マーカーを `^ ^ ^1` (前方1ブロック) にtp。
+4. **ベクトル計算**: マーカーの座標 (x,y,z) × `Speed`。
+5. **適用**: 計算結果を実行者の `Motion` にコピー。

@@ -1,9 +1,11 @@
+#> skill:change_status/maxhp_add
+
 # MaxHP更新（加算、割合維持）
 # 旧MaxHP保存
     scoreboard players operation $Old MaxHP = @s MaxHP
 
 # 加算値取得
-    execute store result score $Temp _ run data get storage rpg_skill: data.add.MaxHP
+    execute store result score $Temp _ run data get storage skill: data.add.MaxHP
 
 # 新MaxHP計算
     scoreboard players operation @s MaxHP += $Temp _
