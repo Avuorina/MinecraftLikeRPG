@@ -186,9 +186,11 @@ graph TD
     I -->|その他| K[instant_damage]
     J --> L[HP減算]
     K --> L
-    L --> M{HP <= 0?}
-    M -->|Yes| N["death/"]
-    M -->|No| O[ダメージログ表示]
+    K --> L[HP減算]
+    L --> M[HPバー更新 `mob_manager:hp_bar/update`]
+    M --> N{HP <= 0?}
+    N -->|Yes| O["death/"]
+    N -->|No| P[ダメージログ表示]
 ```
 
 ### ノックバック処理 (`mob/hurt/knockback/`)
@@ -529,5 +531,78 @@ graph TB
 
 ---
 
-**最終更新**: 2026-02-17  
-**システムバージョン**: v2.0 (bank:mob統一版)
+**最終更新**: 2026-02-19  
+**システムバージョン**: v2.1 (mob_manager/HPバー実装)
+
+---
+
+## 💚 MOB HPバー表示システム (text_display)
+
+### 概要
+MOBの頭上にHPバーと現在値/最大値を表示します。`mob_manager` ネームスペースで管理されています。
+
+### フロー図
+```mermaid
+graph TD
+    Hit["bank_manager:mob/hurt/hit"] --> Update["mob_manager:hp_bar/update"]
+    
+    subgraph "HPバー更新"
+        Update --> Calc["HPRatio計算 (0-10000)"]
+        Calc --> Init{HPバー存在?}
+        Init -->|No| Summon["text_display召喚 (tag=HPBar)"]
+        Init -->|Yes| Next
+        Summon --> Next
+        Next --> Dispatch["hp_bar/apply_text_dispatcher"]
+        Dispatch -->|HPRatioに応じた分岐| Color["緑/黄/赤 の文字適用"]
+        Color --> Name["CustomName (Level/Name) も同期"]
+    end
+```
+
+### 構成要素
+- **text_display**: `tag=HPBar`。MOBに乗っている(Passenger)。
+- **Dispatcher**: HP割合に応じて、使用するファイル（文字色や目盛りの量）を切り替える。
+- **フォルダ構造**: `green`, `yellow`, `red` フォルダに各段階の表示ファイルが格納されている。
+
+---
+
+## 🆙 レベルアップ & ステータスシステム
+
+### 概要
+EXP蓄積による自動レベルアップと、ポイント消費によるステータス割り振りが実装されています。
+
+### レベルアップフロー
+```mermaid
+graph TD
+    Tick["player:tick"] --> Check{EXP >= nextEXP?}
+    Check -->|Yes| LevelUp["player:level/up/"]
+    
+    subgraph "レベルアップ処理"
+        LevelUp --> IncLv["LV + 1"]
+        IncLv --> ConsExp["EXP消費"]
+        ConsExp --> CalcNext["nextEXP再計算 (Vanilla曲線を模倣)"]
+        CalcNext --> Point["StatusPoint + 3"]
+        Point --> Heal["HP/MP全回復"]
+        Heal --> Effect["エフェクト＆通知"]
+        Effect --> Recurse{まだEXP余ってる?}
+        Recurse -->|Yes| LevelUp
+    end
+```
+
+### ステータス割り振りフロー
+```mermaid
+graph TD
+    Trigger["/trigger Menu set 1"] --> Screen["player:status/allocation_screen"]
+    Screen --> Display["Tellraw UI表示"]
+    Display --> Click["クリック (trigger set 101など)"]
+    Click --> Run["trigger/sneak/menu/run/status"]
+    
+    subgraph "割り振り処理"
+        Run --> CheckPt{Point >= 1?}
+        CheckPt -->|Yes| AddStat["対象ステータス + 1"]
+        AddStat --> ConsPt["StatusPoint - 1"]
+        ConsPt --> Sound["LevelUp音"]
+        Sound --> ReOpen["UI再表示"]
+        
+        CheckPt -->|No| Error["エラー音＆メッセージ"]
+    end
+```

@@ -278,6 +278,16 @@ python generate_items.py
 
 ## 最近の変更履歴
 
+### 2026-02-19: レベルアップシステム確認
+- **自動レベルアップ**: EXPによるレベル上昇、nextEXP計算（バニラ準拠）
+- **ステータス割り振り**: GUI (`tellraw`) によるポイント割り振りシステム (HP, MP, STR, DEF, AGI, INT, SPD, LUCK)
+- **報酬**: HP/MP全回復、StatusPoint+3
+
+### 2026-02-19: MOB HPバー実装
+- **ネームスペース**: `mob_manager`
+- **機能**: `text_display` を使用したHP/MaxHPの視覚化
+- **更新タイミング**: 被ダメージ時 (`bank_manager:mob/hurt/hit`)
+
 ### 2026-02-17: MOB召喚システム完全刷新 + 戦闘システム実装
 
 #### ✅ MOB召喚システムの完全刷新
@@ -390,14 +400,7 @@ python generate_items.py
 
 ## 次に取り組むべきタスク
 
-### 1. MOB HPバーを表示する
-- ボスバーまたはtext_displayを使用したHP表示
-- MOBごとに `HP / MaxHP` を視覚化
 
-### 2. レベルアップシステム
-- EXP蓄積による自動レベルアップ
-- ステータス上昇
-- スキル習得
 
 ### 3. MOB AI システムの実装
 - AI 設定の Storage 対応
