@@ -2,7 +2,7 @@
 #
 # HPバー更新（マクロ版）
 #
-# @within bank_manager:mob/hurt/hit
+# @within mob_manager:hp_bar/green/11_14
 
     $execute if score @s HPRatio matches 12 run data modify entity @s text set value [$(Name),{"text":"\nHP: $(HP) / $(MaxHP)\n","color":"white"},{"text":"██████","color":"green"},{"text":"████","color":"dark_gray"}]
     $execute if score @s HPRatio matches 11 run data modify entity @s text set value [$(Name),{"text":"\nHP: $(HP) / $(MaxHP)\n","color":"white"},{"text":"█████","color":"green"},{"text":"▌","color":"green"},{"text":"▌","color":"dark_gray"},{"text":"████","color":"dark_gray"}]

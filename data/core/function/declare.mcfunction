@@ -14,6 +14,7 @@
         scoreboard objectives add MP dummy "MP"
         scoreboard objectives add MaxMP dummy "最大MP"
         scoreboard objectives add MPRegen dummy "MP回復量"
+        scoreboard objectives add HPBarID dummy "HPバーID"
         scoreboard objectives add MPRegenTimer dummy "MP回復タイマー"
         scoreboard objectives add MPRatio dummy "MP比率"
         scoreboard objectives add PreviousMPRatio dummy "前回のMP比率"
@@ -36,7 +37,6 @@
         scoreboard objectives add Turn dummy "ターン"
         scoreboard objectives add Random dummy "乱数"
         scoreboard objectives add MobID dummy "MobID"
-        scoreboard objectives add HPBarID dummy "HPバーID"
         scoreboard objectives add Reach dummy "リーチ"
         scoreboard objectives add ParentID dummy "親ID"
 

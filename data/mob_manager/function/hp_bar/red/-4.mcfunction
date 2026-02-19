@@ -2,7 +2,7 @@
 #
 #
 #
-# @within bank_manager:mob/hurt/hit
+# @within mob_manager:hp_bar/apply_text
 
 ## 3-4
     execute if score @s HPRatio matches 3..4 run function mob_manager:hp_bar/red/34 with storage bank:mob

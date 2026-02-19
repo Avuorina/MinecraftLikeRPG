@@ -2,7 +2,7 @@
 #
 # HPバー更新（マクロ版）
 #
-# @within bank_manager:mob/hurt/hit
+# @within mob_manager:hp_bar/green/10_
 
 ## 15-16
     execute if score @s HPRatio matches 15..16 run function mob_manager:hp_bar/green/1516 with storage bank:mob
