@@ -1,4 +1,6 @@
+#> bank:mob/006.test_master/turn_distributor
 # テストやり手 のターン振り分け
+# @within bank:mob/006.test_master/
 execute if score @s Turn matches 1 run return run function bank:mob/006.test_master/turn/turn_1
 execute if score @s Turn matches 2 run return run function bank:mob/006.test_master/turn/turn_2
 execute if score @s Turn matches 3 run return run function bank:mob/006.test_master/turn/turn_3

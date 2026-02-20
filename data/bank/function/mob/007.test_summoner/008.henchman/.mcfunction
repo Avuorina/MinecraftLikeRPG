@@ -1,4 +1,6 @@
+#> bank:mob/007.test_summoner/008.henchman/
 # テスト子分 - Tick Function
+# @within mob_manager:tick (execute as @e[tag=007.test_summoner])
 # 初期化チェック
 execute if entity @s[tag=Init] run function bank:mob/007.test_summoner/008.henchman/init
 execute if entity @s[tag=Init] run tag @s remove Init

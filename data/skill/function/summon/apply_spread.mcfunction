@@ -16,9 +16,7 @@
 scoreboard players operation #spread _ *= #rand _
 scoreboard players operation #spread _ /= $100 Const
 
-# マーカーを前進 (scale 100なので 0.01倍して適用したいが、tp ^ ^ ^X は直接変数をとれない)
-# ここもマクロか、あるいはMotionで飛ばすか？
-# Motionだと1tick待つ必要がある。マクロでtpしよう。
+# マーカーを前進
 
 # score -> storage
     execute store result storage skill: temp.Spread double 0.01 run scoreboard players get #spread _

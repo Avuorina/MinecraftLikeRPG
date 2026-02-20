@@ -5,4 +5,4 @@
 # @within bank:mob/alias/001/summon
 
 # エンティティ召喚
-    summon zombie ~ ~ ~ {Tags:[Init]}
+summon zombie ~ ~ ~ {Tags:[Init]}

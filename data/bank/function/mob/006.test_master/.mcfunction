@@ -1,4 +1,6 @@
+#> bank:mob/006.test_master/
 # テストやり手 - Tick Function
+# @within mob_manager:tick (execute as @e[tag=006.test_master])
 # 初期化チェック
 execute if entity @s[tag=Init] run function bank:mob/006.test_master/init
 execute if entity @s[tag=Init] run tag @s remove Init
