@@ -670,7 +670,7 @@ data modify storage skill: data set value {
 function skill:execute
 ```
 
-### 処理フロー
+### 処理フロー (Motion)
 1. **マーカー召喚**: `tag=motion_calc` のマーカーを (0,0,0) に配置。
 2. **回転適用**:
    - `Absolute` なし: マーカーを実行者と同じ向きにし、`Direction` を加算。
@@ -678,3 +678,43 @@ function skill:execute
 3. **ベクトル生成**: マーカーを `^ ^ ^1` (前方1ブロック) にtp。
 4. **ベクトル計算**: マーカーの座標 (x,y,z) × `Speed`。
 5. **適用**: 計算結果を実行者の `Motion` にコピー。
+
+---
+
+### 🧙‍♂️ Skill:Summon
+指定したMOBを召喚します。
+
+```mcfunction
+data modify storage skill: data set value {
+    Skill: "Summon",
+    MobID: "001.goblin",
+    Count: 3,               // (Optional) 召喚数。デフォルト1
+    Offset: [0.0, 0.0, 2.0], // (Optional) 実行者の視線方向への相対座標 [^x, ^y, ^z]。デフォルト[0,0,0]
+    Spread: 1.0             // (Optional) 召喚位置からのランダム拡散範囲。デフォルト0
+}
+function skill:execute
+```
+
+### パラメータ詳細
+| キー | 型 | 説明 |
+|---|---|---|
+| `Skill` | String | `"Summon"` 固定 |
+| `MobID` | String | 召喚するMOBのID（例: `"001.goblin"`, `"8"`, `"8.test_henchman"`） |
+| `Count` | Int | 何体召喚するか。省略時は1体。 |
+| `Offset` | List | 術者からの相対座標 `[左右, 上下, 前後]`。視線を基準にする。 |
+| `Spread` | Double | `Offset` で決定した基準点からランダムに散らばる半径（ブロック数）。 |
+
+### 処理フロー (Summon)
+1. **基準点(SummonOrigin)の決定**:
+   - 術者の位置と向きを基準に、`Offset` で指定されたローカル座標分だけ前進した位置にマーカーを置きます。
+2. **拡散と地形スキャン (Spread > 0)**:
+   - 基準点からランダムな距離と角度にダミーマーカー(`SpreadTry`)を飛ばします。
+   - **地形判定**: `lib:predicate/safe_zone` (足と頭が空気、床がブロック) を使用して安全な場所か確認します。
+   - 浮いていれば下へ（最大5ブロック）、埋まっていれば上へ（最大3ブロック）マーカーをずらし、地形に追従させます。
+   - 安全な場所が見つかればそこを確定位置(`SummonTarget`)とします。
+3. **再試行（リトライ）**:
+   - 地形スキャンで安全な場所が見つからなかった場合、別のランダムな距離・角度で**最大10回まで再抽選**します。
+   - 10回試して無理だった場合は、安全のため基準点(`SummonOrigin`)に妥協して召喚します。
+4. **召喚処理**:
+   - 確定位置(`SummonTarget`)にて `api:mob/summon` を呼び出してMOBを召喚します。
+   - この一連の処理を `Count` の回数だけ繰り返します。

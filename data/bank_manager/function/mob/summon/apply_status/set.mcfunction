@@ -117,6 +117,7 @@
 
 
     # 体力 (e2)
+        attribute @s max_health base set 1024
         data modify entity @s Health set value 1024f
         effect give @s regeneration infinite 255 true
         #execute if data storage bank:mob {Type:"Enemy"} run function mob_manager:init/multiplay_multiplier/normal

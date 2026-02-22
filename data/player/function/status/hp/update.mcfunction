@@ -27,4 +27,3 @@
 
 # リセット
     data remove storage player: Health
-    say 1

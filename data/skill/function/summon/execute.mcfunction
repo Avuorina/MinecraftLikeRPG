@@ -12,7 +12,7 @@
 # - data.Spread: Double (拡散範囲)
 
 # 1. ID検証
-    execute unless data storage skill: data.MobID run tellraw @a [{"storage":global,"nbt":"Prefix.ERROR"},{"text":"引数が足りません。","color":red},{"text":"(IDを指定してください)"}]
+    execute unless data storage skill: data.MobID run tellraw @a [{"storage":global,"nbt":"Prefix.ERROR"},{"text":"引数が足りません。","color":red},{"text":"(IDを指定してください)"},{"text":"[skill:summon/execute]",color:gray}]
     execute unless data storage skill: data.MobID run return fail
 
 # 2. API引数セット

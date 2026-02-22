@@ -278,6 +278,14 @@ python generate_items.py
 
 ## 最近の変更履歴
 
+### 2026-02-21: MOB IDフォーマット修正と召喚スキルバグ修正
+- **MOB生成IDのゼロ埋め廃止**: `generate_mobs.py` の `001.goblin` のような3桁ゼロパディングを廃止し、`1.goblin` のように純粋な数値に変更。
+- **機能タグ(HasTick等)の自動付与**: スプレッドシートの記述（ターンデータ、死亡時、被ダメージ時、ダメージ時アクション）を元に、`generate_mobs.py` で `HasTick`, `HasDeath`, `HasHurt`, `HasAttack` 等の機能タグを Register 時の `Base.Tags` に自動登録するよう修正。
+- **マクロ引数消費への対応**: `skill:summon/loop` において、`api:mob/summon` が `Argument.ID` を消費してしまう仕様に対応し、ループ処理のたびに `Argument.ID` を再セットするように修正。
+- **スキルOffsetとSpreadのコンテキスト修正**: 
+  - `apply_spread` における `Spread` (ランダム範囲拡散) が、常に召喚者の位置(`at @s`)を基準にしていたため `Offset` が無視される問題を修正。
+  - テレポート先のマーカー(`as @e[...] at @s`)を基準として Spread を適用するように変更し、同時にランダムな Rotation を NBT変更による1tick遅延からマクロ引数(`Angle`)経由での即時テレポートに変更。
+
 ### 2026-02-19: Storage Namespaceのリファクタリング
 - **変更**: `rpg_skill: data` → `skill: data`
 - **対象**: 全てのスキル関連ファンクションとドキュメント (`Flow.md`)
