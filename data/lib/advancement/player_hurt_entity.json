@@ -3,6 +3,16 @@
     "check.Lclick": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"check.Lclick\"]}"
         }
@@ -11,6 +21,16 @@
     "MobID0.0": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID0.0\"]}"
         }
@@ -19,6 +39,16 @@
     "MobID0.1": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID0.1\"]}"
         }
@@ -27,6 +57,16 @@
     "MobID1.0": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID1.0\"]}"
         }
@@ -35,6 +75,16 @@
     "MobID1.1": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID1.1\"]}"
         }
@@ -43,6 +93,16 @@
     "MobID2.0": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID2.0\"]}"
         }
@@ -51,6 +111,16 @@
     "MobID2.1": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID2.1\"]}"
         }
@@ -59,6 +129,16 @@
     "MobID3.0": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID3.0\"]}"
         }
@@ -67,6 +147,16 @@
     "MobID3.1": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID3.1\"]}"
         }
@@ -75,6 +165,16 @@
     "MobID4.0": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID4.0\"]}"
         }
@@ -83,6 +183,16 @@
     "MobID4.1": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID4.1\"]}"
         }
@@ -91,6 +201,16 @@
     "MobID5.0": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID5.0\"]}"
         }
@@ -99,6 +219,16 @@
     "MobID5.1": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID5.1\"]}"
         }
@@ -107,6 +237,16 @@
     "MobID6.0": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID6.0\"]}"
         }
@@ -115,6 +255,16 @@
     "MobID6.1": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID6.1\"]}"
         }
@@ -123,6 +273,16 @@
     "MobID7.0": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID7.0\"]}"
         }
@@ -131,6 +291,16 @@
     "MobID7.1": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID7.1\"]}"
         }
@@ -139,6 +309,16 @@
     "MobID8.0": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID8.0\"]}"
         }
@@ -147,6 +327,16 @@
     "MobID8.1": {
       "trigger": "minecraft:player_hurt_entity",
       "conditions": {
+        "damage": {
+          "type": {
+            "tags": [
+              {
+                "id": "minecraft:is_projectile",
+                "expected": false
+              }
+            ]
+          }
+        },
         "entity": {
           "nbt": "{Tags:[\"MobID8.1\"]}"
         }

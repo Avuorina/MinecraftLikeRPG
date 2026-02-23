@@ -15,3 +15,6 @@
 
     # MOB Tick (スキル・ターン制)
         execute as @e[tag=BankMob] at @s run function bank_manager:mob/tick/
+
+    # 飛翔中の矢のTick処理 (Bow System)
+        execute as @e[type=arrow] at @s run function player:attack/bow/arrow_tick

@@ -51,6 +51,8 @@
         scoreboard objectives add Kills minecraft.custom:minecraft.mob_kills
         scoreboard objectives add SneakTimer minecraft.custom:minecraft.sneak_time "スニークタイマー"
         scoreboard objectives add DmgDealt minecraft.custom:minecraft.damage_dealt "被ダメージ"
+        scoreboard objectives add Used.Bow minecraft.used:minecraft.bow "弓使用"
+        scoreboard objectives add Used.CoaS minecraft.used:minecraft.carrot_on_a_stick "人参棒右クリック"
 
     # トリガー
         scoreboard objectives add Menu trigger "メニュースコア"

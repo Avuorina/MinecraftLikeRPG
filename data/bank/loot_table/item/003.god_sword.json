@@ -16,7 +16,7 @@
                       "ID": "003.god_sword",
                       "ATK": 100.0,
                       "ATKSpeed": 10.0,
-                      "WeaponType": "100",
+                      "WeaponType": "sword",
                       "HP": 100.0,
                       "MP": 100.0,
                       "STR": 100.0,
@@ -64,8 +64,37 @@
                 [
                   "",
                   {
-                    "text": "\uE005 ",
+                    "text": "◆ 武器種 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "剣",
+                    "color": "gold",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "◆ 攻撃範囲 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "3.0",
                     "color": "white",
+                    "italic": false
+                  }
+                ],
+                [
+                  ""
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE005 攻撃力 : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -77,8 +106,8 @@
                 [
                   "",
                   {
-                    "text": "\uE00B ",
-                    "color": "white",
+                    "text": "\uE00B 攻撃速度 : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -90,8 +119,8 @@
                 [
                   "",
                   {
-                    "text": "\uE001 ",
-                    "color": "white",
+                    "text": "\uE001 HP : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -103,8 +132,8 @@
                 [
                   "",
                   {
-                    "text": "\uE003 ",
-                    "color": "white",
+                    "text": "\uE003 MP : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -116,8 +145,8 @@
                 [
                   "",
                   {
-                    "text": "\uE007 ",
-                    "color": "white",
+                    "text": "\uE007 STR : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -129,8 +158,8 @@
                 [
                   "",
                   {
-                    "text": "\uE006 ",
-                    "color": "white",
+                    "text": "\uE006 DEF : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -142,8 +171,8 @@
                 [
                   "",
                   {
-                    "text": "\uE008 ",
-                    "color": "white",
+                    "text": "\uE008 INT : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -155,8 +184,8 @@
                 [
                   "",
                   {
-                    "text": "\uE009 ",
-                    "color": "white",
+                    "text": "\uE009 AGI : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -168,8 +197,8 @@
                 [
                   "",
                   {
-                    "text": "\uE00A ",
-                    "color": "white",
+                    "text": "\uE00A LUCK : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {

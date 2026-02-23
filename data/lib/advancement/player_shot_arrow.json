@@ -1,0 +1,25 @@
+{
+    "criteria": {
+        "arrow_hit": {
+            "trigger": "minecraft:player_hurt_entity",
+            "conditions": {
+                "damage": {
+                    "type": {
+                        "tags": [
+                            {
+                                "id": "minecraft:is_projectile",
+                                "expected": true
+                            }
+                        ],
+                        "direct_entity": {
+                            "type": "minecraft:arrow"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "rewards": {
+        "function": "player:attack/bow/advancement_hit"
+    }
+}

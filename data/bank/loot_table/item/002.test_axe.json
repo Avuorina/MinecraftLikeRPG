@@ -76,8 +76,37 @@
                 [
                   "",
                   {
-                    "text": "\uE005 ",
+                    "text": "◆ 武器種 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "斧",
+                    "color": "gold",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "◆ 攻撃範囲 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "2.5",
                     "color": "white",
+                    "italic": false
+                  }
+                ],
+                [
+                  ""
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE005 攻撃力 : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -89,8 +118,8 @@
                 [
                   "",
                   {
-                    "text": "\uE00B ",
-                    "color": "white",
+                    "text": "\uE00B 攻撃速度 : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
@@ -102,8 +131,8 @@
                 [
                   "",
                   {
-                    "text": "\uE00A ",
-                    "color": "white",
+                    "text": "\uE00A LUCK : ",
+                    "color": "gray",
                     "italic": false
                   },
                   {
