@@ -17,14 +17,16 @@
 # より正確なマルチ対応の場合は UUID を用いるが、今回は簡易的に最近接プレイヤーの攻撃力を参照する
     execute as @p[distance=..5] run function player:attack/dmg_dealt
 
+# チャージ倍率の適用
+    scoreboard players set $10 _ 10
+    scoreboard players operation &DmgDealt _ *= $ChargeModifier _
+    scoreboard players operation &DmgDealt _ /= $10 _
+
 # プレイヤーが産み出したダメージ(&DmgDealt _)を矢エンティティ自身(DmgDealt)にコピーする
     scoreboard players operation @s DmgDealt = &DmgDealt _
 
 # ゴミが残らないように一時変数をリセットしておく
     scoreboard players reset &DmgDealt _
-
-# Debug
-    tellraw @a ["[DEBUG] 矢を発射！矢のDmgDealt = ", {"score":{"name":"@s","objective":"DmgDealt"}}]
 
 # 自動消滅タイマーの設定
     scoreboard players set @s Timer 100

@@ -46,6 +46,8 @@
         scoreboard objectives add Initialized dummy "初期化の有無"
         scoreboard objectives add Const dummy "定数"
         scoreboard objectives add PortalCooldown dummy "ポータルクールダウン"
+        scoreboard objectives add BowCharge dummy "弓チャージ量"
+        scoreboard objectives add BowTimeout dummy "弓タイムアウト"
 
     # 検知用
         scoreboard objectives add Kills minecraft.custom:minecraft.mob_kills

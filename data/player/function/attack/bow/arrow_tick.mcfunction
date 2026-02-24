@@ -14,9 +14,5 @@
     execute if entity @s[tag=Landed] run scoreboard players set @s Timer 100
     execute if entity @s[tag=Landed] run tag @s remove Landed
 
-# メテオ母船矢のスキル実行
-    execute if entity @s[tag=BowSkillMeteor] run function player:attack/bow/skill/meteor/tick
-
 # 飛翔中のパーティクル（軌道確認用）
-    execute if entity @s[tag=Flying] at @s run particle dust_color_transition{from_color:[1.0,0.804,0.169],to_color:[1.0,0.125,0.023],scale:1} ~ ~ ~ 0 0 0 0 1 force
     execute if entity @s[tag=Flying] at @s run particle crit ~ ~ ~ 0 0 0 0 1 force

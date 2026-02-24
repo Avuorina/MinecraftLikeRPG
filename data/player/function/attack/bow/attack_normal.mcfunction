@@ -11,7 +11,8 @@
     execute anchored eyes run summon arrow ^ ^ ^0.1 {Tags:["BankArrow","ArrowInit"],pickup:0b,life:0s}
 
 # 召喚した矢の向き(Yaw/Pitch)をプレイヤーの視点角に強制的に合わせる
-    execute as @e[type=arrow,tag=ArrowInit,limit=1,distance=..2] at @s rotated as @p run tp @s ~ ~ ~ ~ ~
+    #execute as @e[type=arrow,tag=ArrowInit,limit=1,distance=..2] at @s rotated as @p run tp @s ~ ~ ~ ~ ~
+    data modify entity @e[type=arrow,tag=ArrowInit,limit=1,distance=..2] Rotation set from entity @s Rotation
 
 # ベクトルを計算し召喚した矢の Motion に代入して射出
     execute as @e[type=arrow,tag=ArrowInit,limit=1,distance=..2] run function player:attack/bow/shoot

@@ -13,3 +13,5 @@
 ## ただの武器（弓以外）を使った場合のリセット 
     execute as @a[scores={Used.CoaS=1..},nbt=!{SelectedItem:{components:{"minecraft:custom_data":{BankItem:[{WeaponType:"bow"}]}}}}] run scoreboard players reset @s Used.CoaS
 
+## 弓のチャージ進行と解放判定
+    execute as @a[tag=ChargingBow] at @s run function player:attack/bow/charge_tick

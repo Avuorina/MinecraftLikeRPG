@@ -14,9 +14,6 @@
 # 攻撃タイプを一時的に保存 "Bow"
     data modify storage lib: Damage.Type set value "Bow"
 
-# Debug
-    tellraw @a ["[DEBUG] 矢がヒット！対象=", {"selector":"@s"} ,", ダメージ量=", {"score":{"name":"&DmgDealt","objective":"_"}}]
-
 # bank_manager へダメージ処理を投げる
     function bank_manager:mob/hurt/hit
 

@@ -1,5 +1,5 @@
 #> player:attack/bow/advancement_hit
-# プレイヤーが放った「貫通(PierceLevel)」付きの矢がモブに命中した瞬間に呼ばれる（自前判定ではなくバニラシステム）
+# プレイヤーが放った貫通付きの矢がモブに命中した瞬間に呼ばれる
 # @within advancement lib:player_shot_arrow
 
 # 再利用のために進捗を即時剥がす
