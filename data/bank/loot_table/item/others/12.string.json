@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:feather",
+          "name": "minecraft:string",
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -13,11 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "007.wind_cutting_feather",
+                      "ID": "12.string",
                       "ATK": 0.0,
                       "ATKSpeed": 0.0,
-                      "WeaponType": "none",
-                      "AGI": 10.0
+                      "WeaponType": "none"
                     }
                   ]
                 }
@@ -27,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "風切りの羽根",
+                "text": "糸",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -43,7 +42,7 @@
                 [
                   "",
                   {
-                    "text": "これは凪いでいる。",
+                    "text": "これは少し粘々としている。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -54,19 +53,6 @@
                 ],
                 [
                   ""
-                ],
-                [
-                  "",
-                  {
-                    "text": "\uE009 AGI : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "+10.0",
-                    "color": "green",
-                    "italic": false
-                  }
                 ]
               ],
               "mode": "append"
@@ -75,7 +61,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  7
+                  12
                 ],
                 "mode": "replace_all"
               }

@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:string",
+          "name": "minecraft:carrot_on_a_stick",
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -13,10 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "010.string",
-                      "ATK": 0.0,
-                      "ATKSpeed": 0.0,
-                      "WeaponType": "none"
+                      "ID": "15.copper_sword",
+                      "ATK": 5.0,
+                      "ATKSpeed": 1.6,
+                      "WeaponType": "sword"
                     }
                   ]
                 }
@@ -26,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "糸",
+                "text": "銅の剣",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -42,7 +42,7 @@
                 [
                   "",
                   {
-                    "text": "これは少し粘々としている。",
+                    "text": "これは硬いが、重くはない。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -53,6 +53,32 @@
                 ],
                 [
                   ""
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE005 攻撃力 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "5.0",
+                    "color": "red",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE00B 攻撃速度 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "1.6",
+                    "color": "blue",
+                    "italic": false
+                  }
                 ]
               ],
               "mode": "append"
@@ -61,7 +87,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  10
+                  12
                 ],
                 "mode": "replace_all"
               }

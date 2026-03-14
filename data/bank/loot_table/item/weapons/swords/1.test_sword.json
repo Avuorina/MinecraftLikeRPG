@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:bone",
+          "name": "minecraft:carrot_on_a_stick",
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -13,10 +13,11 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "009.bone",
-                      "ATK": 0.0,
-                      "ATKSpeed": 0.0,
-                      "WeaponType": "none"
+                      "ID": "1.test_sword",
+                      "ATK": 4.0,
+                      "ATKSpeed": 1.6,
+                      "WeaponType": "sword",
+                      "HP": 2.0
                     }
                   ]
                 }
@@ -26,8 +27,8 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "骨",
-                "color": "white",
+                "text": "木の剣",
+                "color": "green",
                 "bold": false,
                 "italic": false,
                 "underlined": false,
@@ -42,7 +43,7 @@
                 [
                   "",
                   {
-                    "text": "これはカランコロンと鳴いている。",
+                    "text": "これは成長している。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -53,6 +54,45 @@
                 ],
                 [
                   ""
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE005 攻撃力 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "4.0",
+                    "color": "red",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE00B 攻撃速度 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "1.6",
+                    "color": "blue",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE001 HP : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "+2.0",
+                    "color": "red",
+                    "italic": false
+                  }
                 ]
               ],
               "mode": "append"
@@ -61,7 +101,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  9
+                  1
                 ],
                 "mode": "replace_all"
               }

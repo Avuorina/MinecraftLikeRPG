@@ -13,10 +13,11 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "019.netherite_axe",
-                      "ATK": 0.0,
-                      "ATKSpeed": 0.0,
-                      "WeaponType": "axe"
+                      "ID": "2.test_axe",
+                      "ATK": 7.0,
+                      "ATKSpeed": 0.8,
+                      "WeaponType": "axe",
+                      "LUCK": -1.0
                     }
                   ]
                 }
@@ -26,8 +27,8 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "ネザライトの斧",
-                "color": "light_purple",
+                "text": "木の斧",
+                "color": "green",
                 "bold": false,
                 "italic": false,
                 "underlined": false,
@@ -42,8 +43,26 @@
                 [
                   "",
                   {
-                    "text": "これは薪割りに使わないほうがいい。",
-                    "color": "gold",
+                    "text": "これは成長を",
+                    "color": "gray",
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false
+                  },
+                  {
+                    "text": "阻害",
+                    "color": "red",
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false
+                  },
+                  {
+                    "text": "する。",
+                    "color": "gray",
                     "bold": false,
                     "italic": false,
                     "underlined": false,
@@ -57,31 +76,41 @@
                 [
                   "",
                   {
-                    "text": "◆ 武器種 : ",
+                    "text": "\uE005 攻撃力 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "斧",
-                    "color": "gold",
+                    "text": "7.0",
+                    "color": "red",
                     "italic": false
                   }
                 ],
                 [
                   "",
                   {
-                    "text": "◆ 攻撃範囲 : ",
+                    "text": "\uE00B 攻撃速度 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "2.5",
-                    "color": "white",
+                    "text": "0.8",
+                    "color": "blue",
                     "italic": false
                   }
                 ],
                 [
-                  ""
+                  "",
+                  {
+                    "text": "\uE00A LUCK : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "-1.0",
+                    "color": "yellow",
+                    "italic": false
+                  }
                 ]
               ],
               "mode": "append"
@@ -90,7 +119,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  19
+                  2
                 ],
                 "mode": "replace_all"
               }

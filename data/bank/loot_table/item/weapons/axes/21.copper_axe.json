@@ -13,10 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "012.diamond_sword",
-                      "ATK": 7.0,
-                      "ATKSpeed": 1.6,
-                      "WeaponType": "sword"
+                      "ID": "21.copper_axe",
+                      "ATK": 9.0,
+                      "ATKSpeed": 0.8,
+                      "WeaponType": "axe"
                     }
                   ]
                 }
@@ -26,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "ダイヤモンドの剣",
+                "text": "銅の斧",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -42,7 +42,7 @@
                 [
                   "",
                   {
-                    "text": "これは贅沢にも宝石が使われている。",
+                    "text": "これは断捨離される。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -57,41 +57,12 @@
                 [
                   "",
                   {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "剣",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "3.0",
-                    "color": "white",
-                    "italic": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
                     "text": "\uE005 攻撃力 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "7.0",
+                    "text": "9.0",
                     "color": "red",
                     "italic": false
                   }
@@ -104,7 +75,7 @@
                     "italic": false
                   },
                   {
-                    "text": "1.6",
+                    "text": "0.8",
                     "color": "blue",
                     "italic": false
                   }
@@ -116,7 +87,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  12
+                  18
                 ],
                 "mode": "replace_all"
               }

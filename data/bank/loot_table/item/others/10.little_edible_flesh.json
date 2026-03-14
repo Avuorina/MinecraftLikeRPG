@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:carrot_on_a_stick",
+          "name": "minecraft:rotten_flesh",
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -13,10 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "014.wooden_axe",
+                      "ID": "10.little_edible_flesh",
                       "ATK": 0.0,
                       "ATKSpeed": 0.0,
-                      "WeaponType": "axe"
+                      "WeaponType": "none"
                     }
                   ]
                 }
@@ -26,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "木の斧",
+                "text": "ちょっと食べらそうな肉",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -42,60 +42,13 @@
                 [
                   "",
                   {
-                    "text": "これは成長を",
+                    "text": "上手に調理できれば食べられそう...",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
                     "underlined": false,
                     "strikethrough": false,
                     "obfuscated": false
-                  },
-                  {
-                    "text": "阻害",
-                    "color": "red",
-                    "bold": false,
-                    "italic": false,
-                    "underlined": false,
-                    "strikethrough": false,
-                    "obfuscated": false
-                  },
-                  {
-                    "text": "する。",
-                    "color": "gray",
-                    "bold": false,
-                    "italic": false,
-                    "underlined": false,
-                    "strikethrough": false,
-                    "obfuscated": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "斧",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "2.5",
-                    "color": "white",
-                    "italic": false
                   }
                 ],
                 [
@@ -108,7 +61,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  14
+                  9
                 ],
                 "mode": "replace_all"
               }

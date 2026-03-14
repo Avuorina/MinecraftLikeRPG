@@ -13,10 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "006.clumsy_bow",
-                      "ATK": 4.0,
-                      "ATKSpeed": 1.6,
-                      "WeaponType": "bow"
+                      "ID": "19.wooden_axe",
+                      "ATK": 7.0,
+                      "ATKSpeed": 0.8,
+                      "WeaponType": "axe"
                     }
                   ]
                 }
@@ -26,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "不格好な弓",
+                "text": "木の斧",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -42,7 +42,25 @@
                 [
                   "",
                   {
-                    "text": "これは...ただの枝と糸に見える",
+                    "text": "これは成長を",
+                    "color": "gray",
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false
+                  },
+                  {
+                    "text": "阻害",
+                    "color": "red",
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false
+                  },
+                  {
+                    "text": "する。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -57,41 +75,12 @@
                 [
                   "",
                   {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "弓",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "20.0",
-                    "color": "white",
-                    "italic": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
                     "text": "\uE005 攻撃力 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "4.0",
+                    "text": "7.0",
                     "color": "red",
                     "italic": false
                   }
@@ -104,7 +93,7 @@
                     "italic": false
                   },
                   {
-                    "text": "1.6",
+                    "text": "0.8",
                     "color": "blue",
                     "italic": false
                   }
@@ -116,7 +105,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  6
+                  16
                 ],
                 "mode": "replace_all"
               }

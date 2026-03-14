@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:carrot_on_a_stick",
+          "name": "minecraft:feather",
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -13,10 +13,11 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "004.rough_hewn_iron",
-                      "ATK": 2.0,
-                      "ATKSpeed": 1.2,
-                      "WeaponType": "sword"
+                      "ID": "7.wind_cutting_feather",
+                      "ATK": 0.0,
+                      "ATKSpeed": 0.0,
+                      "WeaponType": "none",
+                      "AGI": 10.0
                     }
                   ]
                 }
@@ -26,7 +27,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "古の鎮守",
+                "text": "風切りの羽根",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -42,7 +43,7 @@
                 [
                   "",
                   {
-                    "text": "これは剣には見えない...",
+                    "text": "これは凪いでいる。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -57,55 +58,13 @@
                 [
                   "",
                   {
-                    "text": "◆ 武器種 : ",
+                    "text": "\uE009 AGI : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "剣",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "3.0",
-                    "color": "white",
-                    "italic": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
-                    "text": "\uE005 攻撃力 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "2.0",
-                    "color": "red",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "\uE00B 攻撃速度 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "1.2",
-                    "color": "blue",
+                    "text": "+10.0",
+                    "color": "green",
                     "italic": false
                   }
                 ]
@@ -116,7 +75,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  4
+                  7
                 ],
                 "mode": "replace_all"
               }

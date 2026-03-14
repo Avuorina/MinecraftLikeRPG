@@ -13,11 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "001.test_sword",
-                      "ATK": 4.0,
-                      "ATKSpeed": 1.6,
-                      "WeaponType": "sword",
-                      "HP": 2.0
+                      "ID": "22.iron_axe",
+                      "ATK": 9.0,
+                      "ATKSpeed": 0.9,
+                      "WeaponType": "axe"
                     }
                   ]
                 }
@@ -27,8 +26,8 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "木の剣",
-                "color": "green",
+                "text": "鉄の斧",
+                "color": "white",
                 "bold": false,
                 "italic": false,
                 "underlined": false,
@@ -43,7 +42,7 @@
                 [
                   "",
                   {
-                    "text": "これは成長している。",
+                    "text": "これは鋭く、重い。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -58,41 +57,12 @@
                 [
                   "",
                   {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "剣",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "3.0",
-                    "color": "white",
-                    "italic": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
                     "text": "\uE005 攻撃力 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "4.0",
+                    "text": "9.0",
                     "color": "red",
                     "italic": false
                   }
@@ -105,21 +75,8 @@
                     "italic": false
                   },
                   {
-                    "text": "1.6",
+                    "text": "0.9",
                     "color": "blue",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "\uE001 HP : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "+2.0",
-                    "color": "red",
                     "italic": false
                   }
                 ]
@@ -130,7 +87,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  1
+                  19
                 ],
                 "mode": "replace_all"
               }

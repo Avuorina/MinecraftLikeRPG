@@ -13,10 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "015.stone_axe",
-                      "ATK": 0.0,
-                      "ATKSpeed": 0.0,
-                      "WeaponType": "axe"
+                      "ID": "17.diamond_sword",
+                      "ATK": 7.0,
+                      "ATKSpeed": 1.6,
+                      "WeaponType": "sword"
                     }
                   ]
                 }
@@ -26,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "石の斧",
+                "text": "ダイヤモンドの剣",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -42,7 +42,7 @@
                 [
                   "",
                   {
-                    "text": "これは「せきふ」ではない。",
+                    "text": "これは贅沢にも宝石が使われている。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -57,31 +57,28 @@
                 [
                   "",
                   {
-                    "text": "◆ 武器種 : ",
+                    "text": "\uE005 攻撃力 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "斧",
-                    "color": "gold",
+                    "text": "7.0",
+                    "color": "red",
                     "italic": false
                   }
                 ],
                 [
                   "",
                   {
-                    "text": "◆ 攻撃範囲 : ",
+                    "text": "\uE00B 攻撃速度 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "2.5",
-                    "color": "white",
+                    "text": "1.6",
+                    "color": "blue",
                     "italic": false
                   }
-                ],
-                [
-                  ""
                 ]
               ],
               "mode": "append"
@@ -90,7 +87,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  15
+                  14
                 ],
                 "mode": "replace_all"
               }

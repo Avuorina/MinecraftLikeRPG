@@ -13,7 +13,7 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "003.god_sword",
+                      "ID": "3.god_sword",
                       "ATK": 100.0,
                       "ATKSpeed": 10.0,
                       "WeaponType": "sword",
@@ -56,35 +56,6 @@
                     "underlined": false,
                     "strikethrough": false,
                     "obfuscated": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "剣",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "3.0",
-                    "color": "white",
-                    "italic": false
                   }
                 ],
                 [

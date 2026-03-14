@@ -13,10 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "011.iron_sword",
-                      "ATK": 6.0,
-                      "ATKSpeed": 1.6,
-                      "WeaponType": "sword"
+                      "ID": "5.test_spear",
+                      "ATK": 1.0,
+                      "ATKSpeed": 1.54,
+                      "WeaponType": "spear"
                     }
                   ]
                 }
@@ -26,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "鉄の剣",
+                "text": "木の槍",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -42,7 +42,7 @@
                 [
                   "",
                   {
-                    "text": "これは",
+                    "text": "これは成長を",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -51,8 +51,8 @@
                     "obfuscated": false
                   },
                   {
-                    "text": "冷酷",
-                    "color": "red",
+                    "text": "突出",
+                    "color": "yellow",
                     "bold": false,
                     "italic": false,
                     "underlined": false,
@@ -60,42 +60,13 @@
                     "obfuscated": false
                   },
                   {
-                    "text": "に敵を切りつける",
+                    "text": "させる。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
                     "underlined": false,
                     "strikethrough": false,
                     "obfuscated": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "剣",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "3.0",
-                    "color": "white",
-                    "italic": false
                   }
                 ],
                 [
@@ -109,7 +80,7 @@
                     "italic": false
                   },
                   {
-                    "text": "6.0",
+                    "text": "1.0",
                     "color": "red",
                     "italic": false
                   }
@@ -122,7 +93,7 @@
                     "italic": false
                   },
                   {
-                    "text": "1.6",
+                    "text": "1.5",
                     "color": "blue",
                     "italic": false
                   }
@@ -134,7 +105,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  11
+                  5
                 ],
                 "mode": "replace_all"
               }

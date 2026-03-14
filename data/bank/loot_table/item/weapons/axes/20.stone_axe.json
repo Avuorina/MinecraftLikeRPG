@@ -13,9 +13,9 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "017.iron_axe",
-                      "ATK": 0.0,
-                      "ATKSpeed": 0.0,
+                      "ID": "20.stone_axe",
+                      "ATK": 9.0,
+                      "ATKSpeed": 0.8,
                       "WeaponType": "axe"
                     }
                   ]
@@ -26,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "鉄の斧",
+                "text": "石の斧",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -42,7 +42,7 @@
                 [
                   "",
                   {
-                    "text": "これは鋭く、重い。",
+                    "text": "これは「せきふ」ではない。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -57,31 +57,28 @@
                 [
                   "",
                   {
-                    "text": "◆ 武器種 : ",
+                    "text": "\uE005 攻撃力 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "斧",
-                    "color": "gold",
+                    "text": "9.0",
+                    "color": "red",
                     "italic": false
                   }
                 ],
                 [
                   "",
                   {
-                    "text": "◆ 攻撃範囲 : ",
+                    "text": "\uE00B 攻撃速度 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "2.5",
-                    "color": "white",
+                    "text": "0.8",
+                    "color": "blue",
                     "italic": false
                   }
-                ],
-                [
-                  ""
                 ]
               ],
               "mode": "append"

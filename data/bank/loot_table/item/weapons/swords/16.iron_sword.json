@@ -13,11 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "009.stone_sword",
-                      "ATK": 5.0,
+                      "ID": "16.iron_sword",
+                      "ATK": 6.0,
                       "ATKSpeed": 1.6,
-                      "WeaponType": "sword",
-                      "AGI": 50.0
+                      "WeaponType": "sword"
                     }
                   ]
                 }
@@ -27,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "石の剣",
+                "text": "鉄の剣",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -43,7 +42,25 @@
                 [
                   "",
                   {
-                    "text": "これは硬く、そして重い。",
+                    "text": "これは",
+                    "color": "gray",
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false
+                  },
+                  {
+                    "text": "冷酷",
+                    "color": "red",
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false
+                  },
+                  {
+                    "text": "に敵を切りつける",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -58,41 +75,12 @@
                 [
                   "",
                   {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "剣",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "3.0",
-                    "color": "white",
-                    "italic": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
                     "text": "\uE005 攻撃力 : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "5.0",
+                    "text": "6.0",
                     "color": "red",
                     "italic": false
                   }
@@ -109,19 +97,6 @@
                     "color": "blue",
                     "italic": false
                   }
-                ],
-                [
-                  "",
-                  {
-                    "text": "\uE009 AGI : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "+50.0",
-                    "color": "green",
-                    "italic": false
-                  }
                 ]
               ],
               "mode": "append"
@@ -130,7 +105,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  9
+                  13
                 ],
                 "mode": "replace_all"
               }

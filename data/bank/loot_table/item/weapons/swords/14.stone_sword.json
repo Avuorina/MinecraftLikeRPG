@@ -13,11 +13,11 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "002.test_axe",
-                      "ATK": 7.0,
-                      "ATKSpeed": 0.8,
-                      "WeaponType": "axe",
-                      "LUCK": -1.0
+                      "ID": "14.stone_sword",
+                      "ATK": 5.0,
+                      "ATKSpeed": 1.6,
+                      "WeaponType": "sword",
+                      "AGI": 50.0
                     }
                   ]
                 }
@@ -27,8 +27,8 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "木の斧",
-                "color": "green",
+                "text": "石の剣",
+                "color": "white",
                 "bold": false,
                 "italic": false,
                 "underlined": false,
@@ -43,60 +43,13 @@
                 [
                   "",
                   {
-                    "text": "これは成長を",
+                    "text": "これは硬く、そして重い。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
                     "underlined": false,
                     "strikethrough": false,
                     "obfuscated": false
-                  },
-                  {
-                    "text": "阻害",
-                    "color": "red",
-                    "bold": false,
-                    "italic": false,
-                    "underlined": false,
-                    "strikethrough": false,
-                    "obfuscated": false
-                  },
-                  {
-                    "text": "する。",
-                    "color": "gray",
-                    "bold": false,
-                    "italic": false,
-                    "underlined": false,
-                    "strikethrough": false,
-                    "obfuscated": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "斧",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "2.5",
-                    "color": "white",
-                    "italic": false
                   }
                 ],
                 [
@@ -110,7 +63,7 @@
                     "italic": false
                   },
                   {
-                    "text": "7.0",
+                    "text": "5.0",
                     "color": "red",
                     "italic": false
                   }
@@ -123,7 +76,7 @@
                     "italic": false
                   },
                   {
-                    "text": "0.8",
+                    "text": "1.6",
                     "color": "blue",
                     "italic": false
                   }
@@ -131,13 +84,13 @@
                 [
                   "",
                   {
-                    "text": "\uE00A LUCK : ",
+                    "text": "\uE009 AGI : ",
                     "color": "gray",
                     "italic": false
                   },
                   {
-                    "text": "-1.0",
-                    "color": "yellow",
+                    "text": "+50.0",
+                    "color": "green",
                     "italic": false
                   }
                 ]
@@ -148,7 +101,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  2
+                  11
                 ],
                 "mode": "replace_all"
               }

@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:carrot_on_a_stick",
+          "name": "minecraft:rotten_flesh",
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -13,10 +13,10 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "018.diamond_axe",
+                      "ID": "9.little_rotten_flesh",
                       "ATK": 0.0,
                       "ATKSpeed": 0.0,
-                      "WeaponType": "axe"
+                      "WeaponType": "none"
                     }
                   ]
                 }
@@ -26,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "ダイヤモンドの斧",
+                "text": "少し腐った肉",
                 "color": "white",
                 "bold": false,
                 "italic": false,
@@ -42,42 +42,13 @@
                 [
                   "",
                   {
-                    "text": "これは贅沢にも程があるというものだ。",
+                    "text": "これはやっぱり食べらそうにない...",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
                     "underlined": false,
                     "strikethrough": false,
                     "obfuscated": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "斧",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "2.5",
-                    "color": "white",
-                    "italic": false
                   }
                 ],
                 [
@@ -90,7 +61,7 @@
               "function": "minecraft:set_custom_model_data",
               "floats": {
                 "values": [
-                  18
+                  8
                 ],
                 "mode": "replace_all"
               }

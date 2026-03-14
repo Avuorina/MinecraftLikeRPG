@@ -13,7 +13,7 @@
                 "minecraft:custom_data": {
                   "BankItem": [
                     {
-                      "ID": "008.rotten_flesh",
+                      "ID": "8.rotten_flesh",
                       "ATK": 0.0,
                       "ATKSpeed": 0.0,
                       "WeaponType": "none"
@@ -26,7 +26,7 @@
               "function": "minecraft:set_name",
               "entity": "this",
               "name": {
-                "text": "ゾンビ肉",
+                "text": "腐った肉",
                 "color": "white",
                 "bold": false,
                 "italic": false,
