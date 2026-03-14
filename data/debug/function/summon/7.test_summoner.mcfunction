@@ -1,4 +1,4 @@
-# テストサモナーをデバッグ召喚
+﻿# ãã¹ããµã¢ãã¼をデバッグ召喚
 # 使用方法: /function debug:summon/7.test_summoner
 
 # IDをStorageにセット

@@ -1,4 +1,4 @@
-#> bank:mob/2.skeleton_warrior/summon/
+﻿#> bank:mob/2.skeleton_warrior/summon/
 #
 # スケルトン戦士 召喚処理
 #

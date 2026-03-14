@@ -1,4 +1,4 @@
-# テストマンをデバッグ召喚
+﻿# ãã¹ããã³をデバッグ召喚
 # 使用方法: /function debug:summon/4.test_man
 
 # IDをStorageにセット

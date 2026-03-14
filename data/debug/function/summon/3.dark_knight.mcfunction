@@ -1,4 +1,4 @@
-# ダークナイトをデバッグ召喚
+﻿# ダークナイトをデバッグ召喚
 # 使用方法: /function debug:summon/3.dark_knight
 
 # IDをStorageにセット

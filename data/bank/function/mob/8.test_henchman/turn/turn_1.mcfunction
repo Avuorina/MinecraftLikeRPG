@@ -1,4 +1,4 @@
-#> bank:mob/8.test_henchman/turn/turn_1
+﻿#> bank:mob/8.test_henchman/turn/turn_1
 # ターン 1 のアクション
 # @within bank:mob/8.test_henchman/turn_distributor
 # 発動確率: 50%

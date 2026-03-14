@@ -1,4 +1,4 @@
-# テスト子分をデバッグ召喚
+﻿# テスト子分をデバッグ召喚
 # 使用方法: /function debug:summon/8.test_henchman
 
 # IDをStorageにセット

@@ -1,4 +1,4 @@
-#> bank:mob/2.skeleton_warrior/register
+﻿#> bank:mob/2.skeleton_warrior/register
 #
 # スケルトン戦士 データ登録
 # ID: 2.skeleton_warrior

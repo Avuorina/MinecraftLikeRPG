@@ -1,4 +1,4 @@
-#> bank:mob/8.test_henchman/
+﻿#> bank:mob/8.test_henchman/
 # テスト子分 - Tick Function
 # @within mob_manager:tick (execute as @e[tag=8.test_henchman])
 # 初期化チェック

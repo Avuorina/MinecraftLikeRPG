@@ -1,4 +1,4 @@
-#> bank:mob/8.test_henchman/summon/
+﻿#> bank:mob/8.test_henchman/summon/
 #
 # テスト子分 召喚処理
 #

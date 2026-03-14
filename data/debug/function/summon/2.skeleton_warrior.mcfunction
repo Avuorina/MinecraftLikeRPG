@@ -1,4 +1,4 @@
-# スケルトン戦士をデバッグ召喚
+﻿# スケルトン戦士をデバッグ召喚
 # 使用方法: /function debug:summon/2.skeleton_warrior
 
 # IDをStorageにセット

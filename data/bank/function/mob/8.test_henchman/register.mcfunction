@@ -1,4 +1,4 @@
-#> bank:mob/8.test_henchman/register
+﻿#> bank:mob/8.test_henchman/register
 #
 # テスト子分 データ登録
 # ID: 8.test_henchman

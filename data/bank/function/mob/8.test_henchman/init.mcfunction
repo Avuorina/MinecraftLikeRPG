@@ -1,4 +1,4 @@
-#> bank:mob/8.test_henchman/init
+﻿#> bank:mob/8.test_henchman/init
 # テスト子分 - init トリガー
 # @within bank:mob/8.test_henchman/
 # 特定のスキルはありません

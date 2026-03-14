@@ -1,4 +1,4 @@
-#> bank:mob/1.goblin/summon/
+﻿#> bank:mob/1.goblin/summon/
 #
 # テストゴブリン 召喚処理
 #

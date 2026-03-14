@@ -1,4 +1,4 @@
-#> bank:mob/1.goblin/register
+﻿#> bank:mob/1.goblin/register
 #
 # テストゴブリン データ登録
 # ID: 1.goblin

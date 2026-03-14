@@ -32,7 +32,7 @@ Minecraftのバニラ要素を活かしたRPGデータパック。
   HPRatio = HP × 10000 / MaxHP × 20 / 10000
   ```
 - **即死防止**: HP > 0 なのに HPRatio = 0 になる場合は 1 に補正
-- **instant_health エフェクト**: 実際のハート数を反映
+- **instant_health エフェクト**: 実際のハート数を反映ｖ
 
 #### 2.2. MPシステム
 - **MPバー表示**: Vanilla経験値バーを活用

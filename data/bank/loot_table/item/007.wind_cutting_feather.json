@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:carrot_on_a_stick",
+          "name": "minecraft:feather",
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -14,9 +14,9 @@
                   "BankItem": [
                     {
                       "ID": "007.wind_cutting_feather",
-                      "ATK": 5.0,
-                      "ATKSpeed": 0.3,
-                      "WeaponType": "sword",
+                      "ATK": 0.0,
+                      "ATKSpeed": 0.0,
+                      "WeaponType": "none",
                       "AGI": 10.0
                     }
                   ]
@@ -43,7 +43,7 @@
                 [
                   "",
                   {
-                    "text": "これは凪いでいる",
+                    "text": "これは凪いでいる。",
                     "color": "gray",
                     "bold": false,
                     "italic": false,
@@ -54,61 +54,6 @@
                 ],
                 [
                   ""
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 武器種 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "剣",
-                    "color": "gold",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "◆ 攻撃範囲 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "3.0",
-                    "color": "white",
-                    "italic": false
-                  }
-                ],
-                [
-                  ""
-                ],
-                [
-                  "",
-                  {
-                    "text": "\uE005 攻撃力 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "5.0",
-                    "color": "red",
-                    "italic": false
-                  }
-                ],
-                [
-                  "",
-                  {
-                    "text": "\uE00B 攻撃速度 : ",
-                    "color": "gray",
-                    "italic": false
-                  },
-                  {
-                    "text": "0.3",
-                    "color": "blue",
-                    "italic": false
-                  }
                 ],
                 [
                   "",

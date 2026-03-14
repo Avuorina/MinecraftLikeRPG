@@ -1,0 +1,129 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:carrot_on_a_stick",
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:custom_data": {
+                  "BankItem": [
+                    {
+                      "ID": "013.netherite_sword",
+                      "ATK": 8.0,
+                      "ATKSpeed": 1.6,
+                      "WeaponType": "sword"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "function": "minecraft:set_name",
+              "entity": "this",
+              "name": {
+                "text": "ネザライトの剣",
+                "color": "light_purple",
+                "bold": false,
+                "italic": false,
+                "underlined": false,
+                "strikethrough": false,
+                "obfuscated": false
+              }
+            },
+            {
+              "function": "minecraft:set_lore",
+              "entity": "this",
+              "lore": [
+                [
+                  "",
+                  {
+                    "text": "これは強き剣士だけが扱える。",
+                    "color": "gold",
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false
+                  }
+                ],
+                [
+                  ""
+                ],
+                [
+                  "",
+                  {
+                    "text": "◆ 武器種 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "剣",
+                    "color": "gold",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "◆ 攻撃範囲 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "3.0",
+                    "color": "white",
+                    "italic": false
+                  }
+                ],
+                [
+                  ""
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE005 攻撃力 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "8.0",
+                    "color": "red",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "\uE00B 攻撃速度 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "1.6",
+                    "color": "blue",
+                    "italic": false
+                  }
+                ]
+              ],
+              "mode": "append"
+            },
+            {
+              "function": "minecraft:set_custom_model_data",
+              "floats": {
+                "values": [
+                  13
+                ],
+                "mode": "replace_all"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

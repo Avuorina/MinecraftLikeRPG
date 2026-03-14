@@ -1,4 +1,4 @@
-#> bank:mob/3.dark_knight/
+﻿#> bank:mob/3.dark_knight/
 # ダークナイト - Tick Function
 # @within mob_manager:tick (execute as @e[tag=3.dark_knight])
 # 初期化チェック

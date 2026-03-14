@@ -1,4 +1,4 @@
-#> bank:mob/1.goblin/
+﻿#> bank:mob/1.goblin/
 # テストゴブリン - Tick Function
 # @within mob_manager:tick (execute as @e[tag=1.goblin])
 # 初期化チェック

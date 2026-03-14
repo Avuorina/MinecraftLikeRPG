@@ -1,0 +1,74 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:bone",
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:custom_data": {
+                  "BankItem": [
+                    {
+                      "ID": "009.bone",
+                      "ATK": 0.0,
+                      "ATKSpeed": 0.0,
+                      "WeaponType": "none"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "function": "minecraft:set_name",
+              "entity": "this",
+              "name": {
+                "text": "骨",
+                "color": "white",
+                "bold": false,
+                "italic": false,
+                "underlined": false,
+                "strikethrough": false,
+                "obfuscated": false
+              }
+            },
+            {
+              "function": "minecraft:set_lore",
+              "entity": "this",
+              "lore": [
+                [
+                  "",
+                  {
+                    "text": "これはカランコロンと鳴いている。",
+                    "color": "gray",
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false
+                  }
+                ],
+                [
+                  ""
+                ]
+              ],
+              "mode": "append"
+            },
+            {
+              "function": "minecraft:set_custom_model_data",
+              "floats": {
+                "values": [
+                  9
+                ],
+                "mode": "replace_all"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

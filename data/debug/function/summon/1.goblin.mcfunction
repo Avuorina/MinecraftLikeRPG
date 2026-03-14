@@ -1,4 +1,4 @@
-# テストゴブリンをデバッグ召喚
+﻿# テストゴブリンをデバッグ召喚
 # 使用方法: /function debug:summon/1.goblin
 
 # IDをStorageにセット

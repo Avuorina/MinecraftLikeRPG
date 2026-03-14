@@ -1,0 +1,103 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:carrot_on_a_stick",
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:custom_data": {
+                  "BankItem": [
+                    {
+                      "ID": "017.iron_axe",
+                      "ATK": 0.0,
+                      "ATKSpeed": 0.0,
+                      "WeaponType": "axe"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "function": "minecraft:set_name",
+              "entity": "this",
+              "name": {
+                "text": "鉄の斧",
+                "color": "white",
+                "bold": false,
+                "italic": false,
+                "underlined": false,
+                "strikethrough": false,
+                "obfuscated": false
+              }
+            },
+            {
+              "function": "minecraft:set_lore",
+              "entity": "this",
+              "lore": [
+                [
+                  "",
+                  {
+                    "text": "これは鋭く、重い。",
+                    "color": "gray",
+                    "bold": false,
+                    "italic": false,
+                    "underlined": false,
+                    "strikethrough": false,
+                    "obfuscated": false
+                  }
+                ],
+                [
+                  ""
+                ],
+                [
+                  "",
+                  {
+                    "text": "◆ 武器種 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "斧",
+                    "color": "gold",
+                    "italic": false
+                  }
+                ],
+                [
+                  "",
+                  {
+                    "text": "◆ 攻撃範囲 : ",
+                    "color": "gray",
+                    "italic": false
+                  },
+                  {
+                    "text": "2.5",
+                    "color": "white",
+                    "italic": false
+                  }
+                ],
+                [
+                  ""
+                ]
+              ],
+              "mode": "append"
+            },
+            {
+              "function": "minecraft:set_custom_model_data",
+              "floats": {
+                "values": [
+                  17
+                ],
+                "mode": "replace_all"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-#> bank:mob/3.dark_knight/register
+﻿#> bank:mob/3.dark_knight/register
 #
 # ダークナイト データ登録
 # ID: 3.dark_knight

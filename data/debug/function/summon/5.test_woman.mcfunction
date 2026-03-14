@@ -1,4 +1,4 @@
-# テストウーマンをデバッグ召喚
+﻿# ãã¹ãã¦ã¼ãã³をデバッグ召喚
 # 使用方法: /function debug:summon/5.test_woman
 
 # IDをStorageにセット
